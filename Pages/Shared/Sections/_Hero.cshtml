@@ -24,7 +24,7 @@
         <img src="@Yardimci.Medya(hero.Poster)" alt="" aria-hidden="true" fetchpriority="high">
         @if (videoVar)
         {
-            <video id="hero-video" muted loop playsinline preload="none"
+            <video id="hero-video" class="bg-video" muted loop playsinline preload="none"
                    poster="@Yardimci.Medya(hero.Poster)" aria-hidden="true" tabindex="-1"
                    data-mp4="@Yardimci.Medya(videoYolu)"
                    data-webm="@(webmVar ? Yardimci.Medya(webmYolu) : null)"></video>

@@ -171,7 +171,9 @@
     "quote": "Biz değilsek kim, şimdi değilse ne zaman",
     "description": "Yükünüzü alan kişi ile teslim eden kişi arasında kaybolan bir zincir yok. Sevkiyatınızı baştan sona tek bir ekip yürütür ve tek bir numaradan takip edersiniz.",
     "buttonLabel": "Sevkiyatınızı konuşalım",
-    "image": "img/roads.jpg"
+    "image": "img/statement-poster.jpg",
+    "videoEnabled": true,
+    "video": "video/statement.mp4"
   },
 
   "fleetSection": {

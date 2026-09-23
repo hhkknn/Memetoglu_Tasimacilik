@@ -100,13 +100,13 @@
   basGuncelle();
 
   /* ----------------------------------------------------------------
-     3) Hero videosu
+     3) Arka plan videoları (hero + slogan bandı)
      Poster her zaman görünür; video yalnızca aşağıdaki koşullar
      sağlanırsa indirilir. Böylece mobil veri ve açılış hızı korunur.
      ---------------------------------------------------------------- */
-  var video = document.getElementById('hero-video');
+  var videolar = document.querySelectorAll('.bg-video');
 
-  if (video) {
+  Array.prototype.forEach.call(videolar, function (video) {
     var dar = window.matchMedia('(max-width: 860px)').matches;
     var veriTasarrufu =
       navigator.connection &&
@@ -163,7 +163,7 @@
         if (o && typeof o.catch === 'function') o.catch(function () {});
       }
     });
-  }
+  });
 
   /* ----------------------------------------------------------------
      4) Form sonucunu ekranda göster

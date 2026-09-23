@@ -294,6 +294,12 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
   width:100%;height:100%;object-fit:cover;display:block;
   opacity:.3;filter:grayscale(.3);
 }
+/* Video varsa görselin üstüne aynı boyutta biner; hazır olunca belirir. */
+.statement .bgimg video{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;
+  opacity:0;filter:grayscale(.3);transition:opacity 1.1s var(--ease);
+}
+.statement .bgimg video.is-ready{opacity:.3}
 .statement::after{
   content:"";position:absolute;inset:0;z-index:-1;
   background:linear-gradient(100deg,var(--deep) 18%,rgba(16,19,44,.72) 55%,rgba(16,19,44,.35) 100%);

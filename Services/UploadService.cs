@@ -48,7 +48,7 @@ public sealed class UploadService
     }
 
     /// <summary>Videoyu kaydeder. Yalnızca MP4 ve WEBM kabul edilir.</summary>
-    public async Task<(string? Yol, string? Hata)> SaveVideoAsync(IFormFile? dosya)
+    public async Task<(string? Yol, string? Hata)> SaveVideoAsync(IFormFile? dosya, string onEk = "hero")
     {
         if (dosya is null || dosya.Length == 0)
         {
@@ -65,7 +65,7 @@ public sealed class UploadService
             return (null, "Yalnızca MP4 veya WEBM video yükleyebilirsiniz.");
         }
 
-        return await KaydetAsync(dosya, "video", uzanti, "hero");
+        return await KaydetAsync(dosya, "video", uzanti, onEk);
     }
 
     // ------------------------------------------------------------ Kaydetme

@@ -214,6 +214,8 @@ public sealed class StatementBlock
     [JsonPropertyName("description")] public string Description { get; set; } = "";
     [JsonPropertyName("buttonLabel")] public string ButtonLabel { get; set; } = "";
     [JsonPropertyName("image")] public string Image { get; set; } = "";
+    [JsonPropertyName("videoEnabled")] public bool VideoEnabled { get; set; } = false;
+    [JsonPropertyName("video")] public string Video { get; set; } = "";
 }
 
 public sealed class CoverageBlock

@@ -167,6 +167,23 @@
     @await Html.PartialAsync("_Alan", new AlanVm { Ad = "stm_desc", Etiket = "Açıklama", Deger = stm.Description, Tur = "uzun" })
     @await Html.PartialAsync("_Alan", new AlanVm { Ad = "stm_button", Etiket = "Buton metni", Deger = stm.ButtonLabel })
     @await Html.PartialAsync("_Alan", new AlanVm { Ad = "stm_image", Etiket = "Arka plan görseli", Deger = stm.Image, Tur = "gorsel" })
+
+    <hr>
+    <h3>Video</h3>
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "stm_video_acik", Etiket = "Arka planda video oynasın", Tur = "kutu", Isaretli = stm.VideoEnabled })
+
+    <div class="alan">
+        <label for="f_stm_video">Video dosyası (MP4 veya WEBM)</label>
+        @if (!string.IsNullOrWhiteSpace(stm.Video))
+        {
+            <p class="ipucu">Şu an kullanılan: <code>@stm.Video</code></p>
+        }
+        <input id="f_stm_video" type="file" name="stm_video_dosya" accept="video/mp4,video/webm">
+        <small>
+            En fazla 40 MB, ama <strong>5 MB altını hedefleyin</strong> — büyük video mobil kullanıcıyı yavaşlatır.
+            Sessiz ve döngüye uygun, 10–20 saniyelik bir çekim idealdir.
+        </small>
+    </div>
 </details>
 
 <details class="kart">

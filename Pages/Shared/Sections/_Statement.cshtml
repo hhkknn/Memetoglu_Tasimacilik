@@ -1,13 +1,34 @@
 @model SiteContent
+@inject IWebHostEnvironment Env
 @{
     var s = Model.Statement;
     if (!s.Enabled) { return; }
+
+    // Video dosyası gerçekten duruyor mu? Yoksa yalnızca arka plan görseli gösterilir.
+    var videoYolu = s.Video?.TrimStart('/') ?? "";
+    var videoVar = s.VideoEnabled
+                   && !string.IsNullOrWhiteSpace(videoYolu)
+                   && System.IO.File.Exists(System.IO.Path.Combine(Env.WebRootPath, videoYolu.Replace('/', System.IO.Path.DirectorySeparatorChar)));
+
+    var webmYolu = System.Text.RegularExpressions.Regex.Replace(videoYolu, @"\.(mp4|webm)$", ".webm",
+        System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+    var webmVar = videoVar
+                  && !string.Equals(webmYolu, videoYolu, StringComparison.OrdinalIgnoreCase)
+                  && System.IO.File.Exists(System.IO.Path.Combine(Env.WebRootPath, webmYolu.Replace('/', System.IO.Path.DirectorySeparatorChar)));
 }
 
 <section class="statement">
     @if (!string.IsNullOrWhiteSpace(s.Image))
     {
-        <div class="bgimg"><img src="@Yardimci.Medya(s.Image)" alt="" aria-hidden="true" loading="lazy"></div>
+        <div class="bgimg">
+            <img src="@Yardimci.Medya(s.Image)" alt="" aria-hidden="true" loading="lazy">
+            @if (videoVar)
+            {
+                <video class="bg-video" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"
+                       data-mp4="@Yardimci.Medya(videoYolu)"
+                       data-webm="@(webmVar ? Yardimci.Medya(webmYolu) : null)"></video>
+            }
+        </div>
     }
     <div class="wrap">
         <q data-reveal="left">@s.Quote</q>

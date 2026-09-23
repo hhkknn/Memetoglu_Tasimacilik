@@ -107,6 +107,11 @@ public sealed class IndexModel : PageModel
         };
 
         // ------------------------------------------------------------ Slogan bandı
+        var stmVideo = icerik.Statement.Video;
+        var (yeniStmVideo, stmVideoHata) = await _yukleme.SaveVideoAsync(f.Files["stm_video_dosya"], "statement");
+        if (stmVideoHata is not null) { hatalar.Add(stmVideoHata); }
+        if (yeniStmVideo is not null) { stmVideo = yeniStmVideo; }
+
         icerik.Statement = new StatementBlock
         {
             Enabled = Kutu(f, "stm_acik"),
@@ -114,6 +119,8 @@ public sealed class IndexModel : PageModel
             Description = Metin(f, "stm_desc"),
             ButtonLabel = Metin(f, "stm_button"),
             Image = await GorselCoz(f, "stm_image", icerik.Statement.Image, hatalar),
+            VideoEnabled = Kutu(f, "stm_video_acik"),
+            Video = stmVideo,
         };
 
         // ------------------------------------------------------------ Kapsama
