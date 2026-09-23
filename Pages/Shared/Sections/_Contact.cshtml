@@ -1,0 +1,156 @@
+@model IndexModel
+@{
+    var icerik = Model.Icerik;
+    var ile = icerik.Contact;
+    var ayar = icerik.Settings;
+    var wa = Yardimci.WhatsAppUrl(ayar.WhatsApp);
+    var hizmetAdlari = icerik.Services.Select(s => s.Title).ToList();
+}
+
+<section class="contact section" id="iletisim">
+    <div class="wrap contact-grid">
+        <div data-reveal="left">
+            @if (!string.IsNullOrWhiteSpace(ile.Eyebrow)) { <p class="eyebrow">@ile.Eyebrow</p> }
+            <h2>@ile.Title</h2>
+            @if (!string.IsNullOrWhiteSpace(ile.Description)) { <p class="lead">@ile.Description</p> }
+
+            <div class="contact-actions">
+                @if (ayar.Phones.Count > 0)
+                {
+                    <a class="btn btn-primary" href="@Yardimci.TelHref(ayar.Phones[0])">@ayar.Phones[0].Label — Hemen ara</a>
+                }
+                @if (wa is not null)
+                {
+                    <a class="btn btn-whatsapp" href="@wa" target="_blank" rel="noopener">WhatsApp’tan yazın</a>
+                }
+            </div>
+
+            <dl class="info-card">
+                @if (ayar.Phones.Count > 0)
+                {
+                    <div class="info-row">
+                        <dt>Telefon</dt>
+                        <dd>
+                            @foreach (var t in ayar.Phones)
+                            {
+                                <div><a href="@Yardimci.TelHref(t)">@t.Label</a></div>
+                            }
+                        </dd>
+                    </div>
+                }
+
+                <div class="info-row">
+                    <dt>E-posta</dt>
+                    <dd><a href="mailto:@ayar.Email">@ayar.Email</a></dd>
+                </div>
+
+                <div class="info-row">
+                    <dt>Adres</dt>
+                    <dd>
+                        @if (!string.IsNullOrWhiteSpace(ayar.Address.MapsUrl))
+                        {
+                            <a href="@ayar.Address.MapsUrl" target="_blank" rel="noopener">@ayar.Address.OneLine</a>
+                        }
+                        else
+                        {
+                            @ayar.Address.OneLine
+                        }
+                    </dd>
+                </div>
+
+                @if (ayar.WorkingHours.Count > 0)
+                {
+                    <div class="info-row">
+                        <dt>Çalışma saatleri</dt>
+                        <dd>
+                            @for (var i = 0; i < ayar.WorkingHours.Count; i++)
+                            {
+                                if (i == 0)
+                                {
+                                    <div>@ayar.WorkingHours[i]</div>
+                                }
+                                else
+                                {
+                                    <div style="color:var(--muted);font-size:14px">@ayar.WorkingHours[i]</div>
+                                }
+                            }
+                        </dd>
+                    </div>
+                }
+            </dl>
+        </div>
+
+        <form class="quote" method="post" data-reveal="right" style="transition-delay:120ms">
+            <h3>@(string.IsNullOrWhiteSpace(ile.FormTitle) ? "Teklif formu" : ile.FormTitle)</h3>
+            <p style="font-size:14px;color:var(--muted);margin:8px 0 20px">Zorunlu alanlar yıldızla işaretlidir.</p>
+
+            @* Bot tuzağı: ekranda görünmez, otomatik doldurucular yakalanır. *@
+            <div class="honey" aria-hidden="true">
+                <label asp-for="Form.Website">Bu alanı boş bırakın</label>
+                <input asp-for="Form.Website" tabindex="-1" autocomplete="off">
+            </div>
+
+            <div class="two">
+                <div class="field">
+                    <label asp-for="Form.Ad">Ad soyad *</label>
+                    <input asp-for="Form.Ad" autocomplete="name" required>
+                </div>
+                <div class="field">
+                    <label asp-for="Form.Telefon">Telefon *</label>
+                    <input asp-for="Form.Telefon" type="tel" inputmode="tel" autocomplete="tel" required>
+                </div>
+            </div>
+
+            <div class="field">
+                <label asp-for="Form.Eposta">E-posta</label>
+                <input asp-for="Form.Eposta" type="email" autocomplete="email">
+            </div>
+
+            <div class="two">
+                <div class="field">
+                    <label asp-for="Form.Nereden">Nereden</label>
+                    <input asp-for="Form.Nereden" placeholder="İlçe / il">
+                </div>
+                <div class="field">
+                    <label asp-for="Form.Nereye">Nereye</label>
+                    <input asp-for="Form.Nereye" placeholder="İlçe / il">
+                </div>
+            </div>
+
+            <div class="two">
+                <div class="field">
+                    <label asp-for="Form.Hizmet">Hizmet türü</label>
+                    <select asp-for="Form.Hizmet">
+                        @foreach (var ad in hizmetAdlari)
+                        {
+                            <option value="@ad">@ad</option>
+                        }
+                    </select>
+                </div>
+                <div class="field">
+                    <label asp-for="Form.Tarih">Planlanan tarih</label>
+                    <input asp-for="Form.Tarih" type="date">
+                </div>
+            </div>
+
+            <div class="field">
+                <label asp-for="Form.Detay">Yük detayı</label>
+                <textarea asp-for="Form.Detay" rows="3" placeholder="Kaç koli / kaç metreküp, kat bilgisi, asansör durumu…"></textarea>
+            </div>
+
+            <button class="btn btn-primary" type="submit" style="width:100%">Teklif iste</button>
+
+            @if (!string.IsNullOrWhiteSpace(ile.FormNote))
+            {
+                <p class="form-note">@ile.FormNote</p>
+            }
+
+            @if (!string.IsNullOrWhiteSpace(Model.SonucMetni))
+            {
+                <div class="form-msg @(Model.SonucBasarili ? "ok" : "err")" role="status" id="form-sonuc">
+                    @Model.SonucMetni
+                </div>
+            }
+        </form>
+    </div>
+</section>

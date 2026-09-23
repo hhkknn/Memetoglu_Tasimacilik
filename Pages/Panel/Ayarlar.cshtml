@@ -1,0 +1,137 @@
+@page
+@model MemetogluWeb.Pages.Panel.AyarlarModel
+@{
+    ViewData["Title"] = "Site Ayarları";
+    ViewData["Sayfa"] = "ayarlar";
+
+    var a = Model.Icerik.Settings;
+    var wa = a.WhatsApp;
+    var adr = a.Address;
+    var seo = a.Seo;
+    var uyari = a.DraftNotice;
+}
+
+<h1>Site Ayarları</h1>
+<p class="ipucu">Buradaki bilgiler sitenin her yerinde (üst bant, iletişim bölümü, footer) görünür.</p>
+
+<form method="post" enctype="multipart/form-data">
+
+<details class="kart" open>
+    <summary>Firma kimliği</summary>
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "firma", Etiket = "Firma adı", Deger = a.CompanyName })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "slogan", Etiket = "Slogan", Deger = a.Slogan })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "logo", Etiket = "Logo", Deger = a.Logo, Tur = "gorsel" })
+    <p class="ipucu">Logo için arka planı şeffaf PNG önerilir.</p>
+</details>
+
+<details class="kart" open>
+    <summary>İletişim</summary>
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "email", Etiket = "E-posta adresi", Deger = a.Email })
+
+    <div class="liste" data-liste>
+        <label class="liste-baslik">Telefon numaraları</label>
+        <p class="ipucu">Soldaki alan sitede görünen hâli, sağdaki tıklanınca aranan numaradır (ülke kodlu, boşluksuz).</p>
+        @foreach (var t in a.Phones)
+        {
+            <div class="satir ikili" data-satir>
+                <input type="text" name="tel_label" value="@t.Label" placeholder="0538 612 90 91">
+                <input type="text" name="tel_dial" value="@t.Dial" placeholder="+905386129091">
+                <button type="button" class="sil" data-sil aria-label="Satırı sil">×</button>
+            </div>
+        }
+        <template data-sablon>
+            <div class="satir ikili" data-satir>
+                <input type="text" name="tel_label" value="" placeholder="0538 000 00 00">
+                <input type="text" name="tel_dial" value="" placeholder="+905380000000">
+                <button type="button" class="sil" data-sil aria-label="Satırı sil">×</button>
+            </div>
+        </template>
+        <button type="button" class="dugme ikincil" data-ekle>+ Numara ekle</button>
+    </div>
+
+    <hr>
+    <h3>WhatsApp</h3>
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "wa_acik", Etiket = "WhatsApp butonları gösterilsin", Tur = "kutu", Isaretli = wa.Enabled })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "wa_numara", Etiket = "WhatsApp numarası", Deger = wa.Number, Ipucu = "Ülke kodlu, başında + ve boşluk olmadan. Örn: 905386129091" })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "wa_mesaj", Etiket = "Hazır mesaj", Deger = wa.Message, Tur = "uzun", Satir = 2, Ipucu = "Ziyaretçi butona bastığında WhatsApp'ta hazır gelen metin." })
+
+    <hr>
+    <h3>Adres</h3>
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "adr_satir", Etiket = "Adres satırı", Deger = adr.Line1 })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "adr_ilce", Etiket = "İlçe", Deger = adr.District })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "adr_il", Etiket = "İl", Deger = adr.City })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "adr_posta", Etiket = "Posta kodu", Deger = adr.PostalCode })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "adr_harita", Etiket = "Google Haritalar bağlantısı", Deger = adr.MapsUrl, Ipucu = "Boş bırakılırsa adres düz metin olarak gösterilir." })
+
+    <div class="liste" data-liste>
+        <label class="liste-baslik">Çalışma saatleri</label>
+        @foreach (var satir in a.WorkingHours)
+        {
+            <div class="satir" data-satir>
+                <input type="text" name="saatler" value="@satir">
+                <button type="button" class="sil" data-sil aria-label="Satırı sil">×</button>
+            </div>
+        }
+        <template data-sablon>
+            <div class="satir" data-satir>
+                <input type="text" name="saatler" value="">
+                <button type="button" class="sil" data-sil aria-label="Satırı sil">×</button>
+            </div>
+        </template>
+        <button type="button" class="dugme ikincil" data-ekle>+ Satır ekle</button>
+    </div>
+</details>
+
+<details class="kart">
+    <summary>Sosyal medya</summary>
+    <p class="ipucu">Adresi boş bırakılan hesap sitede gösterilmez.</p>
+    <div class="liste" data-liste>
+        @foreach (var s in a.Socials)
+        {
+            <div class="satir ikili" data-satir>
+                <select name="sos_platform">
+                    @foreach (var (anahtar, etiket) in MemetogluWeb.Pages.Panel.AyarlarModel.Platformlar)
+                    {
+                        <option value="@anahtar" selected="@(s.Platform == anahtar)">@etiket</option>
+                    }
+                </select>
+                <input type="url" name="sos_url" value="@s.Url" placeholder="https://...">
+                <button type="button" class="sil" data-sil aria-label="Satırı sil">×</button>
+            </div>
+        }
+        <template data-sablon>
+            <div class="satir ikili" data-satir>
+                <select name="sos_platform">
+                    @foreach (var (anahtar, etiket) in MemetogluWeb.Pages.Panel.AyarlarModel.Platformlar)
+                    {
+                        <option value="@anahtar">@etiket</option>
+                    }
+                </select>
+                <input type="url" name="sos_url" value="" placeholder="https://...">
+                <button type="button" class="sil" data-sil aria-label="Satırı sil">×</button>
+            </div>
+        </template>
+        <button type="button" class="dugme ikincil" data-ekle>+ Hesap ekle</button>
+    </div>
+</details>
+
+<details class="kart">
+    <summary>Arama motoru (SEO)</summary>
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "seo_baslik", Etiket = "Sayfa başlığı", Deger = seo.Title, Ipucu = "Google sonuçlarındaki mavi başlık. 60 karakteri geçmemesi önerilir." })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "seo_aciklama", Etiket = "Açıklama", Deger = seo.Description, Tur = "uzun", Ipucu = "Başlığın altındaki açıklama. 155 karakteri geçmemesi önerilir." })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "seo_adres", Etiket = "Sitenin canlı adresi", Deger = seo.SiteUrl, Ipucu = "Sonunda eğik çizgi olmadan. Örn: https://www.memetoglutasimacilik.com" })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "seo_gorsel", Etiket = "Paylaşım görseli", Deger = seo.ShareImage, Tur = "gorsel" })
+    <p class="ipucu">Paylaşım görseli, bağlantı WhatsApp veya LinkedIn'de paylaşılınca görünen kapaktır. 1200×630 piksel idealdir.</p>
+</details>
+
+<details class="kart">
+    <summary>Taslak uyarısı</summary>
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "uyari_acik", Etiket = "Footer'da taslak uyarısı gösterilsin", Tur = "kutu", Isaretli = uyari.Enabled, Ipucu = "Site yayına hazır olduğunda bu kutunun işaretini kaldırın." })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "uyari_metin", Etiket = "Uyarı metni", Deger = uyari.Text })
+</details>
+
+<div class="kaydet-cubugu">
+    <button class="dugme" type="submit">Kaydet</button>
+</div>
+
+</form>

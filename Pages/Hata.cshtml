@@ -1,0 +1,35 @@
+@page
+@model HataModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex">
+    <title>Bir sorun oluştu</title>
+    <link rel="stylesheet" href="~/css/style.css">
+</head>
+<body style="display:flex;align-items:center;justify-content:center;min-height:100svh;background:var(--deep)">
+    <div class="wrap" style="max-width:620px;text-align:center;color:var(--deep-text)">
+        <p class="eyebrow on-deep" style="justify-content:center">Beklenmeyen bir durum</p>
+        <h1 style="font-size:clamp(28px,5vw,44px);margin-top:18px;color:#fff">Sayfa açılamadı</h1>
+        <p style="margin-top:18px;color:var(--deep-muted);font-size:17px">
+            Teknik bir sorun nedeniyle bu sayfa gösterilemiyor. Birkaç dakika sonra
+            tekrar deneyebilir ya da bize doğrudan ulaşabilirsiniz.
+        </p>
+        <p style="margin-top:28px">
+            <a class="btn btn-primary" href="/">Anasayfaya dön</a>
+        </p>
+        @if (!string.IsNullOrWhiteSpace(Model.IstekKodu))
+        {
+            <p style="margin-top:26px;font-size:12.5px;color:var(--deep-muted)">
+                Bize yazarken şu kodu iletirseniz sorunu daha hızlı buluruz:
+                <code>@Model.IstekKodu</code>
+            </p>
+        }
+    </div>
+</body>
+</html>

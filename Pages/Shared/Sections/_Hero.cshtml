@@ -1,0 +1,76 @@
+@model SiteContent
+@inject IWebHostEnvironment Env
+@{
+    var hero = Model.Hero;
+    var wa = Yardimci.WhatsAppUrl(Model.Settings.WhatsApp);
+
+    // Video dosyası gerçekten duruyor mu? Yoksa yalnızca poster gösterilir.
+    var videoYolu = hero.Video?.TrimStart('/') ?? "";
+    var videoVar = hero.VideoEnabled
+                   && !string.IsNullOrWhiteSpace(videoYolu)
+                   && System.IO.File.Exists(System.IO.Path.Combine(Env.WebRootPath, videoYolu.Replace('/', System.IO.Path.DirectorySeparatorChar)));
+
+    // Aynı adı taşıyan .webm varsa onu da sun: daha küçük dosya, aynı görüntü.
+    var webmYolu = System.Text.RegularExpressions.Regex.Replace(videoYolu, @"\.(mp4|webm)$", ".webm",
+        System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+    var webmVar = videoVar
+                  && !string.Equals(webmYolu, videoYolu, StringComparison.OrdinalIgnoreCase)
+                  && System.IO.File.Exists(System.IO.Path.Combine(Env.WebRootPath, webmYolu.Replace('/', System.IO.Path.DirectorySeparatorChar)));
+}
+
+<section class="hero" id="top">
+    <div class="hero-media">
+        @* Poster her zaman basılır: video yüklenene kadar ve mobilde bu görünür. *@
+        <img src="@Yardimci.Medya(hero.Poster)" alt="" aria-hidden="true" fetchpriority="high">
+        @if (videoVar)
+        {
+            <video id="hero-video" muted loop playsinline preload="none"
+                   poster="@Yardimci.Medya(hero.Poster)" aria-hidden="true" tabindex="-1"
+                   data-mp4="@Yardimci.Medya(videoYolu)"
+                   data-webm="@(webmVar ? Yardimci.Medya(webmYolu) : null)"></video>
+        }
+    </div>
+
+    <div class="wrap">
+        @if (!string.IsNullOrWhiteSpace(hero.Eyebrow))
+        {
+            <p class="eyebrow" data-reveal="up">@hero.Eyebrow</p>
+        }
+
+        <h1 data-reveal="up" style="transition-delay:80ms">
+            @hero.HeadlineTop
+            <span class="line2">@hero.HeadlineBottom</span>
+        </h1>
+
+        @if (!string.IsNullOrWhiteSpace(hero.Subtitle))
+        {
+            <p class="hero-sub" data-reveal="up" style="transition-delay:160ms">@hero.Subtitle</p>
+        }
+
+        <div class="hero-actions" data-reveal="up" style="transition-delay:240ms">
+            <a class="btn btn-primary" href="#iletisim">
+                @(string.IsNullOrWhiteSpace(hero.PrimaryButton) ? "Ücretsiz teklif alın" : hero.PrimaryButton)
+            </a>
+            @if (wa is not null)
+            {
+                <a class="btn btn-whatsapp" href="@wa" target="_blank" rel="noopener">WhatsApp’tan yazın</a>
+            }
+            else
+            {
+                <a class="btn btn-headerGhost" href="#hizmetler">Hizmetleri inceleyin</a>
+            }
+        </div>
+
+        @if (hero.Highlights.Count > 0)
+        {
+            <div class="hero-meta" data-reveal="up" style="transition-delay:320ms">
+                @foreach (var oge in hero.Highlights)
+                {
+                    <span>@oge</span>
+                }
+            </div>
+        }
+    </div>
+
+    <span class="scroll-cue" aria-hidden="true"></span>
+</section>

@@ -1,0 +1,42 @@
+@model SiteContent
+@{
+    var bas = Model.ServicesSection;
+    var liste = Model.Services;
+    if (liste.Count == 0) { return; }
+    var yonler = new[] { "left", "up", "right" };
+}
+
+<section class="section" id="hizmetler">
+    <div class="wrap">
+        <div class="section-head" data-reveal="up">
+            @if (!string.IsNullOrWhiteSpace(bas.Eyebrow)) { <p class="eyebrow">@bas.Eyebrow</p> }
+            <h2>@bas.Title</h2>
+            @if (!string.IsNullOrWhiteSpace(bas.Description)) { <p>@bas.Description</p> }
+        </div>
+
+        <div class="svc-grid">
+            @for (var i = 0; i < liste.Count; i++)
+            {
+                var h = liste[i];
+                <article class="svc" data-reveal="@yonler[i % 3]" style="transition-delay:@((i % 3) * 110)ms">
+                    @if (!string.IsNullOrWhiteSpace(h.Image))
+                    {
+                        <div class="shot">
+                            <img src="@Yardimci.Medya(h.Image)" alt="@(string.IsNullOrWhiteSpace(h.Alt) ? h.Title : h.Alt)" loading="lazy" decoding="async">
+                        </div>
+                    }
+                    <div class="svc-body">
+                        <h3>@h.Title</h3>
+                        <p>@h.Description</p>
+                        @if (h.Tags.Count > 0)
+                        {
+                            <ul>
+                                @foreach (var etiket in h.Tags) { <li>@etiket</li> }
+                            </ul>
+                        }
+                    </div>
+                </article>
+            }
+        </div>
+    </div>
+</section>

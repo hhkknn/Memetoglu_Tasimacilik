@@ -1,0 +1,48 @@
+@model AlanVm
+
+@if (Model.Tur == "kutu")
+{
+    <div class="alan alan-kutu">
+        <input id="@Model.Id" type="checkbox" name="@Model.Ad" value="true" checked="@Model.Isaretli">
+        <label for="@Model.Id">@Model.Etiket</label>
+        @if (!string.IsNullOrWhiteSpace(Model.Ipucu)) { <small>@Model.Ipucu</small> }
+    </div>
+}
+else if (Model.Tur == "gorsel")
+{
+    <div class="alan alan-gorsel">
+        <label for="@Model.Id">@Model.Etiket</label>
+        <div class="gorsel-satir">
+            @if (!string.IsNullOrWhiteSpace(Model.Deger))
+            {
+                <img src="@Yardimci.Medya(Model.Deger)" alt="" class="onizleme">
+            }
+            else
+            {
+                <span class="onizleme bos">Görsel yok</span>
+            }
+            <div class="gorsel-eylem">
+                <input id="@Model.Id" type="file" name="@(Model.Ad)_dosya" accept="image/*">
+                <input type="hidden" name="@Model.Ad" value="@Model.Deger">
+                <small>Yeni dosya seçmezseniz mevcut görsel korunur. En fazla 6 MB.</small>
+            </div>
+        </div>
+    </div>
+}
+else if (Model.Tur == "uzun")
+{
+    <div class="alan">
+        <label for="@Model.Id">@Model.Etiket</label>
+        <textarea id="@Model.Id" name="@Model.Ad" rows="@Model.Satir" placeholder="@Model.YerTutucu">@Model.Deger</textarea>
+        @if (!string.IsNullOrWhiteSpace(Model.Ipucu)) { <small>@Model.Ipucu</small> }
+    </div>
+}
+else
+{
+    <div class="alan">
+        <label for="@Model.Id">@Model.Etiket</label>
+        <input id="@Model.Id" type="@(Model.Tur == "sayi" ? "number" : "text")"
+               name="@Model.Ad" value="@Model.Deger" placeholder="@Model.YerTutucu">
+        @if (!string.IsNullOrWhiteSpace(Model.Ipucu)) { <small>@Model.Ipucu</small> }
+    </div>
+}

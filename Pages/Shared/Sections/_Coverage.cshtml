@@ -1,0 +1,116 @@
+@model SiteContent
+@{
+    var k = Model.Coverage;
+    if (!k.Enabled) { return; }
+
+    // DİKKAT: Bu ölçekli bir harita DEĞİLDİR. Şehir noktaları gerçek
+    // enlem/boylam değerlerinden türetilmiş şematik konumlardır; ülke sınırı
+    // çizilmemiştir. Şehir eklemek/çıkarmak için aşağıdaki diziyi düzenleyin.
+
+    var merkez = (Ad: "İstanbul", X: 199, Y: 110, Yon: "ust");
+
+    var sehirler = new (string Ad, int X, int Y, string? Yon)[]
+    {
+        ("Bursa",      202, 151, null),
+        ("Eskişehir",  269, 171, null),
+        ("İzmir",      113, 239, "sol"),
+        ("Antalya",    278, 315, "alt"),
+        ("Konya",      360, 267, null),
+        ("Ankara",     377, 164, "ust"),
+        ("Kayseri",    500, 224, null),
+        ("Samsun",     538,  96, "ust"),
+        ("Adana",      492, 310, "alt"),
+        ("Gaziantep",  587, 307, "sag"),
+        ("Trabzon",    696, 110, "ust"),
+        ("Diyarbakır", 719, 265, null),
+        ("Erzurum",    767, 165, null),
+        ("Van",        866, 236, "sag"),
+    };
+
+    // Merkezden şehre giden hafif kavisli rota.
+    string Rota(int x, int y)
+    {
+        var mx = (merkez.X + x) / 2.0;
+        var my = (merkez.Y + y) / 2.0 - 42;
+        return string.Format(System.Globalization.CultureInfo.InvariantCulture,
+            "M {0} {1} Q {2:0.#} {3:0.#} {4} {5}", merkez.X, merkez.Y, mx, my, x, y);
+    }
+
+    // Etiketin nokta etrafındaki konumu.
+    (int X, int Y, string Hiza) EtiketYeri(int x, int y, string? yon) => yon switch
+    {
+        "sol" => (x - 14, y + 6, "end"),
+        "sag" => (x + 14, y + 6, "start"),
+        "alt" => (x, y + 28, "middle"),
+        _ => (x, y - 16, "middle"),
+    };
+
+    var etiketliler = new List<(string Ad, int X, int Y, string? Yon)> { (merkez.Ad, merkez.X, merkez.Y, merkez.Yon) };
+    etiketliler.AddRange(sehirler.Where(s => s.Yon is not null));
+}
+
+<section class="coverage" id="kapsama">
+    <div class="wrap">
+        <div class="coverage-grid">
+            <div data-reveal="left">
+                @if (!string.IsNullOrWhiteSpace(k.Eyebrow)) { <p class="eyebrow on-deep">@k.Eyebrow</p> }
+                <h2>@k.Title</h2>
+                @if (!string.IsNullOrWhiteSpace(k.Description)) { <p class="lead">@k.Description</p> }
+
+                @if (k.Figures.Count > 0)
+                {
+                    <div class="coverage-figures">
+                        @foreach (var kutu in k.Figures)
+                        {
+                            <div>
+                                <b>@kutu.Value</b>
+                                <small>@kutu.Label</small>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+
+            <div class="map-shell" data-reveal="right" style="transition-delay:120ms">
+                <svg viewBox="40 46 915 322" role="img"
+                     aria-label="İstanbul merkezli şehirler arası sevkiyat ağını gösteren şematik çizim">
+                    <g fill="none" stroke="#FF5C64" stroke-width="2.2" stroke-linecap="round">
+                        @for (var i = 0; i < sehirler.Length; i++)
+                        {
+                            <path class="map-route" d="@Rota(sehirler[i].X, sehirler[i].Y)" opacity=".55"
+                                  style="transition-delay:@(i * 70)ms" />
+                        }
+                    </g>
+
+                    <g>
+                        @for (var i = 0; i < sehirler.Length; i++)
+                        {
+                            <circle class="map-city" cx="@sehirler[i].X" cy="@sehirler[i].Y" r="5.5" fill="#A2A9D0"
+                                    style="transition-delay:@(600 + i * 55)ms">
+                                <title>@sehirler[i].Ad</title>
+                            </circle>
+                        }
+                    </g>
+
+                    <g>
+                        <circle cx="@merkez.X" cy="@merkez.Y" r="17" fill="#D8121C" opacity=".22" />
+                        <circle cx="@merkez.X" cy="@merkez.Y" r="8.5" fill="#D8121C" />
+                    </g>
+
+                    <g>
+                        @for (var i = 0; i < etiketliler.Count; i++)
+                        {
+                            var e = etiketliler[i];
+                            var yer = EtiketYeri(e.X, e.Y, e.Yon);
+                            var sinif = e.Ad == merkez.Ad ? "map-label map-city map-label-hub" : "map-label map-city";
+                            <g>
+                                <text class="@sinif" x="@yer.X" y="@yer.Y" text-anchor="@yer.Hiza"
+                                      style="transition-delay:@(700 + i * 55)ms">@e.Ad</text>
+                            </g>
+                        }
+                    </g>
+                </svg>
+            </div>
+        </div>
+    </div>
+</section>

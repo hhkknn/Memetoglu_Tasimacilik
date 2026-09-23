@@ -1,0 +1,45 @@
+@model SiteContent
+@{
+    var bas = Model.FleetSection;
+    var liste = Model.Fleet;
+    if (liste.Count == 0) { return; }
+    var yonler = new[] { "left", "up", "right" };
+}
+
+<section class="section" id="filo">
+    <div class="wrap">
+        <div class="section-head" data-reveal="up">
+            @if (!string.IsNullOrWhiteSpace(bas.Eyebrow)) { <p class="eyebrow">@bas.Eyebrow</p> }
+            <h2>@bas.Title</h2>
+            @if (!string.IsNullOrWhiteSpace(bas.Description)) { <p>@bas.Description</p> }
+        </div>
+
+        <div class="fleet-grid">
+            @for (var i = 0; i < liste.Count; i++)
+            {
+                var arac = liste[i];
+                <article class="fleet" data-reveal="@yonler[i % 3]" style="transition-delay:@((i % 3) * 110)ms">
+                    @if (!string.IsNullOrWhiteSpace(arac.Image))
+                    {
+                        <div class="shot">
+                            <img src="@Yardimci.Medya(arac.Image)" alt="@(string.IsNullOrWhiteSpace(arac.Alt) ? arac.Title : arac.Alt)" loading="lazy" decoding="async">
+                        </div>
+                    }
+                    <div class="fleet-body">
+                        <h3>@arac.Title</h3>
+                        @if (arac.Specs.Count > 0)
+                        {
+                            <dl>
+                                @foreach (var oz in arac.Specs)
+                                {
+                                    <dt>@oz.Label</dt>
+                                    <dd>@oz.Value</dd>
+                                }
+                            </dl>
+                        }
+                    </div>
+                </article>
+            }
+        </div>
+    </div>
+</section>

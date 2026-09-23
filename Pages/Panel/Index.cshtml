@@ -1,0 +1,247 @@
+@page
+@model MemetogluWeb.Pages.Panel.IndexModel
+@{
+    ViewData["Title"] = "Anasayfa";
+    ViewData["Sayfa"] = "anasayfa";
+
+    var c = Model.Icerik;
+    var hero = c.Hero;
+    var stats = c.Stats;
+    var sol = c.Solutions;
+    var stm = c.Statement;
+    var cov = c.Coverage;
+    var abt = c.About;
+    var ctc = c.Contact;
+}
+
+<h1>Anasayfa</h1>
+<p class="ipucu">Bölümleri açıp düzenleyin. Sayfanın en altındaki <strong>Kaydet</strong> tüm bölümleri birlikte kaydeder.</p>
+
+<form method="post" enctype="multipart/form-data">
+
+<details class="kart" open>
+    <summary>Üst bölüm (tam ekran video)</summary>
+
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "hero_eyebrow", Etiket = "Üst etiket", Deger = hero.Eyebrow })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "hero_top", Etiket = "Başlık — birinci satır", Deger = hero.HeadlineTop })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "hero_bottom", Etiket = "Başlık — ikinci satır", Deger = hero.HeadlineBottom })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "hero_subtitle", Etiket = "Açıklama", Deger = hero.Subtitle, Tur = "uzun" })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "hero_button", Etiket = "Ana buton metni", Deger = hero.PrimaryButton })
+
+    <div class="liste" data-liste>
+        <label class="liste-baslik">Öne çıkan maddeler</label>
+        @foreach (var oge in hero.Highlights)
+        {
+            <div class="satir" data-satir>
+                <input type="text" name="hero_highlights" value="@oge">
+                <button type="button" class="sil" data-sil aria-label="Satırı sil">×</button>
+            </div>
+        }
+        <template data-sablon>
+            <div class="satir" data-satir>
+                <input type="text" name="hero_highlights" value="">
+                <button type="button" class="sil" data-sil aria-label="Satırı sil">×</button>
+            </div>
+        </template>
+        <button type="button" class="dugme ikincil" data-ekle>+ Madde ekle</button>
+    </div>
+
+    <hr>
+    <h3>Video</h3>
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "hero_video_acik", Etiket = "Arka planda video oynasın", Tur = "kutu", Isaretli = hero.VideoEnabled })
+
+    <div class="alan">
+        <label for="f_hero_video">Video dosyası (MP4 veya WEBM)</label>
+        @if (!string.IsNullOrWhiteSpace(hero.Video))
+        {
+            <p class="ipucu">Şu an kullanılan: <code>@hero.Video</code></p>
+        }
+        <input id="f_hero_video" type="file" name="hero_video_dosya" accept="video/mp4,video/webm">
+        <small>
+            En fazla 40 MB, ama <strong>5 MB altını hedefleyin</strong> — büyük video mobil kullanıcıyı yavaşlatır.
+            Sessiz ve döngüye uygun, 10–20 saniyelik bir çekim idealdir.
+        </small>
+    </div>
+
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "hero_poster", Etiket = "Poster görseli", Deger = hero.Poster, Tur = "gorsel" })
+    <p class="ipucu">
+        Poster, video yüklenene kadar ve mobil cihazlarda ekranda görünen karedir.
+        Mobilde video hiç indirilmez — bu bilinçli bir tercihtir; sayfa çok daha hızlı açılır.
+    </p>
+</details>
+
+<details class="kart">
+    <summary>Rakamlar</summary>
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "stats_acik", Etiket = "Bu bölüm gösterilsin", Tur = "kutu", Isaretli = stats.Enabled })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "stats_eyebrow", Etiket = "Üst etiket", Deger = stats.Eyebrow })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "stats_uyari_acik", Etiket = "\"Örnek veriler\" uyarısı gösterilsin", Tur = "kutu", Isaretli = stats.NoticeEnabled, Ipucu = "Gerçek rakamları girdikten sonra bu kutunun işaretini kaldırın." })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "stats_uyari", Etiket = "Uyarı metni", Deger = stats.NoticeText })
+
+    <div class="liste" data-liste>
+        <label class="liste-baslik">Rakamlar (en fazla 4)</label>
+        @foreach (var oge in stats.Items)
+        {
+            <div class="satir ikili" data-satir>
+                <input type="text" name="stat_value" value="@oge.Value" placeholder="Rakam">
+                <input type="text" name="stat_label" value="@oge.Label" placeholder="Açıklama">
+                <button type="button" class="sil" data-sil aria-label="Satırı sil">×</button>
+            </div>
+        }
+        <template data-sablon>
+            <div class="satir ikili" data-satir>
+                <input type="text" name="stat_value" value="" placeholder="Rakam">
+                <input type="text" name="stat_label" value="" placeholder="Açıklama">
+                <button type="button" class="sil" data-sil aria-label="Satırı sil">×</button>
+            </div>
+        </template>
+        <button type="button" class="dugme ikincil" data-ekle>+ Rakam ekle</button>
+    </div>
+</details>
+
+<details class="kart">
+    <summary>Bölüm başlıkları</summary>
+
+    <h3>Hizmetler bölümü</h3>
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "svc_eyebrow", Etiket = "Üst etiket", Deger = c.ServicesSection.Eyebrow })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "svc_title", Etiket = "Başlık", Deger = c.ServicesSection.Title })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "svc_desc", Etiket = "Açıklama", Deger = c.ServicesSection.Description, Tur = "uzun" })
+
+    <hr>
+    <h3>Filo bölümü</h3>
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "flt_eyebrow", Etiket = "Üst etiket", Deger = c.FleetSection.Eyebrow })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "flt_title", Etiket = "Başlık", Deger = c.FleetSection.Title })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "flt_desc", Etiket = "Açıklama", Deger = c.FleetSection.Description, Tur = "uzun" })
+
+    <hr>
+    <h3>Nasıl çalışır bölümü</h3>
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "prc_eyebrow", Etiket = "Üst etiket", Deger = c.ProcessSection.Eyebrow })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "prc_title", Etiket = "Başlık", Deger = c.ProcessSection.Title })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "prc_desc", Etiket = "Açıklama", Deger = c.ProcessSection.Description, Tur = "uzun" })
+</details>
+
+<details class="kart">
+    <summary>Çözüm merkezi (koyu bant)</summary>
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "sol_acik", Etiket = "Bu bölüm gösterilsin", Tur = "kutu", Isaretli = sol.Enabled })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "sol_eyebrow", Etiket = "Üst etiket", Deger = sol.Eyebrow })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "sol_title", Etiket = "Başlık", Deger = sol.Title })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "sol_desc", Etiket = "Açıklama", Deger = sol.Description, Tur = "uzun" })
+
+    <p class="ipucu">Hedef alanına aynı sayfadaki bölüm için <code>#hizmetler</code>, <code>#filo</code>,
+        <code>#surec</code>, <code>#kapsama</code> veya <code>#iletisim</code> yazın.</p>
+
+    @for (var i = 0; i < sol.Columns.Count; i++)
+    {
+        var sutun = sol.Columns[i];
+        <div class="alt-kart">
+            <div class="alan">
+                <label for="f_sol_heading_@i">Sütun @(i + 1) başlığı</label>
+                <input id="f_sol_heading_@i" type="text" name="sol_heading" value="@sutun.Heading">
+            </div>
+            <div class="liste" data-liste>
+                <label class="liste-baslik">Bağlantılar</label>
+                @foreach (var bag in sutun.Links)
+                {
+                    <div class="satir ikili" data-satir>
+                        <input type="text" name="sol_label_@i" value="@bag.Label" placeholder="Metin">
+                        <input type="text" name="sol_href_@i" value="@bag.Href" placeholder="#iletisim">
+                        <button type="button" class="sil" data-sil aria-label="Satırı sil">×</button>
+                    </div>
+                }
+                <template data-sablon>
+                    <div class="satir ikili" data-satir>
+                        <input type="text" name="sol_label_@i" value="" placeholder="Metin">
+                        <input type="text" name="sol_href_@i" value="#iletisim" placeholder="#iletisim">
+                        <button type="button" class="sil" data-sil aria-label="Satırı sil">×</button>
+                    </div>
+                </template>
+                <button type="button" class="dugme ikincil" data-ekle>+ Bağlantı ekle</button>
+            </div>
+        </div>
+    }
+</details>
+
+<details class="kart">
+    <summary>Slogan bandı</summary>
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "stm_acik", Etiket = "Bu bölüm gösterilsin", Tur = "kutu", Isaretli = stm.Enabled })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "stm_quote", Etiket = "Slogan", Deger = stm.Quote })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "stm_desc", Etiket = "Açıklama", Deger = stm.Description, Tur = "uzun" })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "stm_button", Etiket = "Buton metni", Deger = stm.ButtonLabel })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "stm_image", Etiket = "Arka plan görseli", Deger = stm.Image, Tur = "gorsel" })
+</details>
+
+<details class="kart">
+    <summary>Kapsama alanı</summary>
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "cov_acik", Etiket = "Bu bölüm gösterilsin", Tur = "kutu", Isaretli = cov.Enabled })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "cov_eyebrow", Etiket = "Üst etiket", Deger = cov.Eyebrow })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "cov_title", Etiket = "Başlık", Deger = cov.Title })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "cov_desc", Etiket = "Açıklama", Deger = cov.Description, Tur = "uzun" })
+
+    <div class="liste" data-liste>
+        <label class="liste-baslik">Kutucuklar</label>
+        @foreach (var kutu in cov.Figures)
+        {
+            <div class="satir ikili" data-satir>
+                <input type="text" name="cov_value" value="@kutu.Value" placeholder="Üst satır">
+                <input type="text" name="cov_label" value="@kutu.Label" placeholder="Alt satır">
+                <button type="button" class="sil" data-sil aria-label="Satırı sil">×</button>
+            </div>
+        }
+        <template data-sablon>
+            <div class="satir ikili" data-satir>
+                <input type="text" name="cov_value" value="" placeholder="Üst satır">
+                <input type="text" name="cov_label" value="" placeholder="Alt satır">
+                <button type="button" class="sil" data-sil aria-label="Satırı sil">×</button>
+            </div>
+        </template>
+        <button type="button" class="dugme ikincil" data-ekle>+ Kutucuk ekle</button>
+    </div>
+
+    <p class="ipucu">Haritadaki şehirler koddan gelir
+        (<code>Pages/Shared/Sections/_Coverage.cshtml</code>). Şehir eklemek isterseniz geliştiricinize söyleyin.</p>
+</details>
+
+<details class="kart">
+    <summary>Hakkımızda</summary>
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "abt_eyebrow", Etiket = "Üst etiket", Deger = abt.Eyebrow })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "abt_title", Etiket = "Başlık", Deger = abt.Title })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "abt_desc", Etiket = "Açıklama", Deger = abt.Description, Tur = "uzun", Satir = 4 })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "abt_image", Etiket = "Görsel", Deger = abt.Image, Tur = "gorsel" })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "abt_alt", Etiket = "Görselin alternatif metni", Deger = abt.Alt, Ipucu = "Görseli göremeyenler ve Google için kısa açıklama." })
+
+    <div class="liste" data-liste>
+        <label class="liste-baslik">Öne çıkan maddeler</label>
+        @foreach (var madde in abt.Features)
+        {
+            <div class="satir dikey" data-satir>
+                <input type="text" name="abt_f_title" value="@madde.Title" placeholder="Başlık">
+                <textarea name="abt_f_desc" rows="2" placeholder="Açıklama">@madde.Description</textarea>
+                <button type="button" class="sil" data-sil aria-label="Satırı sil">×</button>
+            </div>
+        }
+        <template data-sablon>
+            <div class="satir dikey" data-satir>
+                <input type="text" name="abt_f_title" value="" placeholder="Başlık">
+                <textarea name="abt_f_desc" rows="2" placeholder="Açıklama"></textarea>
+                <button type="button" class="sil" data-sil aria-label="Satırı sil">×</button>
+            </div>
+        </template>
+        <button type="button" class="dugme ikincil" data-ekle>+ Madde ekle</button>
+    </div>
+</details>
+
+<details class="kart">
+    <summary>İletişim bölümü metinleri</summary>
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "ctc_eyebrow", Etiket = "Üst etiket", Deger = ctc.Eyebrow })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "ctc_title", Etiket = "Başlık", Deger = ctc.Title })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "ctc_desc", Etiket = "Açıklama", Deger = ctc.Description, Tur = "uzun" })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "ctc_form_title", Etiket = "Form başlığı", Deger = ctc.FormTitle })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "ctc_form_note", Etiket = "Form altı not", Deger = ctc.FormNote, Tur = "uzun", Satir = 2 })
+
+    <p class="ipucu">Telefon, e-posta ve adres bilgileri <strong>Site Ayarları</strong> bölümünden düzenlenir.</p>
+</details>
+
+<div class="kaydet-cubugu">
+    <button class="dugme" type="submit">Kaydet</button>
+</div>
+
+</form>

@@ -1,0 +1,40 @@
+@page
+@model MemetogluWeb.Pages.Panel.SurecModel
+@{
+    ViewData["Title"] = "Nasıl Çalışır";
+    ViewData["Sayfa"] = "surec";
+    var adimlar = Model.Icerik.Process;
+}
+
+<h1>Nasıl Çalışır</h1>
+<p class="ipucu">Adımlar sitede buradaki sırayla 01, 02, 03… olarak numaralanır.
+   Boş bıraktığınız satır kaydedilmez. Dört ile altı adım arası en iyi görünümü verir.</p>
+
+<form method="post">
+<div class="kart">
+    <div class="liste" data-liste>
+        @for (var i = 0; i < adimlar.Count; i++)
+        {
+            <div class="satir dikey numarali" data-satir>
+                <span class="sira">@((i + 1).ToString("00"))</span>
+                <input type="text" name="baslik" value="@adimlar[i].Title" placeholder="Adım başlığı">
+                <textarea name="aciklama" rows="2" placeholder="Açıklama">@adimlar[i].Description</textarea>
+                <button type="button" class="sil" data-sil aria-label="Adımı sil">×</button>
+            </div>
+        }
+        <template data-sablon>
+            <div class="satir dikey numarali" data-satir>
+                <span class="sira">••</span>
+                <input type="text" name="baslik" value="" placeholder="Adım başlığı">
+                <textarea name="aciklama" rows="2" placeholder="Açıklama"></textarea>
+                <button type="button" class="sil" data-sil aria-label="Adımı sil">×</button>
+            </div>
+        </template>
+        <button type="button" class="dugme ikincil" data-ekle>+ Adım ekle</button>
+    </div>
+</div>
+
+<div class="kaydet-cubugu">
+    <button class="dugme" type="submit">Kaydet</button>
+</div>
+</form>

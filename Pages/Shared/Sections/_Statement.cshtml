@@ -1,0 +1,22 @@
+@model SiteContent
+@{
+    var s = Model.Statement;
+    if (!s.Enabled) { return; }
+}
+
+<section class="statement">
+    @if (!string.IsNullOrWhiteSpace(s.Image))
+    {
+        <div class="bgimg"><img src="@Yardimci.Medya(s.Image)" alt="" aria-hidden="true" loading="lazy"></div>
+    }
+    <div class="wrap">
+        <q data-reveal="left">@s.Quote</q>
+        <div data-reveal="left" style="transition-delay:140ms">
+            @if (!string.IsNullOrWhiteSpace(s.Description)) { <p>@s.Description</p> }
+            @if (!string.IsNullOrWhiteSpace(s.ButtonLabel))
+            {
+                <a class="btn btn-onDeep" href="#iletisim">@s.ButtonLabel</a>
+            }
+        </div>
+    </div>
+</section>

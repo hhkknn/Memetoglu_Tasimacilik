@@ -1,0 +1,58 @@
+@page
+@model MemetogluWeb.Pages.Panel.MedyaModel
+@{
+    ViewData["Title"] = "Görseller";
+    ViewData["Sayfa"] = "medya";
+}
+
+<h1>Görseller</h1>
+<p class="ipucu">Buraya yüklediğiniz görselleri Anasayfa, Hizmetler ve Filo bölümlerinden seçebilirsiniz.</p>
+
+<div class="kart">
+    <form method="post" asp-page-handler="Yukle" enctype="multipart/form-data">
+        <div class="alan">
+            <label for="f_dosyalar">Yeni görsel yükle</label>
+            <input id="f_dosyalar" type="file" name="dosyalar" accept="image/*" multiple>
+            <small>JPG, PNG, WEBP veya GIF. Dosya başına en fazla 6 MB. Birden fazla seçebilirsiniz.</small>
+        </div>
+        <div class="eylem"><button class="dugme" type="submit">Yükle</button></div>
+    </form>
+</div>
+
+<div class="kart">
+    <h2>Yüklenenler (@Model.Dosyalar.Count)</h2>
+
+    @if (Model.Dosyalar.Count == 0)
+    {
+        <p class="ipucu">Henüz görsel yüklenmemiş. Sitedeki mevcut fotoğraflar
+           <code>wwwroot/img/</code> klasöründe hazır gelir ve burada listelenmez.</p>
+    }
+    else
+    {
+        <div class="medya-izgara">
+            @foreach (var d in Model.Dosyalar)
+            {
+                var kullanimda = Model.Kullanimda.Contains(d.Name);
+                <figure class="medya">
+                    <img src="/uploads/@d.Name" alt="" loading="lazy">
+                    <figcaption>
+                        <code>@d.Name</code>
+                        <span class="boyut">@((d.Length / 1024).ToString("N0")) KB</span>
+                        @if (kullanimda)
+                        {
+                            <span class="rozet">Kullanımda</span>
+                        }
+                        else
+                        {
+                            <form method="post" asp-page-handler="Sil"
+                                  onsubmit="return confirm('Bu görsel silinsin mi?');">
+                                <input type="hidden" name="dosya" value="@d.Name">
+                                <button class="sil-bag" type="submit">Sil</button>
+                            </form>
+                        }
+                    </figcaption>
+                </figure>
+            }
+        </div>
+    }
+</div>

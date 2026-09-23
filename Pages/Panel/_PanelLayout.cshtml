@@ -1,0 +1,63 @@
+@{
+    var sayfa = ViewData["Sayfa"] as string ?? "";
+    var menuGoster = ViewData["MenuGoster"] as bool? ?? true;
+
+    var menu = new (string Yol, string Anahtar, string Etiket)[]
+    {
+        ("/Panel/Index",     "anasayfa",  "Anasayfa"),
+        ("/Panel/Hizmetler", "hizmetler", "Hizmetler"),
+        ("/Panel/Filo",      "filo",      "Filo"),
+        ("/Panel/Surec",     "surec",     "Nasıl Çalışır"),
+        ("/Panel/Ayarlar",   "ayarlar",   "Site Ayarları"),
+        ("/Panel/Medya",     "medya",     "Görseller"),
+        ("/Panel/Sifre",     "sifre",     "Şifre"),
+    };
+
+    var bildirimMetni = TempData["Bildirim"] as string;
+    var bildirimTur = TempData["BildirimTur"] as string ?? "ok";
+}<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex, nofollow">
+    <title>@ViewData["Title"] — Yönetim Paneli</title>
+    <link rel="stylesheet" href="~/css/panel.css" asp-append-version="true">
+</head>
+<body>
+
+@if (menuGoster)
+{
+    <header class="ust">
+        <div class="kap">
+            <strong>Memetoğlu Taşımacılık</strong>
+            <span class="etiket">Yönetim Paneli</span>
+            <nav>
+                @foreach (var (yol, anahtar, etiket) in menu)
+                {
+                    <a href="@yol" class="@(sayfa == anahtar ? "secili" : "")">@etiket</a>
+                }
+            </nav>
+            <div class="ust-sag">
+                <a href="/" target="_blank" rel="noopener">Siteyi gör ↗</a>
+                <form method="post" action="/Panel/Cikis" style="display:inline">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="cikis-dugme">Çıkış</button>
+                </form>
+            </div>
+        </div>
+    </header>
+}
+
+<main class="kap icerik">
+    @if (!string.IsNullOrWhiteSpace(bildirimMetni))
+    {
+        <div class="bildirim @bildirimTur">@bildirimMetni</div>
+    }
+
+    @RenderBody()
+</main>
+
+<script src="~/js/panel.js" asp-append-version="true" defer></script>
+</body>
+</html>

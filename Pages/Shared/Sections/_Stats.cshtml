@@ -1,0 +1,30 @@
+@model SiteContent
+@{
+    var s = Model.Stats;
+    if (!s.Enabled || s.Items.Count == 0) { return; }
+}
+
+<section class="stats" aria-label="@(string.IsNullOrWhiteSpace(s.Eyebrow) ? "Rakamlar" : s.Eyebrow)">
+    <div class="wrap">
+        <div class="stats-head">
+            @if (!string.IsNullOrWhiteSpace(s.Eyebrow))
+            {
+                <p class="eyebrow">@s.Eyebrow</p>
+            }
+            @if (s.NoticeEnabled && !string.IsNullOrWhiteSpace(s.NoticeText))
+            {
+                <span class="chip">@s.NoticeText</span>
+            }
+        </div>
+
+        <div class="stat-grid">
+            @for (var i = 0; i < s.Items.Count; i++)
+            {
+                <div class="stat" data-reveal="up" style="transition-delay:@(i * 90)ms">
+                    <b>@s.Items[i].Value</b>
+                    <small>@s.Items[i].Label</small>
+                </div>
+            }
+        </div>
+    </div>
+</section>

@@ -1,0 +1,27 @@
+@model SiteContent
+@{
+    var bas = Model.ProcessSection;
+    var adimlar = Model.Process;
+    if (adimlar.Count == 0) { return; }
+}
+
+<section class="section section-alt" id="surec">
+    <div class="wrap">
+        <div class="section-head" data-reveal="up">
+            @if (!string.IsNullOrWhiteSpace(bas.Eyebrow)) { <p class="eyebrow">@bas.Eyebrow</p> }
+            <h2>@bas.Title</h2>
+            @if (!string.IsNullOrWhiteSpace(bas.Description)) { <p>@bas.Description</p> }
+        </div>
+
+        <ol class="proc">
+            @for (var i = 0; i < adimlar.Count; i++)
+            {
+                <li data-reveal="up" style="transition-delay:@(i * 110)ms">
+                    <span class="n">@((i + 1).ToString("00"))</span>
+                    <h3>@adimlar[i].Title</h3>
+                    <p>@adimlar[i].Description</p>
+                </li>
+            }
+        </ol>
+    </div>
+</section>

@@ -1,0 +1,68 @@
+@page
+@model MemetogluWeb.Pages.Panel.HizmetlerModel
+@{
+    ViewData["Title"] = "Hizmetler";
+    ViewData["Sayfa"] = "hizmetler";
+    var liste = Model.Icerik.Services;
+}
+
+<h1>Hizmetler</h1>
+<p class="ipucu">Kartlar sitede buradaki sırayla görünür. Sıralamayı değiştirmek için metinleri karşılıklı taşıyın.</p>
+
+<form method="post" enctype="multipart/form-data">
+
+@for (var i = 0; i < liste.Count; i++)
+{
+    var h = liste[i];
+    <details class="kart" open="@(i == 0)">
+        <summary>@(string.IsNullOrWhiteSpace(h.Title) ? "Yeni hizmet" : h.Title)</summary>
+
+        <div class="alan">
+            <label for="f_baslik_@i">Hizmet adı</label>
+            <input id="f_baslik_@i" type="text" name="baslik" value="@h.Title">
+        </div>
+        <div class="alan">
+            <label for="f_aciklama_@i">Açıklama</label>
+            <textarea id="f_aciklama_@i" name="aciklama" rows="3">@h.Description</textarea>
+            <small>Kartta görünen 1-2 cümlelik özet.</small>
+        </div>
+
+        @await Html.PartialAsync("_Alan", new AlanVm { Ad = $"gorsel_{i}", Etiket = "Kart görseli", Deger = h.Image, Tur = "gorsel" })
+
+        <div class="alan">
+            <label for="f_alt_@i">Görselin alternatif metni</label>
+            <input id="f_alt_@i" type="text" name="alt" value="@h.Alt">
+            <small>Görseli göremeyenler ve Google için kısa açıklama.</small>
+        </div>
+        <div class="alan">
+            <label for="f_etiketler_@i">Etiketler</label>
+            <input id="f_etiketler_@i" type="text" name="etiketler" value="@string.Join(", ", h.Tags)">
+            <small>Virgülle ayırın. Kartın altındaki küçük rozetler. En fazla 4 tane önerilir.</small>
+        </div>
+
+        <div class="alan alan-kutu tehlike">
+            <input id="sil_@i" type="checkbox" name="sil_@i" value="true">
+            <label for="sil_@i">Bu hizmeti sil</label>
+            <small>Kaydettiğinizde kalıcı olarak silinir.</small>
+        </div>
+    </details>
+}
+
+<details class="kart yeni">
+    <summary>+ Yeni hizmet ekle</summary>
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "yeni_baslik", Etiket = "Hizmet adı" })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "yeni_aciklama", Etiket = "Açıklama", Tur = "uzun" })
+    <div class="alan">
+        <label for="f_yeni_gorsel">Kart görseli</label>
+        <input id="f_yeni_gorsel" type="file" name="yeni_gorsel_dosya" accept="image/*">
+    </div>
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "yeni_alt", Etiket = "Görselin alternatif metni" })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "yeni_etiketler", Etiket = "Etiketler", Ipucu = "Virgülle ayırın." })
+    <p class="ipucu">Ad alanını doldurup kaydettiğinizde yeni kart listenin sonuna eklenir.</p>
+</details>
+
+<div class="kaydet-cubugu">
+    <button class="dugme" type="submit">Kaydet</button>
+</div>
+
+</form>

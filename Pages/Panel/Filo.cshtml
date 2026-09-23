@@ -1,0 +1,74 @@
+@page
+@model MemetogluWeb.Pages.Panel.FiloModel
+@{
+    ViewData["Title"] = "Filo";
+    ViewData["Sayfa"] = "filo";
+    var liste = Model.Icerik.Fleet;
+}
+
+<h1>Filo</h1>
+<p class="ipucu">Araç fotoğrafları için beyaz veya sade zeminli, aracın yandan göründüğü kareler en iyi sonucu verir.</p>
+
+<form method="post" enctype="multipart/form-data">
+
+@for (var i = 0; i < liste.Count; i++)
+{
+    var arac = liste[i];
+    <details class="kart" open="@(i == 0)">
+        <summary>@(string.IsNullOrWhiteSpace(arac.Title) ? "Yeni araç" : arac.Title)</summary>
+
+        <div class="alan">
+            <label for="f_baslik_@i">Araç tipi</label>
+            <input id="f_baslik_@i" type="text" name="baslik" value="@arac.Title">
+        </div>
+
+        @await Html.PartialAsync("_Alan", new AlanVm { Ad = $"gorsel_{i}", Etiket = "Araç fotoğrafı", Deger = arac.Image, Tur = "gorsel" })
+
+        <div class="alan">
+            <label for="f_alt_@i">Görselin alternatif metni</label>
+            <input id="f_alt_@i" type="text" name="alt" value="@arac.Alt">
+        </div>
+
+        <div class="liste" data-liste>
+            <label class="liste-baslik">Özellikler</label>
+            @foreach (var oz in arac.Specs)
+            {
+                <div class="satir ikili" data-satir>
+                    <input type="text" name="oz_label_@i" value="@oz.Label" placeholder="Kullanım">
+                    <input type="text" name="oz_value_@i" value="@oz.Value" placeholder="Parsiyel / ofis">
+                    <button type="button" class="sil" data-sil aria-label="Satırı sil">×</button>
+                </div>
+            }
+            <template data-sablon>
+                <div class="satir ikili" data-satir>
+                    <input type="text" name="oz_label_@i" value="" placeholder="Başlık">
+                    <input type="text" name="oz_value_@i" value="" placeholder="Değer">
+                    <button type="button" class="sil" data-sil aria-label="Satırı sil">×</button>
+                </div>
+            </template>
+            <button type="button" class="dugme ikincil" data-ekle>+ Özellik ekle</button>
+        </div>
+
+        <div class="alan alan-kutu tehlike">
+            <input id="sil_@i" type="checkbox" name="sil_@i" value="true">
+            <label for="sil_@i">Bu aracı sil</label>
+        </div>
+    </details>
+}
+
+<details class="kart yeni">
+    <summary>+ Yeni araç ekle</summary>
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "yeni_baslik", Etiket = "Araç tipi" })
+    <div class="alan">
+        <label for="f_yeni_gorsel">Araç fotoğrafı</label>
+        <input id="f_yeni_gorsel" type="file" name="yeni_gorsel_dosya" accept="image/*">
+    </div>
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "yeni_alt", Etiket = "Görselin alternatif metni" })
+    <p class="ipucu">Kaydettikten sonra özellik satırlarını ekleyebilirsiniz.</p>
+</details>
+
+<div class="kaydet-cubugu">
+    <button class="dugme" type="submit">Kaydet</button>
+</div>
+
+</form>

@@ -1,0 +1,21 @@
+### Derleme çıktıları
+bin/
+obj/
+publish/
+*.user
+*.suo
+
+### Gizli bilgi — ASLA commit etmeyin
+App_Data/config.json
+
+### Panelden yüklenen dosyalar ve yedekler
+wwwroot/uploads/*
+!wwwroot/uploads/.gitkeep
+App_Data/yedek/
+App_Data/talepler.log
+
+### Ortam
+.vs/
+.vscode/
+.idea/
+*.log

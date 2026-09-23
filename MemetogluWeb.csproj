@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <!--
+      Hedef çerçeve.
+
+      .NET 10 uzun destekli (LTS) sürümdür, Kasım 2028'e kadar güvenlik
+      güncellemesi alır. Hosting firmanız yalnızca .NET 8 destekliyorsa
+      aşağıdaki satırı  net8.0  yapmanız yeterlidir; başka hiçbir değişiklik
+      gerekmez. Detay için KURULUM.md → "Hosting seçimi" bölümüne bakın.
+    -->
+    <TargetFramework>net10.0</TargetFramework>
+
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>MemetogluWeb</RootNamespace>
+
+    <!-- Türkçe tarih, sayı ve harf sıralaması için gereklidir. -->
+    <InvariantGlobalization>false</InvariantGlobalization>
+
+    <!-- Bu proje hiçbir NuGet paketi kullanmaz: yalnızca .NET'in kendi
+         çerçevesi. Böylece paket sürümü kaynaklı sorun yaşanmaz. -->
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!--
+      İçerik dosyası yayına kopyalansın.
+
+      Burada "Include" DEĞİL "Update" kullanılır: .NET SDK proje klasöründeki
+      dosyaları zaten Content olarak ekler; "Include" ikinci kez ekleyip
+      NETSDK1022 (yinelenen öğe) hatası verir. "Update" mevcut öğeyi düzenler.
+    -->
+    <Content Update="App_Data\content.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>

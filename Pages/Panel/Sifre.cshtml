@@ -1,0 +1,81 @@
+@page
+@model MemetogluWeb.Pages.Panel.SifreModel
+@{
+    ViewData["Title"] = "Şifre ve E-posta";
+    ViewData["Sayfa"] = "sifre";
+    var a = Model.Ayar;
+}
+
+<h1>Şifre ve E-posta</h1>
+
+@if (Model.Hatalar.Count > 0)
+{
+    <div class="bildirim hata">
+        @foreach (var h in Model.Hatalar) { <div>@h</div> }
+    </div>
+}
+
+<div class="kart">
+    <h2>Şifre değiştir</h2>
+    <form method="post" asp-page-handler="Sifre" autocomplete="off">
+        <div class="alan">
+            <label for="f_eski">Mevcut şifre</label>
+            <input id="f_eski" type="password" name="eski" autocomplete="current-password" required>
+        </div>
+        <div class="alan">
+            <label for="f_yeni">Yeni şifre</label>
+            <input id="f_yeni" type="password" name="yeni" minlength="10" autocomplete="new-password" required>
+            <small>En az 10 karakter.</small>
+        </div>
+        <div class="alan">
+            <label for="f_yeni2">Yeni şifre (tekrar)</label>
+            <input id="f_yeni2" type="password" name="yeni2" minlength="10" autocomplete="new-password" required>
+        </div>
+        <div class="eylem"><button class="dugme" type="submit">Şifreyi değiştir</button></div>
+    </form>
+</div>
+
+<div class="kart">
+    <h2>Teklif formu e-postası</h2>
+    <form method="post" asp-page-handler="Eposta" autocomplete="off">
+        <div class="alan">
+            <label for="f_mailTo">Talepler hangi adrese düşsün?</label>
+            <input id="f_mailTo" type="email" name="mailTo" value="@a.MailTo" required>
+        </div>
+        <div class="alan">
+            <label for="f_mailFrom">Gönderen adresi</label>
+            <input id="f_mailFrom" type="email" name="mailFrom" value="@a.MailFrom" required>
+            <small>Kendi alan adınıza ait bir adres olmalı; aksi hâlde postalar spam'a düşer.</small>
+        </div>
+        <div class="alan">
+            <label for="f_smtpHost">SMTP sunucusu</label>
+            <input id="f_smtpHost" type="text" name="smtpHost" value="@a.SmtpHost" placeholder="mail.memetoglutasimacilik.com">
+            <small>Boş bırakırsanız e-posta gönderimi kapalı kalır; talepler yalnızca dosyaya yazılır.</small>
+        </div>
+        <div class="alan">
+            <label for="f_smtpPort">Port</label>
+            <input id="f_smtpPort" type="number" name="smtpPort" value="@a.SmtpPort" min="1" max="65535">
+            <small>Genellikle 587 (STARTTLS) ya da 465 (SSL).</small>
+        </div>
+        <div class="alan">
+            <label for="f_smtpUser">Kullanıcı adı</label>
+            <input id="f_smtpUser" type="text" name="smtpUser" value="@a.SmtpUser">
+        </div>
+        <div class="alan">
+            <label for="f_smtpPass">Şifre</label>
+            <input id="f_smtpPass" type="password" name="smtpPass" placeholder="Değiştirmek istemiyorsanız boş bırakın">
+        </div>
+        <div class="alan alan-kutu">
+            <input id="f_smtpSsl" type="checkbox" name="smtpSsl" value="true" checked="@a.SmtpSsl">
+            <label for="f_smtpSsl">Güvenli bağlantı (SSL/TLS) kullan</label>
+        </div>
+        <div class="eylem"><button class="dugme" type="submit">Kaydet</button></div>
+    </form>
+
+    <hr>
+
+    <form method="post" asp-page-handler="Test">
+        <p class="ipucu">Ayarları kaydettikten sonra kendinize bir test postası gönderin.</p>
+        <button class="dugme ikincil" type="submit">Test postası gönder</button>
+    </form>
+</div>

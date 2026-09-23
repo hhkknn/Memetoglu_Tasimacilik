@@ -1,0 +1,91 @@
+@page
+@model KurulumModel
+@{
+    ViewData["Title"] = "Kurulum";
+    ViewData["MenuGoster"] = false;
+}
+
+@if (Model.ZatenKurulu)
+{
+    <div class="kart dar">
+        <h1>Kurulum zaten tamamlanmış</h1>
+        <p>Ayarları değiştirmek için panele girip <strong>Site Ayarları</strong> ve
+           <strong>Şifre</strong> bölümlerini kullanın.</p>
+        <p style="margin-top:18px"><a class="dugme" href="/Panel/Index">Panele git</a></p>
+        <p class="ipucu" style="margin-top:22px">
+            Şifrenizi unuttuysanız sunucudan <code>App_Data/config.json</code> dosyasını silin;
+            bu ekran yeniden açılır.
+        </p>
+    </div>
+    return;
+}
+
+<div class="kart dar">
+    <h1>Kuruluma hoş geldiniz</h1>
+    <p class="ipucu">Bu ekran yalnızca bir kez açılır. Girdiğiniz bilgiler sunucuda
+       <code>App_Data/config.json</code> dosyasına yazılır.</p>
+
+    @if (Model.Hatalar.Count > 0)
+    {
+        <div class="bildirim hata">
+            @foreach (var h in Model.Hatalar) { <div>@h</div> }
+        </div>
+    }
+
+    <form method="post" autocomplete="off">
+        <h2>Yönetici hesabı</h2>
+        <div class="alan">
+            <label asp-for="Eposta">E-posta (kullanıcı adınız)</label>
+            <input asp-for="Eposta" type="email" required>
+        </div>
+        <div class="alan">
+            <label asp-for="Sifre">Şifre</label>
+            <input asp-for="Sifre" type="password" minlength="10" required>
+            <small>En az 10 karakter. Tahmin edilmesi zor bir şey seçin.</small>
+        </div>
+        <div class="alan">
+            <label asp-for="Sifre2">Şifre (tekrar)</label>
+            <input asp-for="Sifre2" type="password" minlength="10" required>
+        </div>
+
+        <h2>Teklif formu e-postası</h2>
+        <div class="alan">
+            <label asp-for="MailTo">Talepler hangi adrese düşsün?</label>
+            <input asp-for="MailTo" type="email" required>
+        </div>
+        <div class="alan">
+            <label asp-for="MailFrom">Gönderen adresi</label>
+            <input asp-for="MailFrom" type="email" required>
+            <small>Kendi alan adınıza ait bir adres olmalı; aksi hâlde postalar spam'a düşer.</small>
+        </div>
+        <div class="alan">
+            <label asp-for="SmtpHost">SMTP sunucusu</label>
+            <input asp-for="SmtpHost" placeholder="mail.memetoglutasimacilik.com">
+            <small>Hosting panelinizden alırsınız (E-posta Hesapları → Bağlantı Ayarları).</small>
+        </div>
+        <div class="alan">
+            <label asp-for="SmtpPort">Port</label>
+            <input asp-for="SmtpPort" type="number" min="1" max="65535">
+            <small>SSL/TLS için genellikle 587, bazı sunucularda 465.</small>
+        </div>
+        <div class="alan">
+            <label asp-for="SmtpUser">Kullanıcı adı</label>
+            <input asp-for="SmtpUser" placeholder="info@memetoglutasimacilik.com">
+        </div>
+        <div class="alan">
+            <label asp-for="SmtpPass">Şifre</label>
+            <input asp-for="SmtpPass" type="password">
+        </div>
+        <div class="alan alan-kutu">
+            <input asp-for="SmtpSsl" type="checkbox">
+            <label asp-for="SmtpSsl">Güvenli bağlantı (SSL/TLS) kullan</label>
+        </div>
+
+        <p class="ipucu">SMTP bilgilerini şimdi bilmiyorsanız boş bırakabilirsiniz;
+           panele girdikten sonra <strong>Şifre</strong> bölümünden ekleyebilirsiniz.</p>
+
+        <div class="eylem">
+            <button class="dugme" type="submit">Kurulumu tamamla</button>
+        </div>
+    </form>
+</div>

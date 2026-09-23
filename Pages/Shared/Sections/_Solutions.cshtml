@@ -1,0 +1,31 @@
+@model SiteContent
+@{
+    var c = Model.Solutions;
+    if (!c.Enabled || c.Columns.Count == 0) { return; }
+}
+
+<section class="deep" id="cozumler">
+    <div class="wrap section">
+        <div class="section-head" data-reveal="up">
+            @if (!string.IsNullOrWhiteSpace(c.Eyebrow)) { <p class="eyebrow on-deep">@c.Eyebrow</p> }
+            <h2>@c.Title</h2>
+            @if (!string.IsNullOrWhiteSpace(c.Description)) { <p>@c.Description</p> }
+        </div>
+
+        <div class="sol-grid">
+            @for (var i = 0; i < c.Columns.Count; i++)
+            {
+                var sutun = c.Columns[i];
+                <div class="sol" data-reveal="@(i < 2 ? "left" : "right")" style="transition-delay:@(i * 100)ms">
+                    <h3>@sutun.Heading</h3>
+                    <ul>
+                        @foreach (var bag in sutun.Links)
+                        {
+                            <li><a href="@bag.Href">@bag.Label</a></li>
+                        }
+                    </ul>
+                </div>
+            }
+        </div>
+    </div>
+</section>

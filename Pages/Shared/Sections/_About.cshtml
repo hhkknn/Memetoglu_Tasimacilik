@@ -1,0 +1,36 @@
+@model SiteContent
+@{
+    var a = Model.About;
+}
+
+<section class="section" id="hakkimizda">
+    <div class="wrap split">
+        <div data-reveal="left">
+            @if (!string.IsNullOrWhiteSpace(a.Eyebrow)) { <p class="eyebrow">@a.Eyebrow</p> }
+            <h2>@a.Title</h2>
+            @if (!string.IsNullOrWhiteSpace(a.Description)) { <p class="lead">@a.Description</p> }
+
+            @if (a.Features.Count > 0)
+            {
+                <ul class="feature-list">
+                    @for (var i = 0; i < a.Features.Count; i++)
+                    {
+                        <li>
+                            <span class="mark" aria-hidden="true">@(i + 1)</span>
+                            <div>
+                                <h3>@a.Features[i].Title</h3>
+                                <p>@a.Features[i].Description</p>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            }
+        </div>
+
+        @if (!string.IsNullOrWhiteSpace(a.Image))
+        {
+            <img src="@Yardimci.Medya(a.Image)" alt="@a.Alt" loading="lazy" decoding="async"
+                 data-reveal="right" style="transition-delay:120ms">
+        }
+    </div>
+</section>

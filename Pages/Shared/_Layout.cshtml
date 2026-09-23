@@ -1,0 +1,228 @@
+@inject ContentService Icerik
+@{
+    var icerik = Icerik.Read();
+    var ayar = icerik.Settings;
+    var seo = ayar.Seo;
+    var wa = Yardimci.WhatsAppUrl(ayar.WhatsApp);
+    var (adIlk, adKalan) = Yardimci.AdiBol(ayar.CompanyName);
+    var siteUrl = seo.SiteUrl.TrimEnd('/');
+
+    var menu = new (string Href, string Etiket)[]
+    {
+        ("#hizmetler", "Hizmetler"),
+        ("#cozumler", "Çözümler"),
+        ("#filo", "Filo"),
+        ("#kapsama", "Kapsama"),
+        ("#surec", "Nasıl Çalışır"),
+        ("#hakkimizda", "Hakkımızda"),
+    };
+
+    // Google'ın işletmeyi tanıması için yapısal veri.
+    var yapisalVeri = System.Text.Json.JsonSerializer.Serialize(new
+    {
+        context = "https://schema.org",
+        type = "MovingCompany",
+        name = ayar.CompanyName,
+        slogan = ayar.Slogan,
+        url = siteUrl,
+        email = ayar.Email,
+        telephone = ayar.Phones.Select(p => p.Dial).Where(d => !string.IsNullOrWhiteSpace(d)).ToArray(),
+        address = new
+        {
+            type = "PostalAddress",
+            streetAddress = ayar.Address.Line1,
+            addressLocality = ayar.Address.District,
+            addressRegion = ayar.Address.City,
+            postalCode = ayar.Address.PostalCode,
+            addressCountry = "TR"
+        },
+        areaServed = new { type = "Country", name = "Türkiye" },
+        sameAs = ayar.Socials.Where(s => !string.IsNullOrWhiteSpace(s.Url)).Select(s => s.Url).ToArray()
+    }).Replace("\"context\"", "\"@context\"").Replace("\"type\"", "\"@type\"");
+}<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+    <title>@(string.IsNullOrWhiteSpace(seo.Title) ? ayar.CompanyName : seo.Title)</title>
+    <meta name="description" content="@seo.Description">
+    @if (!string.IsNullOrWhiteSpace(siteUrl))
+    {
+        <link rel="canonical" href="@(siteUrl + "/")">
+    }
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#10132C">
+
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="tr_TR">
+    <meta property="og:site_name" content="@ayar.CompanyName">
+    <meta property="og:title" content="@(string.IsNullOrWhiteSpace(seo.Title) ? ayar.CompanyName : seo.Title)">
+    <meta property="og:description" content="@seo.Description">
+    @if (!string.IsNullOrWhiteSpace(siteUrl) && !string.IsNullOrWhiteSpace(seo.ShareImage))
+    {
+        <meta property="og:image" content="@(siteUrl + Yardimci.Medya(seo.ShareImage))">
+    }
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="icon" href="@Yardimci.Medya(ayar.Logo)">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@@500;600;700;800&family=Public+Sans:wght@@400;500;600&display=swap">
+    <link rel="stylesheet" href="~/css/style.css" asp-append-version="true">
+
+    <script type="application/ld+json">@Html.Raw(yapisalVeri)</script>
+</head>
+<body>
+<a class="skip-link" href="#icerik">İçeriğe geç</a>
+
+<div class="site-head" id="site-head">
+    <div class="utility">
+        <div class="wrap">
+            <span>@ayar.Address.OneLine</span>
+            @if (ayar.Phones.Count > 0)
+            {
+                <span><a href="@Yardimci.TelHref(ayar.Phones[0])"><strong>@ayar.Phones[0].Label</strong></a></span>
+            }
+            <span><a href="mailto:@ayar.Email"><strong>@ayar.Email</strong></a></span>
+            @if (!string.IsNullOrWhiteSpace(ayar.Slogan))
+            {
+                <span class="slogan">@ayar.Slogan</span>
+            }
+        </div>
+    </div>
+
+    <header class="site-header">
+        <div class="wrap">
+            <a class="brand" href="#top">
+                <span class="logo-tile"><img src="@Yardimci.Medya(ayar.Logo)" alt="@ayar.CompanyName logosu" width="38" height="38"></span>
+                <span>
+                    <span class="brand-name">@adIlk</span>
+                    <span class="brand-tag">@adKalan</span>
+                </span>
+            </a>
+
+            <nav class="main" aria-label="Ana menü">
+                @foreach (var (href, etiket) in menu)
+                {
+                    <a href="@href">@etiket</a>
+                }
+            </nav>
+
+            <div class="header-cta">
+                <a class="btn btn-headerGhost btn-sm" href="#iletisim">Bize Ulaşın</a>
+                <a class="btn btn-primary btn-sm" href="#iletisim">Teklif Alın</a>
+                <button type="button" class="menu-toggle" id="menu-toggle"
+                        aria-expanded="false" aria-controls="mobil-menu" aria-label="Menüyü aç">
+                    <span aria-hidden="true"></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="mobile-menu" id="mobil-menu" hidden>
+        <nav aria-label="Mobil menü">
+            @foreach (var (href, etiket) in menu)
+            {
+                <a href="@href">@etiket</a>
+            }
+            <a href="#iletisim">İletişim</a>
+        </nav>
+    </div>
+</div>
+
+@RenderBody()
+
+<footer>
+    <div class="wrap">
+        <div class="foot-top">
+            <div>
+                <div class="foot-brand">
+                    <span class="tile"><img src="@Yardimci.Medya(ayar.Logo)" alt="@ayar.CompanyName logosu" width="34" height="34"></span>
+                    <span>
+                        <span class="brand-name">@adIlk</span>
+                        <span class="brand-tag">@adKalan</span>
+                    </span>
+                </div>
+                <p class="foot-about">
+                    @ayar.Address.District merkezli karayolu taşımacılığı ve lojistik hizmetleri.
+                    Koli, ofis, askılıklı tekstil, şehir içi ve şehirler arası taşımacılık.
+                </p>
+
+                @{ var sosyal = ayar.Socials.Where(s => !string.IsNullOrWhiteSpace(s.Url)).ToList(); }
+                @if (sosyal.Count > 0)
+                {
+                    <div class="foot-social">
+                        @foreach (var s in sosyal)
+                        {
+                            if (Yardimci.SosyalIkon.TryGetValue(s.Platform, out var ikon))
+                            {
+                                <a href="@s.Url" target="_blank" rel="noopener" aria-label="@ikon.Ad">
+                                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" width="16" height="16"><path d="@ikon.Path"/></svg>
+                                </a>
+                            }
+                        }
+                    </div>
+                }
+            </div>
+
+            <div class="foot-col">
+                <h4>Hizmetler</h4>
+                <ul>
+                    @foreach (var h in icerik.Services.Take(6))
+                    {
+                        <li><a href="#hizmetler">@h.Title</a></li>
+                    }
+                </ul>
+            </div>
+
+            <div class="foot-col">
+                <h4>Kurumsal</h4>
+                <ul>
+                    <li><a href="#hakkimizda">Hakkımızda</a></li>
+                    <li><a href="#filo">Filomuz</a></li>
+                    <li><a href="#kapsama">Kapsama alanı</a></li>
+                    <li><a href="#surec">Nasıl çalışır</a></li>
+                    <li><a href="#cozumler">Çözüm merkezi</a></li>
+                    <li><a href="#iletisim">İletişim</a></li>
+                </ul>
+            </div>
+
+            <div class="foot-col">
+                <h4>İletişim</h4>
+                <ul>
+                    @foreach (var t in ayar.Phones)
+                    {
+                        <li><a href="@Yardimci.TelHref(t)">@t.Label</a></li>
+                    }
+                    <li><a href="mailto:@ayar.Email">@ayar.Email</a></li>
+                    <li>@ayar.Address.Line1<br>@ayar.Address.District / @ayar.Address.City</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="foot-bottom">
+            <span>© @DateTime.Now.Year @ayar.CompanyName. Tüm hakları saklıdır.</span>
+            @if (!string.IsNullOrWhiteSpace(ayar.Slogan))
+            {
+                <span>@ayar.Slogan</span>
+            }
+            @if (ayar.DraftNotice.Enabled && !string.IsNullOrWhiteSpace(ayar.DraftNotice.Text))
+            {
+                <span class="draft">@ayar.DraftNotice.Text</span>
+            }
+        </div>
+    </div>
+</footer>
+
+@if (wa is not null)
+{
+    <a class="wa-float" href="@wa" target="_blank" rel="noopener" aria-label="WhatsApp üzerinden yazın">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="@Yardimci.WhatsAppIkon"/></svg>
+        <span>WhatsApp</span>
+    </a>
+}
+
+<script src="~/js/app.js" asp-append-version="true" defer></script>
+</body>
+</html>

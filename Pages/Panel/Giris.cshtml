@@ -1,0 +1,35 @@
+@page
+@model GirisModel
+@{
+    ViewData["Title"] = "Giriş";
+    ViewData["MenuGoster"] = false;
+}
+
+<div class="kart dar giris-kart">
+    <h1>Yönetim Paneli</h1>
+    <p class="ipucu">Site içeriğini düzenlemek için giriş yapın.</p>
+
+    @if (!string.IsNullOrWhiteSpace(Model.Hata))
+    {
+        <div class="bildirim hata">@Model.Hata</div>
+    }
+
+    <form method="post">
+        <div class="alan">
+            <label asp-for="Eposta">E-posta</label>
+            <input asp-for="Eposta" type="email" autocomplete="username" required autofocus>
+        </div>
+        <div class="alan">
+            <label asp-for="Sifre">Şifre</label>
+            <input asp-for="Sifre" type="password" autocomplete="current-password" required>
+        </div>
+        <div class="eylem">
+            <button class="dugme" type="submit">Giriş yap</button>
+        </div>
+    </form>
+
+    <p class="ipucu" style="margin-top:24px">
+        Şifrenizi unuttuysanız sunucudan <code>App_Data/config.json</code> dosyasını silin;
+        kurulum ekranı yeniden açılır ve yeni şifre belirleyebilirsiniz.
+    </p>
+</div>
