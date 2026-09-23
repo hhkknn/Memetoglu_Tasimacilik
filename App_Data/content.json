@@ -57,6 +57,17 @@
     ]
   },
 
+  "trust": {
+    "enabled": true,
+    "noticeEnabled": true,
+    "noticeText": "Örnek rozetler — gerçek belge numaraları eklenecek",
+    "badges": [
+      { "title": "K1 Yetki Belgesi", "description": "Karayolu Taşıma Yönetmeliği kapsamında yetki belgeli eşya taşımacılığı. (Belge no: eklenecek)", "icon": "shield" },
+      { "title": "Sigortalı Taşıma", "description": "Talep edilen sevkiyatlarda nakliyat sigortası ile güvence altına alınır.", "icon": "document" },
+      { "title": "Yazılı Sözleşme", "description": "Kapsamı önceden netleştirilmiş, sabit ve yazılı teklif; sonradan eklenen kalem olmaz.", "icon": "badge" }
+    ]
+  },
+
   "stats": {
     "enabled": true,
     "eyebrow": "Rakamlarla Memetoğlu",
@@ -261,6 +272,37 @@
       { "title": "Sigortalı taşıma", "description": "Talep edilen sevkiyatlarda yük sigortası düzenlenir; kapsam teklif aşamasında paylaşılır." }
     ],
     "vision": "Sultanbeyli'de başladığımız işi, aynı standardı koruyarak Türkiye geneline yayılan sürdürülebilir bir lojistik ağına dönüştürmek. Filomuzu ve süreçlerimizi büyüyen talebe göre sürekli geliştirip müşteri memnuniyetini önceliğimiz olarak koruyoruz."
+  },
+
+  "testimonials": {
+    "enabled": true,
+    "eyebrow": "Yorumlar",
+    "title": "Müşterilerimiz ne diyor",
+    "description": "Sevkiyatlarını bize emanet eden firmalardan birkaç örnek.",
+    "noticeEnabled": true,
+    "noticeText": "Örnek yorumlar ve puan — gerçek değerlendirmelerle güncellenecek",
+    "googleRating": "4.8",
+    "googleReviewCount": "128",
+    "googleUrl": "",
+    "items": [
+      { "quote": "Teklif aldığımız gün yükleme planlandı, hiç sürpriz maliyet çıkmadı.", "name": "Elif Karaca", "role": "Mağaza Operasyon Sorumlusu", "stars": 5 },
+      { "quote": "Şehirler arası düzenli hattımızı bir yıldır aksatmadan yürütüyorlar.", "name": "Serkan Yıldırım", "role": "Depo Müdürü", "stars": 5 },
+      { "quote": "Askılıklı tekstil sevkiyatında ütü ve ambalaj hiç bozulmadan, mağazaya direkt asılabilir geldi.", "name": "Aylin Demir", "role": "Üretim Planlama", "stars": 5 }
+    ]
+  },
+
+  "faq": {
+    "enabled": true,
+    "eyebrow": "Sık Sorulan Sorular",
+    "title": "Aklınıza takılanlar",
+    "description": "Burada yanıtını bulamazsanız, formu doldurun ya da bizi arayın.",
+    "items": [
+      { "question": "Fiyat teklifini ne kadar sürede alırım?", "answer": "Yük tipi ve adresleri ilettiğinizde, çoğu talebe aynı gün içinde yazılı teklif veriyoruz." },
+      { "question": "Sevkiyatım sigortalı mı?", "answer": "Talep etmeniz halinde yük sigortası düzenlenir; kapsamı teklif aşamasında birlikte belirleriz." },
+      { "question": "Şehirler arası sevkiyatlarda teslim süresi ne kadar?", "answer": "Güzergâha göre değişir; teklif verirken tahmini teslim penceresini paylaşırız." },
+      { "question": "Hafta sonu yükleme yapıyor musunuz?", "answer": "Planlı sevkiyatlarda hafta sonu yükleme mümkündür, önceden bilgi vermeniz yeterli." },
+      { "question": "Hizmet bölgeniz nereleri kapsıyor?", "answer": "İstanbul içi aynı gün dağıtım yapıyoruz; şehirler arasında Türkiye genelinde düzenli hat ve tek seferlik sevkiyat sağlıyoruz." }
+    ]
   },
 
   "contact": {

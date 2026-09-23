@@ -1,0 +1,28 @@
+@model SiteContent
+@{
+    var s = Model.Faq;
+    if (!s.Enabled || s.Items.Count == 0) { return; }
+}
+
+<section class="section faq" id="sss">
+    <div class="wrap narrow">
+        <div class="section-head" data-reveal="up">
+            @if (!string.IsNullOrWhiteSpace(s.Eyebrow)) { <p class="eyebrow">@s.Eyebrow</p> }
+            <h2>@s.Title</h2>
+            @if (!string.IsNullOrWhiteSpace(s.Description)) { <p>@s.Description</p> }
+        </div>
+
+        <div class="faq-list" data-reveal="up" style="transition-delay:100ms">
+            @foreach (var soru in s.Items)
+            {
+                <details class="faq-item">
+                    <summary>
+                        <span>@soru.Question</span>
+                        <span class="faq-toggle" aria-hidden="true"></span>
+                    </summary>
+                    <p>@soru.Answer</p>
+                </details>
+            }
+        </div>
+    </div>
+</section>

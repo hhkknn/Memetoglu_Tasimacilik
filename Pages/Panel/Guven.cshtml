@@ -1,0 +1,128 @@
+@page
+@model MemetogluWeb.Pages.Panel.GuvenModel
+@{
+    ViewData["Title"] = "Güven & Yorumlar";
+    ViewData["Sayfa"] = "guven";
+    var t = Model.Icerik.Trust;
+    var y = Model.Icerik.Testimonials;
+    var s = Model.Icerik.Faq;
+    var ikonlar = new (string Anahtar, string Etiket)[] { ("shield", "Kalkan"), ("document", "Belge"), ("badge", "Rozet") };
+}
+
+<h1>Güven &amp; Yorumlar</h1>
+<p class="ipucu">Anasayfadaki güven rozetleri, müşteri yorumları ve sık sorulan sorular. Boş bıraktığınız satır kaydedilmez.</p>
+
+<form method="post">
+
+<div class="kart">
+    <h2>Güven rozetleri</h2>
+    <p class="ipucu">Hero'nun hemen altında görünen şerit. Belge numarası gibi resmi bilgileri yalnızca gerçek değerleriyle yazın.</p>
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "rozet_acik", Etiket = "Bu bölüm gösterilsin", Tur = "kutu", Isaretli = t.Enabled })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "rozet_uyari_acik", Etiket = "\"Örnek veri\" uyarısını göster", Tur = "kutu", Isaretli = t.NoticeEnabled })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "rozet_uyari_metin", Etiket = "Uyarı metni", Deger = t.NoticeText })
+
+    <div class="liste" data-liste>
+        @foreach (var r in t.Badges)
+        {
+            <div class="satir dikey" data-satir>
+                <input type="text" name="rozet_baslik" value="@r.Title" placeholder="Başlık">
+                <textarea name="rozet_aciklama" rows="2" placeholder="Açıklama">@r.Description</textarea>
+                <select name="rozet_ikon">
+                    @foreach (var (anahtar, etiket) in ikonlar)
+                    {
+                        <option value="@anahtar" selected="@(r.Icon == anahtar)">@etiket</option>
+                    }
+                </select>
+                <button type="button" class="sil" data-sil aria-label="Rozeti sil">×</button>
+            </div>
+        }
+        <template data-sablon>
+            <div class="satir dikey" data-satir>
+                <input type="text" name="rozet_baslik" value="" placeholder="Başlık">
+                <textarea name="rozet_aciklama" rows="2" placeholder="Açıklama"></textarea>
+                <select name="rozet_ikon">
+                    @foreach (var (anahtar, etiket) in ikonlar)
+                    {
+                        <option value="@anahtar">@etiket</option>
+                    }
+                </select>
+                <button type="button" class="sil" data-sil aria-label="Rozeti sil">×</button>
+            </div>
+        </template>
+        <button type="button" class="dugme ikincil" data-ekle>+ Rozet ekle</button>
+    </div>
+</div>
+
+<div class="kart">
+    <h2>Müşteri yorumları</h2>
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "yorum_acik", Etiket = "Bu bölüm gösterilsin", Tur = "kutu", Isaretli = y.Enabled })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "yorum_eyebrow", Etiket = "Üst etiket", Deger = y.Eyebrow })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "yorum_baslik", Etiket = "Başlık", Deger = y.Title })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "yorum_aciklama", Etiket = "Açıklama", Deger = y.Description, Tur = "uzun" })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "yorum_uyari_acik", Etiket = "\"Örnek veri\" uyarısını göster", Tur = "kutu", Isaretli = y.NoticeEnabled })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "yorum_uyari_metin", Etiket = "Uyarı metni", Deger = y.NoticeText })
+
+    <hr>
+    <h3>Google puanı</h3>
+    <p class="ipucu">Puanı boş bırakırsanız Google rozeti gizlenir. Gerçek puanınızı ve Google İşletme Profili bağlantınızı yazın.</p>
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "google_puan", Etiket = "Puan (örn. 4.8)", Deger = y.GoogleRating })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "google_adet", Etiket = "Değerlendirme sayısı", Deger = y.GoogleReviewCount })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "google_url", Etiket = "Google İşletme Profili bağlantısı", Deger = y.GoogleUrl })
+
+    <hr>
+    <h3>Yorumlar</h3>
+    <div class="liste" data-liste>
+        @foreach (var m in y.Items)
+        {
+            <div class="satir dikey" data-satir>
+                <textarea name="yorum_alinti" rows="2" placeholder="Yorum">@m.Quote</textarea>
+                <input type="text" name="yorum_ad" value="@m.Name" placeholder="Ad soyad">
+                <input type="text" name="yorum_unvan" value="@m.Role" placeholder="Unvan / firma">
+                <input type="number" name="yorum_yildiz" value="@m.Stars" min="1" max="5" placeholder="Yıldız (1-5)">
+                <button type="button" class="sil" data-sil aria-label="Yorumu sil">×</button>
+            </div>
+        }
+        <template data-sablon>
+            <div class="satir dikey" data-satir>
+                <textarea name="yorum_alinti" rows="2" placeholder="Yorum"></textarea>
+                <input type="text" name="yorum_ad" value="" placeholder="Ad soyad">
+                <input type="text" name="yorum_unvan" value="" placeholder="Unvan / firma">
+                <input type="number" name="yorum_yildiz" value="5" min="1" max="5" placeholder="Yıldız (1-5)">
+                <button type="button" class="sil" data-sil aria-label="Yorumu sil">×</button>
+            </div>
+        </template>
+        <button type="button" class="dugme ikincil" data-ekle>+ Yorum ekle</button>
+    </div>
+</div>
+
+<div class="kart">
+    <h2>Sık sorulan sorular</h2>
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "sss_acik", Etiket = "Bu bölüm gösterilsin", Tur = "kutu", Isaretli = s.Enabled })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "sss_eyebrow", Etiket = "Üst etiket", Deger = s.Eyebrow })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "sss_baslik", Etiket = "Başlık", Deger = s.Title })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "sss_aciklama", Etiket = "Açıklama", Deger = s.Description, Tur = "uzun" })
+
+    <div class="liste" data-liste>
+        @foreach (var soru in s.Items)
+        {
+            <div class="satir dikey" data-satir>
+                <input type="text" name="sss_soru" value="@soru.Question" placeholder="Soru">
+                <textarea name="sss_cevap" rows="2" placeholder="Cevap">@soru.Answer</textarea>
+                <button type="button" class="sil" data-sil aria-label="Soruyu sil">×</button>
+            </div>
+        }
+        <template data-sablon>
+            <div class="satir dikey" data-satir>
+                <input type="text" name="sss_soru" value="" placeholder="Soru">
+                <textarea name="sss_cevap" rows="2" placeholder="Cevap"></textarea>
+                <button type="button" class="sil" data-sil aria-label="Soruyu sil">×</button>
+            </div>
+        </template>
+        <button type="button" class="dugme ikincil" data-ekle>+ Soru ekle</button>
+    </div>
+</div>
+
+<div class="kaydet-cubugu">
+    <button class="dugme" type="submit">Kaydet</button>
+</div>
+</form>

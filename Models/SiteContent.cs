@@ -17,6 +17,9 @@ public sealed class SiteContent
     [JsonPropertyName("hero")]
     public Hero Hero { get; set; } = new();
 
+    [JsonPropertyName("trust")]
+    public TrustBlock Trust { get; set; } = new();
+
     [JsonPropertyName("stats")]
     public StatsBlock Stats { get; set; } = new();
 
@@ -49,6 +52,12 @@ public sealed class SiteContent
 
     [JsonPropertyName("about")]
     public AboutBlock About { get; set; } = new();
+
+    [JsonPropertyName("testimonials")]
+    public TestimonialsBlock Testimonials { get; set; } = new();
+
+    [JsonPropertyName("faq")]
+    public FaqBlock Faq { get; set; } = new();
 
     [JsonPropertyName("contact")]
     public ContactBlock Contact { get; set; } = new();
@@ -257,4 +266,62 @@ public sealed class ContactBlock
     [JsonPropertyName("description")] public string Description { get; set; } = "";
     [JsonPropertyName("formTitle")] public string FormTitle { get; set; } = "";
     [JsonPropertyName("formNote")] public string FormNote { get; set; } = "";
+}
+
+// ---------------------------------------------------------------- Güven şeridi
+
+public sealed class TrustBlock
+{
+    [JsonPropertyName("enabled")] public bool Enabled { get; set; } = true;
+    [JsonPropertyName("noticeEnabled")] public bool NoticeEnabled { get; set; }
+    [JsonPropertyName("noticeText")] public string NoticeText { get; set; } = "";
+    [JsonPropertyName("badges")] public List<TrustBadge> Badges { get; set; } = new();
+}
+
+public sealed class TrustBadge
+{
+    [JsonPropertyName("title")] public string Title { get; set; } = "";
+    [JsonPropertyName("description")] public string Description { get; set; } = "";
+    [JsonPropertyName("icon")] public string Icon { get; set; } = "shield";
+}
+
+// ---------------------------------------------------------------- Yorumlar
+
+public sealed class TestimonialsBlock
+{
+    [JsonPropertyName("enabled")] public bool Enabled { get; set; } = true;
+    [JsonPropertyName("eyebrow")] public string Eyebrow { get; set; } = "";
+    [JsonPropertyName("title")] public string Title { get; set; } = "";
+    [JsonPropertyName("description")] public string Description { get; set; } = "";
+    [JsonPropertyName("noticeEnabled")] public bool NoticeEnabled { get; set; }
+    [JsonPropertyName("noticeText")] public string NoticeText { get; set; } = "";
+    [JsonPropertyName("googleRating")] public string GoogleRating { get; set; } = "";
+    [JsonPropertyName("googleReviewCount")] public string GoogleReviewCount { get; set; } = "";
+    [JsonPropertyName("googleUrl")] public string GoogleUrl { get; set; } = "";
+    [JsonPropertyName("items")] public List<Testimonial> Items { get; set; } = new();
+}
+
+public sealed class Testimonial
+{
+    [JsonPropertyName("quote")] public string Quote { get; set; } = "";
+    [JsonPropertyName("name")] public string Name { get; set; } = "";
+    [JsonPropertyName("role")] public string Role { get; set; } = "";
+    [JsonPropertyName("stars")] public int Stars { get; set; } = 5;
+}
+
+// ---------------------------------------------------------------- Sık sorulan sorular
+
+public sealed class FaqBlock
+{
+    [JsonPropertyName("enabled")] public bool Enabled { get; set; } = true;
+    [JsonPropertyName("eyebrow")] public string Eyebrow { get; set; } = "";
+    [JsonPropertyName("title")] public string Title { get; set; } = "";
+    [JsonPropertyName("description")] public string Description { get; set; } = "";
+    [JsonPropertyName("items")] public List<FaqItem> Items { get; set; } = new();
+}
+
+public sealed class FaqItem
+{
+    [JsonPropertyName("question")] public string Question { get; set; } = "";
+    [JsonPropertyName("answer")] public string Answer { get; set; } = "";
 }
