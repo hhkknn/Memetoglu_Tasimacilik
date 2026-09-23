@@ -229,3 +229,43 @@ firmanın logosu** görünüyor ve görüntü sallantılı — bilerek kullanıl
 
 Ekte `MemetogluWeb.zip` var — `bin/`, `obj/` ve `.vs/` hariç temiz kaynak.
 Açıp `hepsi.bat`'a çift tıklamak yeterli.
+
+---
+
+## 10. 2. oturum (23.09.2026) — bulut oturumunda yapılanlar
+
+Bu oturum bulutta (Linux, .NET 10 SDK) çalıştı; kod GitHub'da
+**`claude/hopeful-gates-l50x7u`** dalında. `master` dalı eski hâlde duruyor —
+iş bitince bu dal `master`'a birleştirilmeli.
+
+**Kullanıcının test yöntemi (önemli):** Masaüstünde `git clone` ile alınmış bir
+kopya var; kullanıcı her değişiklikten sonra **`calistir.bat`**'a çift tıklıyor
+(git pull → 5080'deki eski süreci kapat → `dotnet run` → tarayıcıyı aç).
+Bu akış kullanıcının makinesinde çalıştığı doğrulandı. ZIP indirmeye gerek yok.
+
+**Yapılanlar:**
+- Panel giriş → düzenle → kaydet → yedek → çıkış akışı test edildi, hatasız (§7 madde 1 kapandı).
+- `UseAppHost=false` (csproj): proje `.exe` üretmiyor; F5 ve `dotnet run` WDAC'a takılmıyor.
+  §4'teki `.bat` dosyaları artık gereksiz; yerine repodaki `calistir.bat`.
+- Hero videosu: kullanıcının verdiği panelvan yükleme klibi (Pexels, 4K → 1080p).
+  Slogan bandına ikinci arka plan videosu (depo) eklendi; `StatementBlock.Video/VideoEnabled`,
+  panelden yüklenebilir. JS artık `.bg-video` sınıflı tüm videoları yönetiyor.
+- Hakkımızda'ya "Vizyonumuz" kutusu (`AboutBlock.Vision`), hizmetlere "Kiralık kamyonet".
+- Yeni bölümler (hepsi panelden düzenlenir, hepsi **örnek veriyle** ve "örnek veri" etiketiyle):
+  güven şeridi (`trust`), referans logoları kayan şeridi (`references`, Panel > Referanslar),
+  müşteri yorumları + Google puanı (`testimonials`), SSS (`faq`, `<details>` ile, JS yok).
+  Güven/yorum/SSS: Panel > Güven & Yorumlar.
+- Sağdan açılan yan menü (ekol.com esinli). ≥1101px'te sayfa kalan alana **sığacak şekilde
+  daralır** (kaydırılmaz — kullanıcı özellikle böyle istedi); daha dar ekranda üstüne açılır.
+  Mobilde üst menünün taşması da bu sayede çözüldü.
+- `Address.OneLine` artık `[JsonIgnore]`.
+
+**Açık kalemler (yayından önce şart):**
+1. **Örnek veriler gerçekleriyle değiştirilmeli:** K1 belge numarası (şu an "eklenecek"),
+   Google puanı/yorum sayısı/bağlantısı, müşteri yorumları, referans logoları, rakamlar.
+   Sahte yorum, puan ya da belge numarası **yayınlanmamalı**. Rakip firma logoları
+   referans olarak **kullanılmayacak** (kullanıcı önerdi, reddedildi).
+2. §7'deki telefon (90 90 / 90 91), hosting, alan adı ve SMTP kalemleri hâlâ açık.
+3. Kullanıcıya önerilen ama yapılmayan: "Şehirler arası taşımacılık" kartındaki
+   `roads.jpg` illüstrasyon (diğer kartlar fotoğraf); Çözüm Merkezi ile slogan bandı
+   art arda iki koyu bölüm.
