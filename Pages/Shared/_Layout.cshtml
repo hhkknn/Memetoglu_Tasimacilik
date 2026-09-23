@@ -113,23 +113,60 @@
                 <a class="btn btn-headerGhost btn-sm" href="#iletisim">Bize Ulaşın</a>
                 <a class="btn btn-primary btn-sm" href="#iletisim">Teklif Alın</a>
                 <button type="button" class="menu-toggle" id="menu-toggle"
-                        aria-expanded="false" aria-controls="mobil-menu" aria-label="Menüyü aç">
+                        aria-expanded="false" aria-controls="yan-menu" aria-label="Menüyü aç">
                     <span aria-hidden="true"></span>
                 </button>
             </div>
         </div>
     </header>
 
-    <div class="mobile-menu" id="mobil-menu" hidden>
-        <nav aria-label="Mobil menü">
-            @foreach (var (href, etiket) in menu)
-            {
-                <a href="@href">@etiket</a>
-            }
-            <a href="#iletisim">İletişim</a>
-        </nav>
-    </div>
 </div>
+
+@{
+    var yanMenu = menu.Concat(new (string Href, string Etiket)[]
+    {
+        ("#yorumlar", "Yorumlar"),
+        ("#sss", "Sık Sorulan Sorular"),
+        ("#iletisim", "İletişim"),
+    }).ToList();
+}
+<div class="menu-shade" data-menu-kapat aria-hidden="true"></div>
+<aside class="side-menu" id="yan-menu" aria-label="Site menüsü" inert>
+    <div class="side-top">
+        <span class="side-label">Menü</span>
+        <button type="button" class="side-close" data-menu-kapat aria-label="Menüyü kapat"></button>
+    </div>
+
+    <nav class="side-nav">
+        @for (var i = 0; i < yanMenu.Count; i++)
+        {
+            <a href="@yanMenu[i].Href" style="--i:@i"><span class="n">@((i + 1).ToString("00"))</span>@yanMenu[i].Etiket</a>
+        }
+    </nav>
+
+    <div class="side-foot">
+        <div>
+            <h4>Hizmetler</h4>
+            <ul>
+                @foreach (var h in icerik.Services)
+                {
+                    <li><a href="#hizmetler">@h.Title</a></li>
+                }
+            </ul>
+        </div>
+        <div>
+            <h4>Bize ulaşın</h4>
+            <ul>
+                @foreach (var t in ayar.Phones)
+                {
+                    <li><a href="@Yardimci.TelHref(t)">@t.Label</a></li>
+                }
+                <li><a href="mailto:@ayar.Email">@ayar.Email</a></li>
+            </ul>
+        </div>
+        <a class="btn btn-primary" href="#iletisim">Teklif Alın</a>
+    </div>
+</aside>
 
 @RenderBody()
 

@@ -49,34 +49,49 @@
      ---------------------------------------------------------------- */
   var bas = document.getElementById('site-head');
   var dugme = document.getElementById('menu-toggle');
-  var menu = document.getElementById('mobil-menu');
+  var menu = document.getElementById('yan-menu');
   var menuAcik = false;
 
   function basGuncelle() {
     if (!bas) return;
-    // Menü açıkken her zaman katı zemin: saydam menünün üstünde
-    // beyaz panel garip durur.
-    var katiOlmali = menuAcik || window.scrollY > 40;
-    bas.classList.toggle('is-solid', katiOlmali);
+    bas.classList.toggle('is-solid', window.scrollY > 40);
   }
 
   function menuAyarla(acik) {
+    if (!dugme || !menu || menuAcik === acik) return;
     menuAcik = acik;
-    if (!dugme || !menu) return;
     dugme.setAttribute('aria-expanded', acik ? 'true' : 'false');
-    dugme.setAttribute('aria-label', acik ? 'Menüyü kapat' : 'Menüyü aç');
-    menu.hidden = !acik;
+    kok.classList.toggle('menu-open', acik);
+    menu.inert = !acik;
     document.body.style.overflow = acik ? 'hidden' : '';
-    basGuncelle();
+    if (acik) {
+      var ilk = menu.querySelector('.side-nav a');
+      if (ilk) ilk.focus({ preventScroll: true });
+    } else {
+      dugme.focus({ preventScroll: true });
+    }
   }
 
   if (dugme && menu) {
     dugme.addEventListener('click', function () {
-      menuAyarla(dugme.getAttribute('aria-expanded') !== 'true');
+      menuAyarla(!menuAcik);
     });
-    Array.prototype.forEach.call(menu.querySelectorAll('a'), function (a) {
-      a.addEventListener('click', function () {
+    Array.prototype.forEach.call(document.querySelectorAll('[data-menu-kapat]'), function (el) {
+      el.addEventListener('click', function () {
         menuAyarla(false);
+      });
+    });
+    // Bağlantıya tıklanınca önce sayfa yerine otursun, sonra kaydırılsın;
+    // aksi hâlde kaydırma, sola itilmiş sayfa üzerinde hesaplanır.
+    Array.prototype.forEach.call(menu.querySelectorAll('a[href^="#"]'), function (a) {
+      a.addEventListener('click', function (olay) {
+        var hedef = document.querySelector(a.getAttribute('href'));
+        if (!hedef) return;
+        olay.preventDefault();
+        menuAyarla(false);
+        setTimeout(function () {
+          hedef.scrollIntoView({ behavior: azHareket ? 'auto' : 'smooth' });
+        }, azHareket ? 0 : 320);
       });
     });
     window.addEventListener('keydown', function (olay) {

@@ -15,6 +15,12 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>MemetogluWeb</RootNamespace>
 
+    <!-- Ayrı bir .exe üretme: uygulama Microsoft imzalı dotnet.exe ile başlar.
+         Kurumsal uygulama denetimi (WDAC) imzasız exe'yi engellediği için
+         F5 ve "dotnet run" ancak böyle çalışır. web.config de zaten
+         "dotnet MemetogluWeb.dll" ile başlatır. Self-contained yayında exe şart. -->
+    <UseAppHost Condition="'$(SelfContained)' != 'true'">false</UseAppHost>
+
     <!-- Türkçe tarih, sayı ve harf sıralaması için gereklidir. -->
     <InvariantGlobalization>false</InvariantGlobalization>
 

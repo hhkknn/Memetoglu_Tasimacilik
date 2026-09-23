@@ -26,20 +26,23 @@ dotnet run
 
 Visual Studio ile çalışmak isterseniz `MemetogluWeb.csproj` dosyasına çift tıklayıp **F5**'e basmanız yeterli.
 
-### "Uygulama Denetimi ilkesi bu dosyayı engelledi" hatası alırsanız
+### "Uygulama Denetimi ilkesi bu dosyayı engelledi" hatası
 
-Bu makinede kurumsal bir **Windows Uygulama Denetimi (WDAC/AppLocker)** ilkesi var:
-kendi derlediğiniz `MemetogluWeb.exe` imzasız olduğu için çalıştırılmıyor. Kodda
-bir sorun yoktur — dosya derlenmiştir, sadece başlatılmasına izin verilmez.
+Bu makinede kurumsal bir **Windows Uygulama Denetimi (WDAC/AppLocker)** ilkesi var ve
+imzasız `.exe` dosyalarını engelliyor. Bu yüzden proje artık hiç `.exe` üretmiyor
+(`MemetogluWeb.csproj` içinde `UseAppHost=false`): F5 ve `dotnet run` uygulamayı
+Microsoft imzalı `dotnet.exe` ile başlatır, engele takılmaz.
 
-**Çözüm:** `.exe` yerine `.dll`'i Microsoft imzalı `dotnet.exe` ile çalıştırın:
+### Tek tıkla güncelle ve çalıştır: `calistir.bat`
 
-```powershell
-dotnet bin\Debug\net10.0\MemetogluWeb.dll
-```
+Proje klasöründeki **`calistir.bat`** dosyasına çift tıklayın. Sırasıyla:
 
-Proje klasöründeki **`hepsi.bat`** tam olarak bunu yapar: 5080 portundaki eski süreci
-kapatır, derler, uygulamayı bu yolla başlatır. Çift tıklamanız yeterlidir.
+1. GitHub'daki son değişiklikleri indirir (`git pull`),
+2. 5080 portunda çalışan eski sürümü kapatır,
+3. Siteyi başlatır ve tarayıcıda `http://localhost:5080` adresini açar.
+
+Güncellemenin çalışması için klasörün ZIP'ten değil `git clone` ile indirilmiş olması
+gerekir. Git kurulu değilse betik Visual Studio'nun kendi Git'ini kullanmayı dener.
 
 > Bu kısıt yalnızca kendi bilgisayarınızda geçerlidir. Plesk/IIS sunucusunda böyle bir
 > ilke olmadığı için yayın ortamında hiç karşınıza çıkmaz.
