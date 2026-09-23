@@ -568,9 +568,17 @@ footer{background:var(--deep);color:var(--deep-muted);font-size:14px}
 :root{--menu-w:min(460px,100vw)}
 html{scrollbar-gutter:stable;background:var(--bg)}
 html.menu-open{background:var(--deep)}
-.site-head{transition:background .3s var(--ease),box-shadow .3s var(--ease),border-color .3s var(--ease),transform .6s var(--ease)}
-main,footer{transition:transform .6s var(--ease)}
-html.menu-open .site-head,html.menu-open main,html.menu-open footer{transform:translateX(calc(-1 * var(--menu-w)))}
+/* Geniş ekranda menü açılınca sayfa sola kaymaz, kalan alana sığacak
+   şekilde daralır; içerik yeniden yerleşir. Dar ekranda menü üstüne açılır. */
+.site-head{transition:background .3s var(--ease),box-shadow .3s var(--ease),border-color .3s var(--ease),right .6s var(--ease)}
+body{transition:padding-right .6s var(--ease)}
+@media (min-width:1101px){
+  html.menu-open body{padding-right:var(--menu-w)}
+  html.menu-open .site-head{right:var(--menu-w)}
+  html.menu-open nav.main,html.menu-open .utility .slogan{display:none}
+  .menu-shade{right:var(--menu-w)}
+  html.menu-open .menu-shade{opacity:.35}
+}
 html.menu-open .wa-float{opacity:0;pointer-events:none}
 .wa-float{transition:transform .18s var(--ease),opacity .3s}
 
