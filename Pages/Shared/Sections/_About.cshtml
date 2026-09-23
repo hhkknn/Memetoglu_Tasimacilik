@@ -25,6 +25,14 @@
                     }
                 </ul>
             }
+
+            @if (!string.IsNullOrWhiteSpace(a.Vision))
+            {
+                <div class="vision" data-reveal="left" style="transition-delay:200ms">
+                    <span class="eyebrow">Vizyonumuz</span>
+                    <p>@a.Vision</p>
+                </div>
+            }
         </div>
 
         @if (!string.IsNullOrWhiteSpace(a.Image))

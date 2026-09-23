@@ -154,6 +154,7 @@ public sealed class IndexModel : PageModel
             Description = Metin(f, "abt_desc"),
             Image = await GorselCoz(f, "abt_image", icerik.About.Image, hatalar),
             Alt = Metin(f, "abt_alt"),
+            Vision = Metin(f, "abt_vision"),
             Features = maddeler,
         };
 

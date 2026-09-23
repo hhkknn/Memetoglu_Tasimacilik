@@ -241,6 +241,7 @@ public sealed class AboutBlock
     [JsonPropertyName("image")] public string Image { get; set; } = "";
     [JsonPropertyName("alt")] public string Alt { get; set; } = "";
     [JsonPropertyName("features")] public List<Feature> Features { get; set; } = new();
+    [JsonPropertyName("vision")] public string Vision { get; set; } = "";
 }
 
 public sealed class Feature

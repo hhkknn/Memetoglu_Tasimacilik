@@ -118,6 +118,13 @@
       "image": "img/cubes.jpg",
       "alt": "Lojistik hizmet çeşitlerini simgeleyen ahşap küpler",
       "tags": ["Tam araç", "Aktarmasız", "Proje bazlı"]
+    },
+    {
+      "title": "Kiralık kamyonet",
+      "description": "Marka ve perakende operasyonlarınız için güvenilir kamyonet kiralama. Bayi, mağaza ve depo teslimatlarınızda filomuzu kendi operasyonunuza tahsis ediyoruz.",
+      "image": "img/van-building.jpg",
+      "alt": "Kiralık kamyonet filosu",
+      "tags": ["Bayi–servis teslimat", "Mağaza–AVM teslimat", "Tersine–iade teslimat", "Depodan şubeye teslimat"]
     }
   ],
 
@@ -252,7 +259,8 @@
       { "title": "Tek muhatap", "description": "Teklif, yükleme ve teslimat tek bir sorumlu üzerinden yürür. Aktarma noktalarında kaybolan bilgi olmaz." },
       { "title": "Yazılı fiyat", "description": "Sözlü tahmin yerine, kapsamı yazılı belirtilmiş sabit teklif. Sonradan eklenen kalem yok." },
       { "title": "Sigortalı taşıma", "description": "Talep edilen sevkiyatlarda yük sigortası düzenlenir; kapsam teklif aşamasında paylaşılır." }
-    ]
+    ],
+    "vision": "Sultanbeyli'de başladığımız işi, aynı standardı koruyarak Türkiye geneline yayılan sürdürülebilir bir lojistik ağına dönüştürmek. Filomuzu ve süreçlerimizi büyüyen talebe göre sürekli geliştirip müşteri memnuniyetini önceliğimiz olarak koruyoruz."
   },
 
   "contact": {

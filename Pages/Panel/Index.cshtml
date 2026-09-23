@@ -224,6 +224,7 @@
     @await Html.PartialAsync("_Alan", new AlanVm { Ad = "abt_desc", Etiket = "Açıklama", Deger = abt.Description, Tur = "uzun", Satir = 4 })
     @await Html.PartialAsync("_Alan", new AlanVm { Ad = "abt_image", Etiket = "Görsel", Deger = abt.Image, Tur = "gorsel" })
     @await Html.PartialAsync("_Alan", new AlanVm { Ad = "abt_alt", Etiket = "Görselin alternatif metni", Deger = abt.Alt, Ipucu = "Görseli göremeyenler ve Google için kısa açıklama." })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "abt_vision", Etiket = "Vizyonumuz", Deger = abt.Vision, Tur = "uzun", Satir = 3 })
 
     <div class="liste" data-liste>
         <label class="liste-baslik">Öne çıkan maddeler</label>
