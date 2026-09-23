@@ -1,0 +1,63 @@
+@page
+@model MemetogluWeb.Pages.Panel.ReferanslarModel
+@{
+    ViewData["Title"] = "Referanslar";
+    ViewData["Sayfa"] = "referanslar";
+    var r = Model.Icerik.References;
+}
+
+<h1>Referanslar</h1>
+<p class="ipucu">Anasayfada rakamların altında kayan logo şeridi. Logo yüklenmemiş firmalar için adını taşıyan sade bir kutu görünür.
+   Yalnızca gerçekten hizmet verdiğiniz ve logosunu kullanmanıza izin veren firmaları ekleyin.</p>
+
+<form method="post" enctype="multipart/form-data">
+
+<div class="kart">
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "ref_acik", Etiket = "Bu bölüm gösterilsin", Tur = "kutu", Isaretli = r.Enabled })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "ref_baslik", Etiket = "Başlık", Deger = r.Title })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "ref_uyari_acik", Etiket = "\"Örnek veri\" uyarısını göster", Tur = "kutu", Isaretli = r.NoticeEnabled })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "ref_uyari_metin", Etiket = "Uyarı metni", Deger = r.NoticeText })
+</div>
+
+@for (var i = 0; i < r.Items.Count; i++)
+{
+    var m = r.Items[i];
+    <details class="kart">
+        <summary>@m.Name</summary>
+        <div class="alan">
+            <label for="f_ad_@i">Firma adı</label>
+            <input id="f_ad_@i" type="text" name="ad" value="@m.Name">
+            <small>Logo yoksa sitede bu ad yazılı kutu görünür; logo varsa ekran okuyucular için kullanılır.</small>
+        </div>
+        @await Html.PartialAsync("_Alan", new AlanVm { Ad = $"logo_{i}", Etiket = "Logo", Deger = m.Logo, Tur = "gorsel" })
+        @if (!string.IsNullOrWhiteSpace(m.Logo))
+        {
+            @await Html.PartialAsync("_Alan", new AlanVm { Ad = $"logokaldir_{i}", Etiket = "Logoyu kaldır (yerine ad kutusu gösterilsin)", Tur = "kutu" })
+        }
+        <div class="alan">
+            <label for="f_url_@i">Web sitesi (isteğe bağlı)</label>
+            <input id="f_url_@i" type="text" name="url" value="@m.Url" placeholder="https://">
+        </div>
+        <div class="alan alan-kutu tehlike">
+            <input id="sil_@i" type="checkbox" name="sil_@i" value="true">
+            <label for="sil_@i">Bu firmayı sil</label>
+        </div>
+    </details>
+}
+
+<details class="kart yeni">
+    <summary>+ Yeni firma ekle</summary>
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "yeni_ad", Etiket = "Firma adı" })
+    <div class="alan">
+        <label for="f_yeni_logo">Logo</label>
+        <input id="f_yeni_logo" type="file" name="yeni_logo_dosya" accept="image/png,image/jpeg,image/webp">
+        <small>Şeffaf arka planlı PNG en iyi sonucu verir.</small>
+    </div>
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "yeni_url", Etiket = "Web sitesi (isteğe bağlı)" })
+    <p class="ipucu">Ad alanını doldurup kaydettiğinizde firma listenin sonuna eklenir.</p>
+</details>
+
+<div class="kaydet-cubugu">
+    <button class="dugme" type="submit">Kaydet</button>
+</div>
+</form>

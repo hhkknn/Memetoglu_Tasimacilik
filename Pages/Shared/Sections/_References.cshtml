@@ -1,0 +1,48 @@
+@model SiteContent
+@{
+    var r = Model.References;
+    if (!r.Enabled || r.Items.Count == 0) { return; }
+    // Kayma hızı logo sayısına göre ayarlanır: her logo yaklaşık aynı hızda geçer.
+    var sure = Math.Max(20, r.Items.Count * 5);
+}
+
+<section class="refs" aria-label="@(string.IsNullOrWhiteSpace(r.Title) ? "Referanslar" : r.Title)">
+    <div class="wrap refs-head">
+        @if (!string.IsNullOrWhiteSpace(r.Title)) { <p class="eyebrow">@r.Title</p> }
+        @if (r.NoticeEnabled && !string.IsNullOrWhiteSpace(r.NoticeText))
+        {
+            <span class="chip">@r.NoticeText</span>
+        }
+    </div>
+
+    <div class="refs-marquee">
+        <div class="refs-track" style="--sure:@(sure)s">
+            @* Kesintisiz döngü için liste iki kez basılır; ikinci kopya ekran okuyuculardan gizlenir. *@
+            @for (var kopya = 0; kopya < 2; kopya++)
+            {
+                <ul class="refs-list" aria-hidden="@(kopya == 1 ? "true" : null)">
+                    @foreach (var m in r.Items)
+                    {
+                        var logoVar = !string.IsNullOrWhiteSpace(m.Logo);
+                        <li>
+                            @if (!string.IsNullOrWhiteSpace(m.Url))
+                            {
+                                <a class="ref-item" href="@m.Url" target="_blank" rel="noopener" tabindex="@(kopya == 1 ? "-1" : null)">
+                                    @if (logoVar) { <img src="@Yardimci.Medya(m.Logo)" alt="@m.Name" loading="lazy"> }
+                                    else { <span class="ref-ph">@m.Name</span> }
+                                </a>
+                            }
+                            else
+                            {
+                                <span class="ref-item">
+                                    @if (logoVar) { <img src="@Yardimci.Medya(m.Logo)" alt="@m.Name" loading="lazy"> }
+                                    else { <span class="ref-ph">@m.Name</span> }
+                                </span>
+                            }
+                        </li>
+                    }
+                </ul>
+            }
+        </div>
+    </div>
+</section>

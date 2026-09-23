@@ -81,6 +81,23 @@
     ]
   },
 
+  "references": {
+    "enabled": true,
+    "title": "Bize güvenen firmalar",
+    "noticeEnabled": true,
+    "noticeText": "Örnek kutular — gerçek müşteri logolarıyla değiştirilecek",
+    "items": [
+      { "name": "Referans 01", "logo": "", "url": "" },
+      { "name": "Referans 02", "logo": "", "url": "" },
+      { "name": "Referans 03", "logo": "", "url": "" },
+      { "name": "Referans 04", "logo": "", "url": "" },
+      { "name": "Referans 05", "logo": "", "url": "" },
+      { "name": "Referans 06", "logo": "", "url": "" },
+      { "name": "Referans 07", "logo": "", "url": "" },
+      { "name": "Referans 08", "logo": "", "url": "" }
+    ]
+  },
+
   "servicesSection": {
     "eyebrow": "Hizmetler",
     "title": "Her yük tipi için ayrı bir çalışma biçimi",

@@ -23,6 +23,9 @@ public sealed class SiteContent
     [JsonPropertyName("stats")]
     public StatsBlock Stats { get; set; } = new();
 
+    [JsonPropertyName("references")]
+    public ReferencesBlock References { get; set; } = new();
+
     [JsonPropertyName("servicesSection")]
     public SectionHeading ServicesSection { get; set; } = new();
 
@@ -107,7 +110,7 @@ public sealed class Address
     [JsonPropertyName("postalCode")] public string PostalCode { get; set; } = "";
     [JsonPropertyName("mapsUrl")] public string MapsUrl { get; set; } = "";
 
-    public string OneLine => $"{Line1}, {District} / {City}";
+    [JsonIgnore] public string OneLine => $"{Line1}, {District} / {City}";
 }
 
 public sealed class Social
@@ -324,4 +327,23 @@ public sealed class FaqItem
 {
     [JsonPropertyName("question")] public string Question { get; set; } = "";
     [JsonPropertyName("answer")] public string Answer { get; set; } = "";
+}
+
+// ---------------------------------------------------------------- Referans logoları
+
+public sealed class ReferencesBlock
+{
+    [JsonPropertyName("enabled")] public bool Enabled { get; set; } = true;
+    [JsonPropertyName("title")] public string Title { get; set; } = "";
+    [JsonPropertyName("noticeEnabled")] public bool NoticeEnabled { get; set; }
+    [JsonPropertyName("noticeText")] public string NoticeText { get; set; } = "";
+    [JsonPropertyName("items")] public List<ReferenceLogo> Items { get; set; } = new();
+}
+
+/// <summary>Logo boşsa sitede firma adını taşıyan yer tutucu kutu gösterilir.</summary>
+public sealed class ReferenceLogo
+{
+    [JsonPropertyName("name")] public string Name { get; set; } = "";
+    [JsonPropertyName("logo")] public string Logo { get; set; } = "";
+    [JsonPropertyName("url")] public string Url { get; set; } = "";
 }
