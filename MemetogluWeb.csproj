@@ -37,6 +37,12 @@
       NETSDK1022 (yinelenen öğe) hatası verir. "Update" mevcut öğeyi düzenler.
     -->
     <Content Update="App_Data\content.json" CopyToOutputDirectory="PreserveNewest" />
+
+    <!-- Yerel makinedeki yönetici şifresi, yedekler ve imza anahtarları asla
+         yayın paketine girmesin; sunucu kendi dosyalarını kendisi oluşturur. -->
+    <Content Remove="App_Data\config.json" />
+    <Content Remove="App_Data\yedek\**" />
+    <Content Remove="App_Data\anahtarlar\**" />
   </ItemGroup>
 
 </Project>

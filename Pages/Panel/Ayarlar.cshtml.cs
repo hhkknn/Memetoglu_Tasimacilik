@@ -93,6 +93,7 @@ public sealed class AyarlarModel : PageModel
                 Description = IndexModel.Metin(f, "seo_aciklama"),
                 SiteUrl = IndexModel.Metin(f, "seo_adres").TrimEnd('/'),
                 ShareImage = await GorselCoz(f, "seo_gorsel", eski.Seo.ShareImage, hatalar),
+                NoIndex = IndexModel.Kutu(f, "seo_gizle"),
             },
             DraftNotice = new Notice
             {

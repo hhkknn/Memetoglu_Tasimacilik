@@ -123,41 +123,50 @@ Yıllık maliyet genellikle 1.000–2.500 TL bandındadır.
 
 ### 4.1 Yayın paketi oluşturun
 
-```powershell
-dotnet publish -c Release -o .\publish
-```
+Proje klasöründeki **`yayin-paketi.bat`** dosyasına çift tıklayın. `yayin` klasöründe iki ZIP oluşur:
 
-`publish` klasörünün **içindekileri** sunucuya yükleyeceksiniz.
-
-### 4.2 Plesk'te siteyi hazırlayın
-
-1. **Websites & Domains** → alan adınız → **Hosting Settings**
-2. Belge kökü (Document root): `httpdocs`
-3. **ASP.NET Core** ayarları varsa etkinleştirin
-
-### 4.3 Dosyaları yükleyin
-
-`publish` içindekileri `httpdocs` klasörüne kopyalayın (Plesk Dosya Yöneticisi veya FTP).
-
-> FTP kullanıyorsanız aktarım modunu **Binary** yapın; aksi hâlde DLL'ler bozulur.
-
-### 4.4 Yazma izni verin
-
-Bu iki klasörün yazılabilir olması gerekir:
-
-| Klasör | Neden |
+| Dosya | Ne zaman |
 | --- | --- |
-| `App_Data` | İçerik, ayarlar ve yedekler buraya yazılır |
-| `wwwroot/uploads` | Panelden yüklenen görseller |
-| `wwwroot/video` | Panelden yüklenen video |
+| `ilk-kurulum.zip` | Sunucuya **ilk** yüklemede. Her şey dahil. |
+| `guncelleme.zip` | Sonraki kod güncellemelerinde. `App_Data` içermez; panelden yapılan içerik değişikliklerinin üzerine yazmaz. |
 
-Plesk → Dosya Yöneticisi → klasöre sağ tık → **Change Permissions** → uygulama havuzu kullanıcısına *Write* verin.
+Yerel bilgisayardaki yönetici şifresi (`App_Data/config.json`), yedekler ve imza anahtarları
+paketlere hiçbir zaman girmez (`MemetogluWeb.csproj` bunları hariç tutar).
 
-### 4.5 Kontrol edin
+### 4.2 Plesk'e yükleyin
 
-- `alanadiniz.com` → site açılmalı
-- `alanadiniz.com/Panel/` → kurulum ekranı gelmeli
-- `alanadiniz.com/App_Data/content.json` → **404 vermeli**. İçerik görünüyorsa `web.config` yüklenmemiştir.
+1. Plesk → **Web Siteleri ve Alan Adları** → site (ör. `memetoglu.byhobibahcesi.com`) → **Dosyalar**.
+2. Sitenin belge kök klasörüne girin, içindeki varsayılan dosyaları (`index.html` vb.) silin.
+3. ZIP'i yükleyin, üzerine sağ tıklayıp **Arşivi Çıkart** deyin, sonra ZIP'i silin.
+   `web.config`, `MemetogluWeb.dll`, `App_Data` ve `wwwroot` doğrudan kök klasörde durmalı,
+   bir alt klasörün içinde değil.
+
+### 4.3 Yazma izni verin
+
+`App_Data` klasörü yazılabilir olmalı (içerik, ayarlar, yedekler ve oturum anahtarları buraya
+yazılır). Panelden görsel/video yükleyecekseniz `wwwroot/uploads` ve `wwwroot/video` da.
+
+Plesk → Dosyalar → klasörün satırındaki menü → **İzinleri Değiştir** → uygulama havuzu
+kullanıcısına (genelde `IIS AppPool\...` ya da "Plesk IIS WP User") *Değiştirme/Yazma* verin.
+
+### 4.4 Kontrol edin
+
+- Site adresi → site açılmalı
+- `/Panel/` → **kurulum ekranı** gelmeli: sunucuya özel yönetici şifresini burada belirleyin
+- `/App_Data/content.json` → **404 vermeli**. İçerik görünüyorsa `web.config` yüklenmemiştir.
+- **HTTP 500.31 / "ASP.NET Core framework bulunamadı"** hatası: sunucuda .NET 10 yok.
+  Hosting firmasından .NET 10 Hosting Bundle isteyin ya da `TargetFramework`'ü `net8.0` yapın.
+
+### 4.5 SSL
+
+Plesk → site → **SSL/TLS Sertifikaları** → **Let's Encrypt** ile ücretsiz sertifika alın.
+Sertifika kurulduktan sonra `web.config` içindeki HTTPS yönlendirme bloğunu yorumdan çıkarın.
+
+### 4.6 Önizleme adresi ve Google
+
+Önizleme/test adresinde panel → **Site Ayarları** → **"Siteyi arama motorlarından gizle"**
+açık kalmalı (şu an varsayılan olarak açık). Gerçek alan adına geçerken kapatın ve
+"Sitenin canlı adresi" alanını gerçek adresle değiştirin.
 
 ### Uygulama açılmazsa
 

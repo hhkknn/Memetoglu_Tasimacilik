@@ -32,7 +32,8 @@
     "seo": {
       "title": "Memetoğlu Taşımacılık | Sultanbeyli Nakliyat ve Lojistik",
       "description": "Sultanbeyli merkezli karayolu taşımacılığı. Koli, ofis, askılıklı tekstil, şehir içi ve şehirler arası nakliyat. Aynı gün teklif.",
-      "siteUrl": "https://www.memetoglutasimacilik.com",
+      "siteUrl": "https://memetoglu.byhobibahcesi.com",
+      "noIndex": true,
       "shareImage": "img/hero-poster.jpg"
     },
     "draftNotice": {

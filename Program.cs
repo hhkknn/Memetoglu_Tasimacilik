@@ -1,6 +1,7 @@
 using System.Globalization;
 using MemetogluWeb.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.HttpOverrides;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -36,6 +37,15 @@ builder.Services
     });
 
 builder.Services.AddAuthorization();
+
+// Oturum çerezleri ve form güvenlik belirteçleri bu anahtarlarla imzalanır.
+// Paylaşımlı IIS'te anahtarlar varsayılan olarak bellekte kalır; uygulama havuzu
+// uykuya geçip uyanınca kaybolur, panel oturumu düşer ve açık sayfadaki teklif
+// formu 400 hatası verir. Anahtarları yazılabilir App_Data altında tutuyoruz
+// (klasör web.config ile dışarıya kapalı).
+builder.Services.AddDataProtection()
+    .SetApplicationName("MemetogluWeb")
+    .PersistKeysToFileSystem(new DirectoryInfo(Path.Combine(builder.Environment.ContentRootPath, "App_Data", "anahtarlar")));
 
 // Yükleme boyutu: 40 MB video için.
 builder.Services.Configure<Microsoft.AspNetCore.Http.Features.FormOptions>(o =>
@@ -100,6 +110,10 @@ app.Use(async (ctx, next) =>
     b.XContentTypeOptions = "nosniff";
     b.XFrameOptions = "SAMEORIGIN";
     b["Referrer-Policy"] = "strict-origin-when-cross-origin";
+    if (ctx.RequestServices.GetRequiredService<ContentService>().Read().Settings.Seo.NoIndex)
+    {
+        b["X-Robots-Tag"] = "noindex, nofollow";
+    }
     await next();
 });
 
@@ -112,7 +126,12 @@ app.MapRazorPages();
 // robots.txt ve sitemap.xml kod tarafından üretilir (site adresi panelden gelir).
 app.MapGet("/robots.txt", (ContentService icerik) =>
 {
-    var adres = icerik.Read().Settings.Seo.SiteUrl.TrimEnd('/');
+    var seo = icerik.Read().Settings.Seo;
+    if (seo.NoIndex)
+    {
+        return Results.Text("User-agent: *\nDisallow: /\n", "text/plain");
+    }
+    var adres = seo.SiteUrl.TrimEnd('/');
     var satirlar = new List<string>
     {
         "User-agent: *",

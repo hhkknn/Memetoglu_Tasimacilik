@@ -121,6 +121,7 @@
     @await Html.PartialAsync("_Alan", new AlanVm { Ad = "seo_aciklama", Etiket = "Açıklama", Deger = seo.Description, Tur = "uzun", Ipucu = "Başlığın altındaki açıklama. 155 karakteri geçmemesi önerilir." })
     @await Html.PartialAsync("_Alan", new AlanVm { Ad = "seo_adres", Etiket = "Sitenin canlı adresi", Deger = seo.SiteUrl, Ipucu = "Sonunda eğik çizgi olmadan. Örn: https://www.memetoglutasimacilik.com" })
     @await Html.PartialAsync("_Alan", new AlanVm { Ad = "seo_gorsel", Etiket = "Paylaşım görseli", Deger = seo.ShareImage, Tur = "gorsel" })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "seo_gizle", Etiket = "Siteyi arama motorlarından gizle", Tur = "kutu", Isaretli = seo.NoIndex, Ipucu = "Önizleme ve test adresinde açık kalsın. Gerçek alan adında yayına geçerken kapatın." })
     <p class="ipucu">Paylaşım görseli, bağlantı WhatsApp veya LinkedIn'de paylaşılınca görünen kapaktır. 1200×630 piksel idealdir.</p>
 </details>
 

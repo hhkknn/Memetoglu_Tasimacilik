@@ -2,11 +2,13 @@
 bin/
 obj/
 publish/
+yayin/
 *.user
 *.suo
 
 ### Gizli bilgi — ASLA commit etmeyin
 App_Data/config.json
+App_Data/anahtarlar/
 
 ### Panelden yüklenen dosyalar ve yedekler
 wwwroot/uploads/*

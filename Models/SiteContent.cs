@@ -129,6 +129,9 @@ public sealed class Seo
     [JsonPropertyName("siteUrl")] public string SiteUrl { get; set; } = "";
 
     [JsonPropertyName("shareImage")] public string ShareImage { get; set; } = "";
+
+    /// <summary>Önizleme/test yayınında true: site arama motorlarına kapatılır.</summary>
+    [JsonPropertyName("noIndex")] public bool NoIndex { get; set; }
 }
 
 public sealed class Notice
