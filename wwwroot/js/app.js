@@ -138,7 +138,8 @@
   /* ----------------------------------------------------------------
      3) Arka plan videoları (hero + slogan bandı)
      Poster her zaman görünür; video yalnızca aşağıdaki koşullar
-     sağlanırsa indirilir. Böylece mobil veri ve açılış hızı korunur.
+     sağlanırsa indirilir. Dar ekranda yalnızca küçük, dikey kesilmiş
+     "-mobil" sürümü oynatılır; o sürüm yoksa poster kalır.
      ---------------------------------------------------------------- */
   var videolar = document.querySelectorAll('.bg-video');
 
@@ -149,9 +150,10 @@
       (navigator.connection.saveData ||
         /2g/.test(navigator.connection.effectiveType || ''));
 
-    if (!dar && !azHareket && !veriTasarrufu) {
-      var webm = video.getAttribute('data-webm');
-      var mp4 = video.getAttribute('data-mp4');
+    if (!azHareket && !veriTasarrufu) {
+      var ek = dar ? '-mobil' : '';
+      var webm = video.getAttribute('data-webm' + ek);
+      var mp4 = video.getAttribute('data-mp4' + ek);
 
       // Kaynakları sırayla ekle: tarayıcı desteklediği ilkini seçer.
       // WebM önce gelir (daha küçük dosya), MP4 Safari için yedektir.
@@ -167,25 +169,24 @@
       });
 
       if (video.firstChild) {
+        // Görünür yap yalnızca gerçekten oynamaya başlayınca.
         video.addEventListener(
-          'canplay',
+          'playing',
           function () {
             video.classList.add('is-ready');
-            var oynat = video.play();
-            if (oynat && typeof oynat.catch === 'function') {
-              // Tarayıcı oynatmayı reddederse poster görünmeye devam eder.
-              oynat.catch(function () {
-                video.classList.remove('is-ready');
-              });
-            }
           },
           { once: true }
         );
-        // Hiçbir biçim oynatılamazsa sessizce poster'da kal.
-        video.addEventListener('error', function () {
-          video.classList.remove('is-ready');
-        });
         video.load();
+        // "canplay" beklenmez: iOS Safari oynatma istenmeden veri indirmez,
+        // o olay hiç gelmeyebilir. Doğrudan oynatmayı isteriz.
+        var oynat = video.play();
+        if (oynat && typeof oynat.catch === 'function') {
+          // Düşük güç modu gibi durumlarda tarayıcı reddeder; poster kalır.
+          oynat.catch(function () {
+            video.classList.remove('is-ready');
+          });
+        }
       }
     }
 

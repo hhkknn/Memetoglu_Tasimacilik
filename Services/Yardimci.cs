@@ -40,6 +40,13 @@ public static class Yardimci
     /// <summary>Dosyanın son değiştirilme zamanından kısa bir sürüm damgası üretir.</summary>
     private static string? Damga(string goreli)
     {
+        var bilgi = WwwrootDosyasi(goreli);
+        return bilgi is { Exists: true } ? bilgi.LastWriteTimeUtc.Ticks.ToString("x") : null;
+    }
+
+    /// <summary>wwwroot altındaki göreli yolun dosya bilgisi; wwwroot dışına çıkan yolda null.</summary>
+    private static FileInfo? WwwrootDosyasi(string goreli)
+    {
         var kok = KokKlasor;
         if (string.IsNullOrEmpty(kok) || goreli.Length == 0)
         {
@@ -50,23 +57,43 @@ public static class Yardimci
         {
             var tam = Path.GetFullPath(
                 Path.Combine(kok, goreli.Replace('/', Path.DirectorySeparatorChar)));
-
-            // Dizin dışına çıkan yol olursa damga koymadan geç.
-            if (!tam.StartsWith(Path.GetFullPath(kok), StringComparison.OrdinalIgnoreCase))
-            {
-                return null;
-            }
-
-            var bilgi = new FileInfo(tam);
-            return bilgi.Exists
-                ? bilgi.LastWriteTimeUtc.Ticks.ToString("x")
+            return tam.StartsWith(Path.GetFullPath(kok), StringComparison.OrdinalIgnoreCase)
+                ? new FileInfo(tam)
                 : null;
         }
         catch
         {
-            // Damga bir kolaylık; üretilemezse adres damgasız çalışmaya devam eder.
             return null;
         }
+    }
+
+    public sealed record VideoKaynak(string Mp4, string? Webm, string? MobilMp4, string? MobilWebm);
+
+    /// <summary>
+    /// "video/hero.mp4" için web adreslerini döner: aynı adlı .webm ve telefonlar için
+    /// "-mobil" ekli sürümler varsa onlar da. Ana dosya diskte yoksa null.
+    /// </summary>
+    public static VideoKaynak? VideoKaynaklari(string? yol)
+    {
+        if (string.IsNullOrWhiteSpace(yol))
+        {
+            return null;
+        }
+
+        var goreli = yol.TrimStart('/');
+        if (WwwrootDosyasi(goreli) is not { Exists: true })
+        {
+            return null;
+        }
+
+        var govde = System.Text.RegularExpressions.Regex.Replace(goreli, @"\.(mp4|webm)$", "",
+            System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+        string? Bul(string aday) =>
+            !string.Equals(aday, goreli, StringComparison.OrdinalIgnoreCase)
+            && WwwrootDosyasi(aday) is { Exists: true } ? Medya(aday) : null;
+
+        return new VideoKaynak(Medya(goreli), Bul(govde + ".webm"),
+            Bul(govde + "-mobil.mp4"), Bul(govde + "-mobil.webm"));
     }
 
     /// <summary>

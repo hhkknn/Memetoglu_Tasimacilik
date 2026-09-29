@@ -1,33 +1,21 @@
 @model SiteContent
-@inject IWebHostEnvironment Env
 @{
     var hero = Model.Hero;
     var wa = Yardimci.WhatsAppUrl(Model.Settings.WhatsApp);
-
-    // Video dosyası gerçekten duruyor mu? Yoksa yalnızca poster gösterilir.
-    var videoYolu = hero.Video?.TrimStart('/') ?? "";
-    var videoVar = hero.VideoEnabled
-                   && !string.IsNullOrWhiteSpace(videoYolu)
-                   && System.IO.File.Exists(System.IO.Path.Combine(Env.WebRootPath, videoYolu.Replace('/', System.IO.Path.DirectorySeparatorChar)));
-
-    // Aynı adı taşıyan .webm varsa onu da sun: daha küçük dosya, aynı görüntü.
-    var webmYolu = System.Text.RegularExpressions.Regex.Replace(videoYolu, @"\.(mp4|webm)$", ".webm",
-        System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-    var webmVar = videoVar
-                  && !string.Equals(webmYolu, videoYolu, StringComparison.OrdinalIgnoreCase)
-                  && System.IO.File.Exists(System.IO.Path.Combine(Env.WebRootPath, webmYolu.Replace('/', System.IO.Path.DirectorySeparatorChar)));
+    // Video dosyası diskte yoksa yalnızca poster gösterilir.
+    var video = hero.VideoEnabled ? Yardimci.VideoKaynaklari(hero.Video) : null;
 }
 
 <section class="hero" id="top">
     <div class="hero-media">
-        @* Poster her zaman basılır: video yüklenene kadar ve mobilde bu görünür. *@
+        @* Poster her zaman basılır: video oynayana kadar ve video oynatılamadığında bu görünür. *@
         <img src="@Yardimci.Medya(hero.Poster)" alt="" aria-hidden="true" fetchpriority="high">
-        @if (videoVar)
+        @if (video is not null)
         {
             <video id="hero-video" class="bg-video" muted loop playsinline preload="none"
                    poster="@Yardimci.Medya(hero.Poster)" aria-hidden="true" tabindex="-1"
-                   data-mp4="@Yardimci.Medya(videoYolu)"
-                   data-webm="@(webmVar ? Yardimci.Medya(webmYolu) : null)"></video>
+                   data-mp4="@video.Mp4" data-webm="@video.Webm"
+                   data-mp4-mobil="@video.MobilMp4" data-webm-mobil="@video.MobilWebm"></video>
         }
     </div>
 

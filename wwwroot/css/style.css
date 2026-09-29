@@ -552,6 +552,10 @@ footer{background:var(--deep);color:var(--deep-muted);font-size:14px}
 .js [data-reveal="left"]{transform:translate3d(-48px,0,0)}
 .js [data-reveal="right"]{transform:translate3d(48px,0,0)}
 .js [data-reveal="up"]{transform:translate3d(0,36px,0)}
+/* Dar ekranda yandan değil aşağıdan belirsin: yana itilmiş öğeler mobil tarayıcıda
+   sayfayı ekrandan genişletiyor, sağ kenar (menü butonu) kesiliyordu. body'deki
+   overflow-x:clip bunu masaüstünde örter ama mobil tarayıcılarda örtmez. */
+@media (max-width:860px){.js [data-reveal="left"],.js [data-reveal="right"]{transform:translate3d(0,36px,0)}}
 .js [data-reveal][data-visible="true"]{opacity:1;transform:none}
 
 /* ---------- kapsama haritası ---------- */

@@ -1,20 +1,9 @@
 @model SiteContent
-@inject IWebHostEnvironment Env
 @{
     var s = Model.Statement;
     if (!s.Enabled) { return; }
-
-    // Video dosyası gerçekten duruyor mu? Yoksa yalnızca arka plan görseli gösterilir.
-    var videoYolu = s.Video?.TrimStart('/') ?? "";
-    var videoVar = s.VideoEnabled
-                   && !string.IsNullOrWhiteSpace(videoYolu)
-                   && System.IO.File.Exists(System.IO.Path.Combine(Env.WebRootPath, videoYolu.Replace('/', System.IO.Path.DirectorySeparatorChar)));
-
-    var webmYolu = System.Text.RegularExpressions.Regex.Replace(videoYolu, @"\.(mp4|webm)$", ".webm",
-        System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-    var webmVar = videoVar
-                  && !string.Equals(webmYolu, videoYolu, StringComparison.OrdinalIgnoreCase)
-                  && System.IO.File.Exists(System.IO.Path.Combine(Env.WebRootPath, webmYolu.Replace('/', System.IO.Path.DirectorySeparatorChar)));
+    // Video dosyası diskte yoksa yalnızca arka plan görseli gösterilir.
+    var video = s.VideoEnabled ? Yardimci.VideoKaynaklari(s.Video) : null;
 }
 
 <section class="statement">
@@ -22,11 +11,11 @@
     {
         <div class="bgimg">
             <img src="@Yardimci.Medya(s.Image)" alt="" aria-hidden="true" loading="lazy">
-            @if (videoVar)
+            @if (video is not null)
             {
                 <video class="bg-video" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"
-                       data-mp4="@Yardimci.Medya(videoYolu)"
-                       data-webm="@(webmVar ? Yardimci.Medya(webmYolu) : null)"></video>
+                       data-mp4="@video.Mp4" data-webm="@video.Webm"
+                       data-mp4-mobil="@video.MobilMp4" data-webm-mobil="@video.MobilWebm"></video>
             }
         </div>
     }
