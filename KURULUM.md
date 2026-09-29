@@ -168,6 +168,16 @@ Sertifika kurulduktan sonra `web.config` içindeki HTTPS yönlendirme bloğunu y
 açık kalmalı (şu an varsayılan olarak açık). Gerçek alan adına geçerken kapatın ve
 "Sitenin canlı adresi" alanını gerçek adresle değiştirin.
 
+### 4.7 Güncelleme yükleme
+
+1. `calistir.bat` ile son kodu alın, sonra `yayin-paketi.bat` ile paket üretin.
+2. Plesk → Dosyalar → site kökünde **`app_offline.htm`** adında boş bir dosya oluşturun.
+   IIS uygulamayı durdurur ve ziyaretçiye bakım sayfası gösterir; `MemetogluWeb.dll`
+   kilitten kurtulur.
+3. **`guncelleme.zip`**'i yükleyip **üzerine yazarak** çıkartın, ZIP'i silin.
+   (`App_Data` pakette yoktur; panel içeriği, şifre ve yedekler korunur.)
+4. **`app_offline.htm`**'yi silin. Site yeni sürümle açılır.
+
 ### Uygulama açılmazsa
 
 `web.config` içinde `stdoutLogEnabled="false"` değerini `"true"` yapın, siteyi bir kez açın, sonra `logs\stdout*.log` dosyasını okuyun. Hata orada yazar. Sorun çözülünce tekrar `"false"` yapın.
