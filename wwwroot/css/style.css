@@ -254,7 +254,12 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 /* 3'ün katı olmayan sayıda kart varsa son satırda yalnız kalan kart
    tüm satırı kaplar; tek sütunluk "yetim" kart görünümü oluşmaz. */
 .svc-grid .svc:last-child:nth-child(3n+1){grid-column:1/-1}
-@media (min-width:981px){.svc-grid .svc:last-child:nth-child(3n+1) .shot{aspect-ratio:32/9}}
+/* Geniş ekranda tek kalan kart yatay düzen alır: solda görsel, sağda metin. */
+@media (min-width:981px){
+  .svc-grid .svc:last-child:nth-child(3n+1){flex-direction:row}
+  .svc-grid .svc:last-child:nth-child(3n+1) .shot{flex:0 0 44%;aspect-ratio:auto;min-height:280px;border-bottom:0;border-right:1px solid var(--line)}
+  .svc-grid .svc:last-child:nth-child(3n+1) .svc-body{justify-content:center;padding:32px 36px}
+}
 .svc{
   border:1px solid var(--line);border-radius:var(--radius);background:var(--bg);
   display:flex;flex-direction:column;overflow:hidden;transition:border-color .16s,transform .16s;

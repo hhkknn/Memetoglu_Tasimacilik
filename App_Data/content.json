@@ -14,7 +14,7 @@
       "message": "Merhaba, web siteniz üzerinden yazıyorum. Bir taşıma için fiyat teklifi almak istiyorum."
     },
     "address": {
-      "line1": "Adil Mahallesi, Said Nursi Caddesi No: 49/A",
+      "line1": "Hamidiye Mahallesi, Cevher Sokak No: 2/A",
       "district": "Sultanbeyli",
       "city": "İstanbul",
       "postalCode": "",
@@ -31,7 +31,7 @@
     ],
     "seo": {
       "title": "Memetoğlu Taşımacılık | Sultanbeyli Nakliyat ve Lojistik",
-      "description": "Sultanbeyli merkezli karayolu taşımacılığı. Koli, ofis, askılıklı tekstil, şehir içi ve şehirler arası nakliyat. Aynı gün teklif.",
+      "description": "Sultanbeyli merkezli karayolu taşımacılığı. Koli, palet, askılıklı tekstil, dedike kamyonet tedariki, şehir içi ve şehirler arası sevkiyat. Aynı gün teklif.",
       "siteUrl": "https://memetoglu.byhobibahcesi.com",
       "noIndex": true,
       "shareImage": "img/hero-poster.jpg"
@@ -46,7 +46,7 @@
     "eyebrow": "Karayolu Taşımacılığı & Lojistik",
     "headlineTop": "Çıkış noktasından",
     "headlineBottom": "varış noktasına kadar",
-    "subtitle": "Koli, ofis eşyası, askılıklı tekstil ve komple araç taşımacılığında İstanbul içi ve şehirler arası uçtan uca çözümler. Yükünüz yola çıktığı andan teslim edildiği ana kadar tek muhatap.",
+    "subtitle": "Koli, palet, askılıklı tekstil ve marka projelerine dedike araç tedarikinde İstanbul'un iki yakasında ve Türkiye genelinde uçtan uca çözümler. Yükünüz yola çıktığı andan teslim edildiği ana kadar tek muhatap.",
     "video": "video/hero.mp4",
     "poster": "img/hero-poster.jpg",
     "videoEnabled": true,
@@ -63,7 +63,7 @@
     "noticeEnabled": true,
     "noticeText": "Örnek rozetler — gerçek belge numaraları eklenecek",
     "badges": [
-      { "title": "K1 Yetki Belgesi", "description": "Karayolu Taşıma Yönetmeliği kapsamında yetki belgeli eşya taşımacılığı. (Belge no: eklenecek)", "icon": "shield" },
+      { "title": "TİO Yetki Belgesi", "description": "Taşıma İşleri Organizatörlüğü (TİO) yetki belgesiyle karayolu taşıma organizasyonu. (Belge no: eklenecek)", "icon": "shield" },
       { "title": "Sigortalı Taşıma", "description": "Talep edilen sevkiyatlarda nakliyat sigortası ile güvence altına alınır.", "icon": "document" },
       { "title": "Yazılı Sözleşme", "description": "Kapsamı önceden netleştirilmiş, sabit ve yazılı teklif; sonradan eklenen kalem olmaz.", "icon": "badge" }
     ]
@@ -77,7 +77,7 @@
     "items": [
       { "value": "81", "label": "İl geneli şehirler arası sevkiyat ağı" },
       { "value": "%98", "label": "Söz verilen günde teslim oranı" },
-      { "value": "12", "label": "Kapalı kasa ve panelvan araç" },
+      { "value": "12", "label": "Kamyonet ve panelvan araç" },
       { "value": "7/24", "label": "Sevkiyat planlama ve destek hattı" }
     ]
   },
@@ -102,7 +102,7 @@
   "servicesSection": {
     "eyebrow": "Hizmetler",
     "title": "Her yük tipi için ayrı bir çalışma biçimi",
-    "description": "Bir koli ile bir ofis taşınması aynı ekibi, aynı aracı ve aynı planı gerektirmez. Hizmetlerimizi yükün kendi gereksinimlerine göre ayırıyoruz."
+    "description": "Tek bir koli gönderisi ile bir mağaza zincirine ayrılmış araç aynı ekibi, aynı aracı ve aynı planı gerektirmez. Hizmetlerimizi yükün ve operasyonun kendi gereksinimlerine göre ayırıyoruz."
   },
 
   "services": [
@@ -114,11 +114,11 @@
       "tags": ["Kapıdan kapıya", "Paletli yük", "Toplu gönderi"]
     },
     {
-      "title": "Ofis ve işyeri taşıma",
-      "description": "Mobilya demontajı, ambalajlama, etiketleme ve yeni adreste kurulum. Çalışma düzeniniz en kısa sürede geri kurulur.",
-      "image": "img/truck-1.jpg",
-      "alt": "Kapalı kasa nakliye kamyoneti",
-      "tags": ["Demontaj / montaj", "Arşiv taşıma", "Hafta sonu planı"]
+      "title": "Dedike araç tedariki",
+      "description": "Marka projelerinize aylık, günlük ya da anlık araç tedariki. Kamyonet ve sürücü yalnızca sizin operasyonunuz için çalışır; ihtiyaç büyüdükçe araç sayısı da artar.",
+      "image": "img/fleet-row.jpg",
+      "alt": "Memetoğlu filosundaki kapalı kasa kamyonetler",
+      "tags": ["Aylık tahsis", "Günlük tahsis", "Anlık araç", "Çoklu araç"]
     },
     {
       "title": "Askılıklı tekstil taşımacılığı",
@@ -150,9 +150,9 @@
     },
     {
       "title": "Kiralık kamyonet",
-      "description": "Marka ve perakende operasyonlarınız için güvenilir kamyonet kiralama. Bayi, mağaza ve depo teslimatlarınızda filomuzu kendi operasyonunuza tahsis ediyoruz.",
-      "image": "img/van-building.jpg",
-      "alt": "Kiralık kamyonet filosu",
+      "description": "Marka ve perakende operasyonlarınız için kapalı kasa kamyonet kiralama. Bayi, mağaza ve depo teslimatlarınızda filomuzu kendi operasyonunuza tahsis ediyoruz.",
+      "image": "img/truck-1.jpg",
+      "alt": "Kiralık kapalı kasa kamyonet",
       "tags": ["Bayi–servis teslimat", "Mağaza–AVM teslimat", "Tersine–iade teslimat", "Depodan şubeye teslimat"]
     }
   ],
@@ -185,8 +185,8 @@
         "heading": "Filo",
         "links": [
           { "label": "Komple araç tedariki", "href": "#filo" },
-          { "label": "Kapalı kasa araçlar", "href": "#filo" },
-          { "label": "Panelvan filosu", "href": "#filo" },
+          { "label": "Kamyonet ve panelvan filosu", "href": "#filo" },
+          { "label": "Dedike araç tedariki", "href": "#hizmetler" },
           { "label": "Proje bazlı tahsis", "href": "#filo" }
         ]
       },
@@ -215,7 +215,7 @@
   "fleetSection": {
     "eyebrow": "Filo",
     "title": "Yüke uygun araç, doğru araç",
-    "description": "Kapalı kasa araçlarımız yükü hava koşullarından ve yol kirinden korur; panelvanlarımız şehir içi dar güzergâhlarda hız kazandırır."
+    "description": "Kamyonet ve panelvan araçlarımızla çalışıyoruz. Filomuzun büyük bölümünü oluşturan kapalı kasa kamyonetler yükü hava koşullarından ve yol kirinden korur; panelvanlar şehir içi dar güzergâhlarda hız kazandırır."
   },
 
   "fleet": [
@@ -224,7 +224,7 @@
       "image": "img/truck-1.jpg",
       "alt": "Kapalı kasa kamyonet",
       "specs": [
-        { "label": "Kullanım", "value": "Parsiyel / ofis" },
+        { "label": "Kullanım", "value": "Parsiyel / dedike" },
         { "label": "Yükleme", "value": "Arkadan & yandan" },
         { "label": "Ek donanım", "value": "Hidrolik lift" }
       ]
@@ -273,17 +273,17 @@
   "process": [
     { "title": "Talep ve teklif", "description": "Yük tipi, hacim, adresler ve tarih alınır; aynı gün içinde yazılı fiyat verilir." },
     { "title": "Planlama", "description": "Yüke uygun araç ve ekip tahsis edilir, güzergâh ve yükleme saati netleşir." },
-    { "title": "Ambalaj ve yükleme", "description": "Kırılabilir ve hassas yükler ambalajlanır, etiketlenir ve araca istiflenir." },
+    { "title": "Mal kabul ve teslimat", "description": "Yük teslim alınırken sayılıp kontrol edilir; varış noktasında mağaza içine kadar taşınır ve kuryeli teslimatla elden teslim edilir." },
     { "title": "Yolda takip", "description": "Sevkiyat boyunca tek bir irtibat numarasından konum ve tahmini varış bilgisi alınır." },
     { "title": "Teslim ve belge", "description": "Teslimat, sayım ve imzalı irsaliye ile kapanır; belgeler tarafınıza iletilir." }
   ],
 
   "about": {
     "eyebrow": "Hakkımızda",
-    "title": "Sultanbeyli'den Türkiye geneline",
-    "description": "Memetoğlu Taşımacılık, İstanbul Sultanbeyli merkezli bir karayolu taşımacılığı ve lojistik firmasıdır. Küçük hacimli koli gönderilerinden komple araç sevkiyatına kadar geniş bir yelpazede hizmet verir.",
-    "image": "img/city-truck.jpg",
-    "alt": "Şehir içinde viyadük altından geçen kapalı kasa araç",
+    "title": "İstanbul Avrupa ve Anadolu'dan Türkiye geneline",
+    "description": "Memetoğlu Taşımacılık, Sultanbeyli'deki ofisinden İstanbul'un Avrupa ve Anadolu yakasına ve Türkiye geneline hizmet veren bir karayolu taşımacılığı ve lojistik firmasıdır. Küçük hacimli koli gönderilerinden marka projelerine dedike araç tedarikine kadar geniş bir yelpazede hizmet verir.",
+    "image": "img/van-building.jpg",
+    "alt": "Memetoğlu Taşımacılık logolu aracı",
     "features": [
       { "title": "Tek muhatap", "description": "Teklif, yükleme ve teslimat tek bir sorumlu üzerinden yürür. Aktarma noktalarında kaybolan bilgi olmaz." },
       { "title": "Yazılı fiyat", "description": "Sözlü tahmin yerine, kapsamı yazılı belirtilmiş sabit teklif. Sonradan eklenen kalem yok." },
