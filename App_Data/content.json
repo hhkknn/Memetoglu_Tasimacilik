@@ -75,9 +75,9 @@
     "noticeEnabled": true,
     "noticeText": "Örnek veriler — gerçek rakamlarla güncellenecek",
     "items": [
+      { "value": "35", "label": "Öz mal kamyonet filosu" },
+      { "value": "97", "label": "Alt tedarikçi araç ağı" },
       { "value": "81", "label": "İl geneli şehirler arası sevkiyat ağı" },
-      { "value": "%98", "label": "Söz verilen günde teslim oranı" },
-      { "value": "12", "label": "Kamyonet ve panelvan araç" },
       { "value": "7/24", "label": "Sevkiyat planlama ve destek hattı" }
     ]
   },
