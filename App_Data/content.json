@@ -5,12 +5,12 @@
     "logo": "img/logo.png",
     "email": "info@memetoglutasimacilik.com",
     "phones": [
-      { "label": "0538 612 90 91", "dial": "+905386129091" },
-      { "label": "0538 578 75 17", "dial": "+905385787517" }
+      { "label": "0538 578 75 17", "dial": "+905385787517" },
+      { "label": "0538 612 90 91", "dial": "+905386129091" }
     ],
     "whatsapp": {
       "enabled": true,
-      "number": "905386129091",
+      "number": "905385787517",
       "message": "Merhaba, web siteniz üzerinden yazıyorum. Bir taşıma için fiyat teklifi almak istiyorum."
     },
     "address": {
