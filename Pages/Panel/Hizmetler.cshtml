@@ -4,6 +4,7 @@
     ViewData["Title"] = "Hizmetler";
     ViewData["Sayfa"] = "hizmetler";
     var liste = Model.Icerik.Services;
+    var wm = Model.Icerik.WorkModels;
 }
 
 <h1>Hizmetler</h1>
@@ -59,6 +60,22 @@
     @await Html.PartialAsync("_Alan", new AlanVm { Ad = "yeni_alt", Etiket = "Görselin alternatif metni" })
     @await Html.PartialAsync("_Alan", new AlanVm { Ad = "yeni_etiketler", Etiket = "Etiketler", Ipucu = "Virgülle ayırın." })
     <p class="ipucu">Ad alanını doldurup kaydettiğinizde yeni kart listenin sonuna eklenir.</p>
+</details>
+
+<h2>Çalışma modelleri</h2>
+<p class="ipucu">Hizmet kartlarının hemen altında görünen FTL, B2B, parsiyel gibi çalışma biçimleri.</p>
+<details class="kart">
+    <summary>Çalışma modelleri bölümü</summary>
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "wm_acik", Etiket = "Bölümü sitede göster", Tur = "kutu", Isaretli = wm.Enabled })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "wm_ust", Etiket = "Üst etiket", Deger = wm.Eyebrow })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "wm_baslik", Etiket = "Başlık", Deger = wm.Title })
+    @await Html.PartialAsync("_Alan", new AlanVm { Ad = "wm_aciklama", Etiket = "Açıklama", Deger = wm.Description, Tur = "uzun" })
+    @await Html.PartialAsync("_Alan", new AlanVm
+    {
+        Ad = "wm_satirlar", Etiket = "Modeller", Tur = "uzun", Satir = 10,
+        Deger = string.Join("\n", wm.Items.Select(o => $"{o.Code} | {o.Title} | {o.Description}")),
+        Ipucu = "Her satıra bir model: Kısa ad | Açılımı | Açıklama. Örnek: FTL | Komple araç | Aracın tamamı sizin yükünüze ayrılır."
+    })
 </details>
 
 <div class="kaydet-cubugu">

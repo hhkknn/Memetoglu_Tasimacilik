@@ -85,17 +85,19 @@
   "references": {
     "enabled": true,
     "title": "Bize güvenen firmalar",
-    "noticeEnabled": true,
-    "noticeText": "Örnek kutular — gerçek müşteri logolarıyla değiştirilecek",
+    "noticeEnabled": false,
+    "noticeText": "",
     "items": [
-      { "name": "Referans 01", "logo": "", "url": "" },
-      { "name": "Referans 02", "logo": "", "url": "" },
-      { "name": "Referans 03", "logo": "", "url": "" },
-      { "name": "Referans 04", "logo": "", "url": "" },
-      { "name": "Referans 05", "logo": "", "url": "" },
-      { "name": "Referans 06", "logo": "", "url": "" },
-      { "name": "Referans 07", "logo": "", "url": "" },
-      { "name": "Referans 08", "logo": "", "url": "" }
+      { "name": "Çiçek Sepeti", "logo": "", "url": "" },
+      { "name": "English Home", "logo": "", "url": "" },
+      { "name": "Vestel", "logo": "", "url": "" },
+      { "name": "JTI", "logo": "", "url": "" },
+      { "name": "FLO", "logo": "", "url": "" },
+      { "name": "Eren Perakende", "logo": "", "url": "" },
+      { "name": "Levi's", "logo": "", "url": "" },
+      { "name": "Puma", "logo": "", "url": "" },
+      { "name": "Koton", "logo": "", "url": "" },
+      { "name": "TCL", "logo": "", "url": "" }
     ]
   },
 
@@ -156,6 +158,23 @@
       "tags": ["Bayi–servis teslimat", "Mağaza–AVM teslimat", "Tersine–iade teslimat", "Depodan şubeye teslimat"]
     }
   ],
+
+  "workModels": {
+    "enabled": true,
+    "eyebrow": "Çalışma Modellerimiz",
+    "title": "Operasyonunuza uyan modelle çalışırız",
+    "description": "Yükün hacmine, alıcısına ve dağıtım ağınıza göre doğru modeli birlikte seçer, gerekirse aynı projede birkaçını birleştiririz.",
+    "items": [
+      { "code": "FTL", "title": "Komple araç", "description": "Aracın tamamı yalnızca sizin yükünüze ayrılır; yükleme noktasından teslimata aktarmasız gider." },
+      { "code": "LTL", "title": "Parça yük", "description": "Araç kapasitesi diğer gönderilerle paylaşılır; palet bazlı yüklerde yalnızca kullandığınız alan kadar ödersiniz." },
+      { "code": "Parsiyel", "title": "Koli ve küçük hacim", "description": "Tek araç dolduramayan koli ve parça gönderiler ortak sevkiyatlarla güzergâha eklenir." },
+      { "code": "B2B", "title": "Firmadan firmaya", "description": "Depo, mağaza ve bayi sevkiyatları; randevulu, irsaliyeli ve teslim tutanaklı teslimat." },
+      { "code": "B2C", "title": "Firmadan tüketiciye", "description": "E-ticaret ve perakende siparişlerinin son kullanıcının adresine teslimi." },
+      { "code": "Makro dağıtım", "title": "Ana hat taşıma", "description": "Merkez depodan bölge depolarına ve aktarma noktalarına planlı, düzenli hat sevkiyatı." },
+      { "code": "Mikro dağıtım", "title": "Son kilometre", "description": "Şehir içinde mağaza ve adres bazlı, çok noktalı dağıtım; dar güzergâhlarda kamyonet ve panelvan." },
+      { "code": "Road Freight", "title": "Karayolu taşıma modeli", "description": "Planlama, araç tahsisi, yükleme ve teslimatın tek elden yürütüldüğü uçtan uca karayolu taşımacılığı." }
+    ]
+  },
 
   "solutions": {
     "enabled": true,

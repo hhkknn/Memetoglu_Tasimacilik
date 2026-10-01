@@ -1,0 +1,27 @@
+@model SiteContent
+@{
+    var m = Model.WorkModels;
+    if (!m.Enabled || m.Items.Count == 0) { return; }
+}
+
+<section class="section section-alt" id="calisma-modelleri">
+    <div class="wrap">
+        <div class="section-head" data-reveal="up">
+            @if (!string.IsNullOrWhiteSpace(m.Eyebrow)) { <p class="eyebrow">@m.Eyebrow</p> }
+            <h2>@m.Title</h2>
+            @if (!string.IsNullOrWhiteSpace(m.Description)) { <p>@m.Description</p> }
+        </div>
+
+        <ul class="wm-grid">
+            @for (var i = 0; i < m.Items.Count; i++)
+            {
+                var o = m.Items[i];
+                <li class="wm" data-reveal="up" style="transition-delay:@((i % 4) * 80)ms">
+                    <b>@o.Code</b>
+                    @if (!string.IsNullOrWhiteSpace(o.Title)) { <span class="wm-title">@o.Title</span> }
+                    @if (!string.IsNullOrWhiteSpace(o.Description)) { <p>@o.Description</p> }
+                </li>
+            }
+        </ul>
+    </div>
+</section>

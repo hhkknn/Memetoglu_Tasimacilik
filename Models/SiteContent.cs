@@ -32,6 +32,9 @@ public sealed class SiteContent
     [JsonPropertyName("services")]
     public List<ServiceCard> Services { get; set; } = new();
 
+    [JsonPropertyName("workModels")]
+    public WorkModelsBlock WorkModels { get; set; } = new();
+
     [JsonPropertyName("solutions")]
     public SolutionsBlock Solutions { get; set; } = new();
 
@@ -199,6 +202,25 @@ public sealed class Spec
 {
     [JsonPropertyName("label")] public string Label { get; set; } = "";
     [JsonPropertyName("value")] public string Value { get; set; } = "";
+}
+
+// ---------------------------------------------------------------- Çalışma modelleri
+
+public sealed class WorkModelsBlock
+{
+    [JsonPropertyName("enabled")] public bool Enabled { get; set; } = true;
+    [JsonPropertyName("eyebrow")] public string Eyebrow { get; set; } = "";
+    [JsonPropertyName("title")] public string Title { get; set; } = "";
+    [JsonPropertyName("description")] public string Description { get; set; } = "";
+    [JsonPropertyName("items")] public List<WorkModel> Items { get; set; } = new();
+}
+
+/// <summary>Code kartta büyük yazılır (FTL, B2B…); Title onun açılımıdır.</summary>
+public sealed class WorkModel
+{
+    [JsonPropertyName("code")] public string Code { get; set; } = "";
+    [JsonPropertyName("title")] public string Title { get; set; } = "";
+    [JsonPropertyName("description")] public string Description { get; set; } = "";
 }
 
 public sealed class SolutionsBlock

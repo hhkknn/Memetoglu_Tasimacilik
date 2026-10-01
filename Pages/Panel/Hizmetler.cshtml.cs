@@ -80,6 +80,12 @@ public sealed class HizmetlerModel : PageModel
         }
 
         icerik.Services = yeni;
+
+        icerik.WorkModels.Enabled = IndexModel.Kutu(f, "wm_acik");
+        icerik.WorkModels.Eyebrow = IndexModel.Metin(f, "wm_ust");
+        icerik.WorkModels.Title = IndexModel.Metin(f, "wm_baslik");
+        icerik.WorkModels.Description = IndexModel.Metin(f, "wm_aciklama");
+        icerik.WorkModels.Items = ModelleriAyir(f["wm_satirlar"].FirstOrDefault());
         var ok = await _icerik.WriteAsync(icerik);
 
         TempData["Bildirim"] = ok
@@ -89,6 +95,20 @@ public sealed class HizmetlerModel : PageModel
 
         return RedirectToPage("/Panel/Hizmetler");
     }
+
+    /// <summary>"Kısa ad | Açılımı | Açıklama" satırlarını çalışma modellerine çevirir.</summary>
+    private static List<WorkModel> ModelleriAyir(string? ham) =>
+        (ham ?? "")
+            .Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+            .Select(satir => satir.Split('|', 3, StringSplitOptions.TrimEntries))
+            .Where(p => p[0].Length > 0)
+            .Select(p => new WorkModel
+            {
+                Code = p[0],
+                Title = p.Length > 1 ? p[1] : "",
+                Description = p.Length > 2 ? p[2] : "",
+            })
+            .ToList();
 
     /// <summary>Virgülle ayrılmış etiket metnini listeye çevirir.</summary>
     private static List<string> EtiketAyir(string? ham) =>
