@@ -88,16 +88,16 @@
     "noticeEnabled": false,
     "noticeText": "",
     "items": [
-      { "name": "Çiçek Sepeti", "logo": "", "url": "" },
+      { "name": "Çiçek Sepeti", "logo": "img/referanslar/cicek-sepeti.png", "url": "" },
       { "name": "English Home", "logo": "img/referanslar/english-home.png", "url": "" },
-      { "name": "Vestel", "logo": "", "url": "" },
+      { "name": "Vestel", "logo": "img/referanslar/vestel.png", "url": "" },
       { "name": "JTI", "logo": "img/referanslar/jti.png", "url": "" },
       { "name": "FLO", "logo": "img/referanslar/flo.png", "url": "" },
       { "name": "Eren Perakende", "logo": "img/referanslar/eren-perakende.png", "url": "" },
-      { "name": "Levi's", "logo": "", "url": "" },
+      { "name": "Levi's", "logo": "img/referanslar/levis.png", "url": "" },
       { "name": "Puma", "logo": "", "url": "" },
       { "name": "Koton", "logo": "img/referanslar/koton.png", "url": "" },
-      { "name": "TCL", "logo": "", "url": "" }
+      { "name": "TCL", "logo": "img/referanslar/tcl.png", "url": "" }
     ]
   },
 
