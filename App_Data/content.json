@@ -95,7 +95,7 @@
       { "name": "FLO", "logo": "img/referanslar/flo.png", "url": "" },
       { "name": "Eren Perakende", "logo": "img/referanslar/eren-perakende.png", "url": "" },
       { "name": "Levi's", "logo": "img/referanslar/levis.png", "url": "" },
-      { "name": "Puma", "logo": "", "url": "" },
+      { "name": "Puma", "logo": "img/referanslar/puma.png", "url": "" },
       { "name": "Koton", "logo": "img/referanslar/koton.png", "url": "" },
       { "name": "TCL", "logo": "img/referanslar/tcl.png", "url": "" }
     ]
