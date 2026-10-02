@@ -10,6 +10,44 @@ setlocal
 cd /d "%~dp0"
 title Memetoglu Web - yayin paketi
 
+rem --- Once GitHub'daki son surumu al: eski kopya paketlenmesin ---
+set "GIT="
+where git >nul 2>nul && set "GIT=git"
+if defined GIT goto gitbulundu
+set "VSWHERE=%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe"
+if not exist "%VSWHERE%" goto gitatla
+for /f "usebackq delims=" %%G in (`call "%VSWHERE%" -latest -products * -find "**\Git\cmd\git.exe"`) do set "GIT=%%G"
+if not defined GIT goto gitatla
+
+:gitbulundu
+if not exist ".git" goto gitatla
+echo.
+echo  [0/3] GitHub'dan son degisiklikler aliniyor...
+"%GIT%" pull --ff-only
+if not errorlevel 1 goto gitbitti
+echo.
+echo  [!] Son surum ALINAMADI. Paket eski surumle hazirlanirdi, durduruldu.
+echo      Asagida bu bilgisayarda degistirilmis dosyalar listelenir:
+"%GIT%" status --short
+echo.
+echo      App_Data\content.json listedeyse yerel panelde yapilan degisiklik
+echo      guncellemeyi engelliyordur. Yerel degisikligi atmak icin:
+echo        "%GIT%" checkout -- App_Data/content.json
+echo      komutunu calistirip bu dosyayi tekrar acin.
+echo.
+pause
+exit /b 1
+
+:gitatla
+echo.
+echo  [!] Git bulunamadi; GitHub'dan guncelleme alinmadan paketleniyor.
+
+:gitbitti
+if defined GIT (
+  echo      Paketlenen surum:
+  "%GIT%" log -1 --oneline
+)
+
 echo.
 echo  [1/3] Yayin surumu derleniyor...
 if exist publish rmdir /s /q publish
