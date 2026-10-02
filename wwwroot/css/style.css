@@ -407,7 +407,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .ref-item:hover{border-color:var(--navy);background:var(--bg)}
 .ref-item img{max-width:100%;max-height:100%;object-fit:contain;filter:grayscale(1);opacity:.6;transition:filter .25s,opacity .25s}
 .ref-item:hover img{filter:none;opacity:1}
-.ref-ph{font-family:var(--display);font-weight:800;font-size:17px;letter-spacing:.03em;color:var(--navy);text-align:center}
+.ref-ph{font-family:var(--display);font-weight:800;font-size:17px;letter-spacing:.03em;color:var(--muted);opacity:.85;text-align:center}
 @keyframes refs-kay{to{transform:translateX(-50%)}}
 @media (max-width:640px){.ref-item{width:150px;height:72px}}
 /* Hareket azaltma tercihinde kaydırma yok: logolar ortalanmış satırlar hâlinde durur. */
