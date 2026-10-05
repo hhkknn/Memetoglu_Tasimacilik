@@ -23,3 +23,4 @@ public sealed class IndexModel(ContentService icerik) : IcerikSayfasiModel(iceri
 public sealed class HizmetlerSayfaModel(ContentService icerik) : IcerikSayfasiModel(icerik);
 public sealed class KurumsalModel(ContentService icerik) : IcerikSayfasiModel(icerik);
 public sealed class SssModel(ContentService icerik) : IcerikSayfasiModel(icerik);
+public sealed class KvkkModel(ContentService icerik) : IcerikSayfasiModel(icerik);

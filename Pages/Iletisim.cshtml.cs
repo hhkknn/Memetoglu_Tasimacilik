@@ -68,6 +68,7 @@ public sealed class IletisimModel : PageModel
             ("Hizmet türü", Bos(Form.Hizmet)),
             ("Planlanan tarih", Bos(Form.Tarih)),
             ("Yük detayı", Bos(Form.Detay)),
+            ("KVKK aydınlatma", $"Okudum onayı verildi ({DateTime.Now:dd.MM.yyyy HH:mm})"),
         };
 
         var duz = string.Join('\n', satirlar.Select(s => $"{s.Item1}: {s.Item2}"));
@@ -120,6 +121,15 @@ public sealed class TeklifFormu
     [StringLength(120)] public string? Hizmet { get; set; }
     [StringLength(40)] public string? Tarih { get; set; }
     [StringLength(2000)] public string? Detay { get; set; }
+
+    /// <summary>
+    /// Ziyaretçinin KVKK aydınlatma metnini okuduğunu onaylaması. Bu bir "açık rıza"
+    /// değildir: teklif hazırlamak için veri işleme sözleşmenin kurulması (KVKK m.5/2-c)
+    /// sebebine dayanır; onay yalnızca bilgilendirmenin yapıldığını kayda geçirir.
+    /// </summary>
+    [Range(typeof(bool), "true", "true",
+        ErrorMessage = "Devam etmek için KVKK Aydınlatma Metni'ni okuduğunuzu onaylayın.")]
+    public bool KvkkOkudum { get; set; }
 
     /// <summary>Bot tuzağı — ekranda gizlidir, dolu gelirse istek yok sayılır.</summary>
     public string? Website { get; set; }

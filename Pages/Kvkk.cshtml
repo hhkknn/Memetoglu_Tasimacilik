@@ -1,0 +1,99 @@
+@page "/kvkk"
+@model KvkkModel
+@{
+    ViewData["Baslik"] = "KVKK Aydınlatma Metni";
+    ViewData["Aciklama"] = "6698 sayılı Kişisel Verilerin Korunması Kanunu kapsamında web sitesi ziyaretçileri ve teklif talep edenler için aydınlatma metni.";
+    var ayar = Model.Icerik.Settings;
+    var adres = ayar.Address.OneLine;
+}
+
+@*
+    Bu metin genel bir şablondur. Yayına almadan önce firmanın tam ticari
+    unvanı ve vergi bilgileri eklenmeli, bir hukukçuya kontrol ettirilmelidir.
+*@
+<main id="icerik">
+    <partial name="Sections/_SayfaBasligi" model="@(new SayfaBasligiVm("Yasal", "KVKK Aydınlatma Metni", "6698 sayılı Kişisel Verilerin Korunması Kanunu kapsamında bilgilendirme"))" />
+
+    <section class="section">
+        <div class="wrap legal">
+            <h2>1. Veri sorumlusu</h2>
+            <p>
+                Bu aydınlatma metni, 6698 sayılı Kişisel Verilerin Korunması Kanunu'nun ("KVKK") 10. maddesi
+                uyarınca, veri sorumlusu sıfatıyla <strong>@ayar.CompanyName</strong> ("Şirket") tarafından hazırlanmıştır.
+                Adres: @adres. E-posta: <a href="mailto:@ayar.Email">@ayar.Email</a>.
+            </p>
+
+            <h2>2. İşlenen kişisel veriler</h2>
+            <p>Web sitemizdeki teklif formunu doldurduğunuzda aşağıdaki veriler işlenir:</p>
+            <ul>
+                <li><strong>Kimlik:</strong> ad, soyad</li>
+                <li><strong>İletişim:</strong> telefon numarası, e-posta adresi</li>
+                <li><strong>Talep bilgileri:</strong> yükleme ve teslim yeri, hizmet türü, planlanan tarih, yük detayı</li>
+                <li><strong>İşlem güvenliği:</strong> formun gönderildiği tarih ve saat, sunucu kayıtlarında tutulan IP adresi</li>
+            </ul>
+            <p>Telefon veya WhatsApp üzerinden bize ulaştığınızda, paylaştığınız bilgiler de aynı amaçlarla işlenir.</p>
+
+            <h2>3. İşleme amaçları</h2>
+            <ul>
+                <li>Taşıma talebinize uygun fiyat teklifinin hazırlanması ve size iletilmesi,</li>
+                <li>Talebinizle ilgili sizinle iletişime geçilmesi,</li>
+                <li>Teklifin kabul edilmesi hâlinde taşıma hizmetinin planlanması,</li>
+                <li>Web sitesinin güvenliğinin sağlanması ve kötüye kullanımın önlenmesi,</li>
+                <li>Yasal yükümlülüklerin yerine getirilmesi.</li>
+            </ul>
+
+            <h2>4. Hukuki sebepler ve toplama yöntemi</h2>
+            <p>
+                Kişisel verileriniz, web sitesindeki form, telefon, e-posta ve WhatsApp aracılığıyla elektronik ortamda toplanır ve
+                KVKK'nın 5. maddesinin 2. fıkrasında yer alan şu hukuki sebeplere dayanılarak işlenir:
+            </p>
+            <ul>
+                <li>(c) Bir sözleşmenin kurulması veya ifasıyla doğrudan ilgili olması — teklif hazırlanması ve hizmetin verilmesi,</li>
+                <li>(ç) Veri sorumlusunun hukuki yükümlülüğünü yerine getirebilmesi,</li>
+                <li>(f) İlgili kişinin temel hak ve özgürlüklerine zarar vermemek kaydıyla, veri sorumlusunun meşru menfaati — site güvenliği.</li>
+            </ul>
+            <p>Bu işlemler için ayrıca açık rızanız istenmez. Formdaki onay kutusu, bu metni okuduğunuzu kayda geçirmek içindir.</p>
+
+            <h2>5. Aktarım</h2>
+            <p>
+                Kişisel verileriniz pazarlama amacıyla üçüncü kişilerle paylaşılmaz ve satılmaz. Yalnızca yukarıdaki amaçlarla sınırlı olmak üzere;
+                web sitesinin barındırıldığı sunucu hizmeti ve e-posta hizmeti sağlayıcılarına, taşıma hizmetinin ifası için gerekli olduğu ölçüde
+                hizmet verdiğimiz alt yükleniciler ve sürücülere, talep edilmesi hâlinde yetkili kamu kurum ve kuruluşlarına aktarılabilir.
+            </p>
+
+            <h2>6. Saklama süresi</h2>
+            <p>
+                Teklif talepleri, talebin sonuçlanmasından itibaren en fazla 2 yıl saklanır. Hizmet sözleşmesine dönüşen talepler ise ilgili
+                mevzuatta öngörülen süreler boyunca saklanır. Süre sonunda veriler silinir, yok edilir veya anonim hâle getirilir.
+            </p>
+
+            <h2>7. Çerezler</h2>
+            <p>
+                Web sitemiz reklam veya ziyaretçi takibi amaçlı çerez kullanmaz. Yalnızca formun güvenli çalışması için gerekli,
+                oturum süresince geçerli teknik çerezler kullanılır.
+            </p>
+
+            <h2>8. Haklarınız</h2>
+            <p>KVKK'nın 11. maddesi uyarınca Şirket'e başvurarak:</p>
+            <ul>
+                <li>Kişisel verilerinizin işlenip işlenmediğini öğrenme ve işlenmişse buna ilişkin bilgi talep etme,</li>
+                <li>İşlenme amacını ve amacına uygun kullanılıp kullanılmadığını öğrenme,</li>
+                <li>Yurt içinde veya yurt dışında aktarıldığı üçüncü kişileri bilme,</li>
+                <li>Eksik veya yanlış işlenmişse düzeltilmesini, KVKK'nın 7. maddesindeki şartlar çerçevesinde silinmesini veya yok edilmesini isteme,</li>
+                <li>Düzeltme, silme ve yok etme işlemlerinin verilerin aktarıldığı üçüncü kişilere bildirilmesini isteme,</li>
+                <li>Münhasıran otomatik sistemlerle analiz edilmesi suretiyle aleyhinize bir sonucun ortaya çıkmasına itiraz etme,</li>
+                <li>Kanuna aykırı işlenmesi sebebiyle zarara uğramanız hâlinde zararın giderilmesini talep etme</li>
+            </ul>
+            <p>haklarına sahipsiniz.</p>
+
+            <h2>9. Başvuru</h2>
+            <p>
+                Taleplerinizi, kimliğinizi tespit etmemizi sağlayacak bilgilerle birlikte yazılı olarak <strong>@adres</strong> adresine
+                veya <a href="mailto:@ayar.Email">@ayar.Email</a> adresine iletebilirsiniz. Başvurunuz, niteliğine göre en geç 30 gün içinde
+                ücretsiz olarak sonuçlandırılır.
+            </p>
+
+            <p class="legal-meta">Son güncelleme: @(new DateTime(2026, 10, 5).ToString("d MMMM yyyy", new System.Globalization.CultureInfo("tr-TR")))</p>
+        </div>
+    </section>
+</main>

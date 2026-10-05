@@ -156,7 +156,7 @@ app.MapGet("/sitemap.xml", (ContentService icerik, HttpContext ctx) =>
 
     var sayfalar = new (string Yol, string Oncelik)[]
     {
-        ("/", "1.0"), ("/hizmetler", "0.9"), ("/kurumsal", "0.7"), ("/sss", "0.6"), ("/iletisim", "0.8"),
+        ("/", "1.0"), ("/hizmetler", "0.9"), ("/kurumsal", "0.7"), ("/sss", "0.6"), ("/iletisim", "0.8"), ("/kvkk", "0.3"),
     };
     var tarih = DateTime.Now.ToString("yyyy-MM-dd");
     var adresler = string.Concat(sayfalar.Select(s => $"""

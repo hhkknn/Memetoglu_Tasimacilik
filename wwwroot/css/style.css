@@ -766,3 +766,18 @@ html.menu-open .side-nav a{opacity:1;transform:none;transition-delay:calc(var(--
   .svc-mini-hepsi a{flex-direction:row;align-items:center}
 }
 .cta-band{border-top:1px solid rgba(237,239,250,.1)}
+
+/* KVKK onay kutusu: kutu solda, metin sağda akar. */
+.kvkk-onay{display:flex;flex-direction:row;align-items:flex-start;gap:10px;margin:4px 0 16px}
+.kvkk-onay input{flex:none;width:18px;height:18px;padding:0;margin-top:2px;accent-color:var(--navy)}
+.kvkk-onay label{font-size:13px;line-height:1.5;color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0}
+.kvkk-onay a{color:var(--navy);font-weight:600}
+
+/* Yasal metin sayfası */
+.legal{max-width:76ch}
+.legal h2{font-size:21px;font-weight:700;margin:34px 0 10px}
+.legal p,.legal li{color:var(--muted);font-size:15.5px;line-height:1.7}
+.legal ul{padding-left:20px;margin:8px 0}
+.legal li{margin:4px 0}
+.legal .legal-meta{font-size:13px;color:var(--muted);border-top:1px solid var(--line);margin-top:40px;padding-top:16px}
+.foot-bottom a{color:inherit;text-underline-offset:3px}

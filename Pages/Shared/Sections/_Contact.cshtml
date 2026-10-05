@@ -138,6 +138,15 @@
                 <textarea asp-for="Form.Detay" rows="3" placeholder="Kaç koli / kaç metreküp, kat bilgisi, asansör durumu…"></textarea>
             </div>
 
+            <div class="field kvkk-onay">
+                <input id="kvkk-onay" type="checkbox" name="Form.KvkkOkudum" value="true" required
+                       checked="@Model.Form.KvkkOkudum">
+                <label for="kvkk-onay">
+                    Kişisel verilerimin teklif hazırlanması amacıyla işlenmesine ilişkin
+                    <a href="/kvkk" target="_blank">KVKK Aydınlatma Metni</a>'ni okudum. *
+                </label>
+            </div>
+
             <button class="btn btn-primary" type="submit" style="width:100%">Teklif iste</button>
 
             @if (!string.IsNullOrWhiteSpace(ile.FormNote))
