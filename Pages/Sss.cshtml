@@ -1,0 +1,14 @@
+@page "/sss"
+@model SssModel
+@{
+    ViewData["Baslik"] = "Sık Sorulan Sorular";
+    ViewData["Aciklama"] = "Fiyatlandırma, sigorta, teslim süreleri ve araç tahsisi hakkında sık sorulan sorular.";
+    ViewData["BolumBasligiGizle"] = true;
+    var sss = Model.Icerik.Faq;
+}
+
+<main id="icerik">
+    <partial name="Sections/_SayfaBasligi" model="@(new SayfaBasligiVm("Sık Sorulan Sorular", sss.Title, sss.Description))" />
+    <partial name="Sections/_Faq" model="Model.Icerik" />
+    <partial name="Sections/_IletisimCta" model="Model.Icerik" />
+</main>

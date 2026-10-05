@@ -1,0 +1,16 @@
+@page "/hizmetler"
+@model HizmetlerSayfaModel
+@{
+    ViewData["Baslik"] = "Hizmetler";
+    ViewData["Aciklama"] = "Koli ve parsiyel, askılıklı tekstil, dedike araç, şehir içi ve şehirler arası taşımacılık; FTL, LTL, B2B ve B2C çalışma modelleri.";
+    var bas = Model.Icerik.ServicesSection;
+    ViewData["BolumBasligiGizle"] = true;
+}
+
+<main id="icerik">
+    <partial name="Sections/_SayfaBasligi" model="@(new SayfaBasligiVm("Hizmetler", bas.Title, bas.Description))" />
+    <partial name="Sections/_Services" model="Model.Icerik" />
+    <partial name="Sections/_WorkModels" model="Model.Icerik" />
+    <partial name="Sections/_Process" model="Model.Icerik" />
+    <partial name="Sections/_IletisimCta" model="Model.Icerik" />
+</main>

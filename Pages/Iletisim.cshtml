@@ -1,0 +1,11 @@
+@page "/iletisim"
+@model IletisimModel
+@{
+    ViewData["Baslik"] = "İletişim ve Teklif";
+    ViewData["Aciklama"] = "Taşımanız için ücretsiz teklif alın: telefon, WhatsApp ya da teklif formu. Sultanbeyli / İstanbul.";
+}
+
+<main id="icerik">
+    <partial name="Sections/_SayfaBasligi" model="@(new SayfaBasligiVm("İletişim", "Bize ulaşın", $"{Model.Icerik.Settings.Address.District} / {Model.Icerik.Settings.Address.City} · {Model.Icerik.Settings.WorkingHours.FirstOrDefault()}".TrimEnd(' ', '·')))" />
+    <partial name="Sections/_Contact" model="Model" />
+</main>

@@ -154,15 +154,23 @@ app.MapGet("/sitemap.xml", (ContentService icerik, HttpContext ctx) =>
         ? $"{ctx.Request.Scheme}://{ctx.Request.Host}"
         : ayar.SiteUrl.TrimEnd('/');
 
+    var sayfalar = new (string Yol, string Oncelik)[]
+    {
+        ("/", "1.0"), ("/hizmetler", "0.9"), ("/kurumsal", "0.7"), ("/sss", "0.6"), ("/iletisim", "0.8"),
+    };
+    var tarih = DateTime.Now.ToString("yyyy-MM-dd");
+    var adresler = string.Concat(sayfalar.Select(s => $"""
+
+          <url>
+            <loc>{kok}{s.Yol}</loc>
+            <lastmod>{tarih}</lastmod>
+            <changefreq>monthly</changefreq>
+            <priority>{s.Oncelik}</priority>
+          </url>
+        """));
     var xml = $"""
         <?xml version="1.0" encoding="UTF-8"?>
-        <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-          <url>
-            <loc>{kok}/</loc>
-            <lastmod>{DateTime.Now:yyyy-MM-dd}</lastmod>
-            <changefreq>monthly</changefreq>
-            <priority>1.0</priority>
-          </url>
+        <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{adresler}
         </urlset>
         """;
 

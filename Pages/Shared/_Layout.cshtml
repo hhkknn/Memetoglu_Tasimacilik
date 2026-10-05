@@ -9,13 +9,22 @@
 
     var menu = new (string Href, string Etiket)[]
     {
-        ("#hizmetler", "Hizmetler"),
-        ("#cozumler", "Çözümler"),
-        ("#filo", "Filo"),
-        ("#kapsama", "Kapsama"),
-        ("#surec", "Nasıl Çalışır"),
-        ("#hakkimizda", "Hakkımızda"),
+        ("/", "Ana Sayfa"),
+        ("/hizmetler", "Hizmetler"),
+        ("/kurumsal", "Kurumsal"),
+        ("/sss", "SSS"),
+        ("/iletisim", "İletişim"),
     };
+    var yol = (Context.Request.Path.Value ?? "/").TrimEnd('/').ToLowerInvariant();
+    if (yol.Length == 0) { yol = "/"; }
+    string? Aktif(string href) => href == yol ? "page" : null;
+
+    // Sayfa başlığı ve açıklaması: alt sayfalar ViewData ile kendi değerini verir.
+    var sayfaAdi = ViewData["Baslik"] as string;
+    var anaBaslik = string.IsNullOrWhiteSpace(seo.Title) ? ayar.CompanyName : seo.Title;
+    var baslik = sayfaAdi is null ? anaBaslik : $"{sayfaAdi} | {ayar.CompanyName}";
+    var aciklama = ViewData["Aciklama"] as string ?? seo.Description;
+    var kanonik = siteUrl + (yol == "/" ? "/" : yol);
 
     // Google'ın işletmeyi tanıması için yapısal veri.
     var yapisalVeri = System.Text.Json.JsonSerializer.Serialize(new
@@ -45,11 +54,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
-    <title>@(string.IsNullOrWhiteSpace(seo.Title) ? ayar.CompanyName : seo.Title)</title>
-    <meta name="description" content="@seo.Description">
+    <title>@baslik</title>
+    <meta name="description" content="@aciklama">
     @if (!string.IsNullOrWhiteSpace(siteUrl))
     {
-        <link rel="canonical" href="@(siteUrl + "/")">
+        <link rel="canonical" href="@kanonik">
     }
     <meta name="robots" content="@(seo.NoIndex ? "noindex, nofollow" : "index, follow")">
     <meta name="theme-color" content="#10132C">
@@ -57,8 +66,8 @@
     <meta property="og:type" content="website">
     <meta property="og:locale" content="tr_TR">
     <meta property="og:site_name" content="@ayar.CompanyName">
-    <meta property="og:title" content="@(string.IsNullOrWhiteSpace(seo.Title) ? ayar.CompanyName : seo.Title)">
-    <meta property="og:description" content="@seo.Description">
+    <meta property="og:title" content="@baslik">
+    <meta property="og:description" content="@aciklama">
     @if (!string.IsNullOrWhiteSpace(siteUrl) && !string.IsNullOrWhiteSpace(seo.ShareImage))
     {
         <meta property="og:image" content="@(siteUrl + Yardimci.Medya(seo.ShareImage))">
@@ -94,7 +103,7 @@
 
     <header class="site-header">
         <div class="wrap">
-            <a class="brand" href="#top">
+            <a class="brand" href="/">
                 <span class="logo-tile"><img src="@Yardimci.Medya(ayar.Logo)" alt="@ayar.CompanyName logosu" width="38" height="38"></span>
                 <span>
                     <span class="brand-name">@adIlk</span>
@@ -105,13 +114,16 @@
             <nav class="main" aria-label="Ana menü">
                 @foreach (var (href, etiket) in menu)
                 {
-                    <a href="@href">@etiket</a>
+                    <a href="@href" aria-current="@Aktif(href)">@etiket</a>
                 }
             </nav>
 
             <div class="header-cta">
-                <a class="btn btn-headerGhost btn-sm" href="#iletisim">Bize Ulaşın</a>
-                <a class="btn btn-primary btn-sm" href="#iletisim">Teklif Alın</a>
+                @if (ayar.Phones.Count > 0)
+                {
+                    <a class="btn btn-headerGhost btn-sm" href="@Yardimci.TelHref(ayar.Phones[0])">Hemen Arayın</a>
+                }
+                <a class="btn btn-primary btn-sm" href="/iletisim">Teklif Alın</a>
                 <button type="button" class="menu-toggle" id="menu-toggle"
                         aria-expanded="false" aria-controls="yan-menu" aria-label="Menüyü aç">
                     <span aria-hidden="true"></span>
@@ -123,13 +135,18 @@
 </div>
 
 @{
-    var yanMenu = menu.Concat(new (string Href, string Etiket)[]
+    var yanMenu = new List<(string Href, string Etiket)>
     {
-        ("#yorumlar", "Yorumlar"),
-        ("#sss", "Sık Sorulan Sorular"),
-        ("#iletisim", "İletişim"),
-    }).ToList();
-    yanMenu.Insert(1, ("#calisma-modelleri", "Çalışma Modelleri"));
+        ("/", "Ana Sayfa"),
+        ("/hizmetler", "Hizmetler"),
+        ("/hizmetler#calisma-modelleri", "Çalışma Modelleri"),
+        ("/hizmetler#surec", "Nasıl Çalışır"),
+        ("/kurumsal", "Hakkımızda"),
+        ("/kurumsal#filo", "Filomuz"),
+        ("/kurumsal#kapsama", "Kapsama Alanı"),
+        ("/sss", "Sık Sorulan Sorular"),
+        ("/iletisim", "İletişim ve Teklif"),
+    };
 }
 <div class="menu-shade" data-menu-kapat aria-hidden="true"></div>
 <aside class="side-menu" id="yan-menu" aria-label="Site menüsü" inert>
@@ -141,7 +158,7 @@
     <nav class="side-nav">
         @for (var i = 0; i < yanMenu.Count; i++)
         {
-            <a href="@yanMenu[i].Href" style="--i:@i"><span class="n">@((i + 1).ToString("00"))</span>@yanMenu[i].Etiket</a>
+            <a href="@yanMenu[i].Href" aria-current="@Aktif(yanMenu[i].Href)" style="--i:@i"><span class="n">@((i + 1).ToString("00"))</span>@yanMenu[i].Etiket</a>
         }
     </nav>
 
@@ -151,7 +168,7 @@
             <ul>
                 @foreach (var h in icerik.Services)
                 {
-                    <li><a href="#hizmetler">@h.Title</a></li>
+                    <li><a href="/hizmetler#hizmet-@(icerik.Services.IndexOf(h) + 1)">@h.Title</a></li>
                 }
             </ul>
         </div>
@@ -165,7 +182,7 @@
                 <li><a href="mailto:@ayar.Email">@ayar.Email</a></li>
             </ul>
         </div>
-        <a class="btn btn-primary" href="#iletisim">Teklif Alın</a>
+        <a class="btn btn-primary" href="/iletisim">Teklif Alın</a>
     </div>
 </aside>
 
@@ -209,7 +226,7 @@
                 <ul>
                     @foreach (var h in icerik.Services.Take(6))
                     {
-                        <li><a href="#hizmetler">@h.Title</a></li>
+                        <li><a href="/hizmetler#hizmet-@(icerik.Services.IndexOf(h) + 1)">@h.Title</a></li>
                     }
                 </ul>
             </div>
@@ -217,15 +234,14 @@
             <div class="foot-col">
                 <h4>Kurumsal</h4>
                 <ul>
-                    <li><a href="#hakkimizda">Hakkımızda</a></li>
-                    <li><a href="#filo">Filomuz</a></li>
-                    <li><a href="#kapsama">Kapsama alanı</a></li>
-                    <li><a href="#surec">Nasıl çalışır</a></li>
-                    <li><a href="#calisma-modelleri">Çalışma modelleri</a></li>
-                    <li><a href="#cozumler">Çözüm merkezi</a></li>
-                    <li><a href="#yorumlar">Yorumlar</a></li>
-                    <li><a href="#sss">Sık sorulan sorular</a></li>
-                    <li><a href="#iletisim">İletişim</a></li>
+                    <li><a href="/kurumsal">Hakkımızda</a></li>
+                    <li><a href="/kurumsal#filo">Filomuz</a></li>
+                    <li><a href="/kurumsal#kapsama">Kapsama alanı</a></li>
+                    <li><a href="/hizmetler#surec">Nasıl çalışır</a></li>
+                    <li><a href="/hizmetler#calisma-modelleri">Çalışma modelleri</a></li>
+                    <li><a href="/#yorumlar">Yorumlar</a></li>
+                    <li><a href="/sss">Sık sorulan sorular</a></li>
+                    <li><a href="/iletisim">İletişim</a></li>
                 </ul>
             </div>
 

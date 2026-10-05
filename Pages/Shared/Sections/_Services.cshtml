@@ -8,17 +8,21 @@
 
 <section class="section" id="hizmetler">
     <div class="wrap">
+        @* Hizmetler sayfasında başlık zaten üst bantta yazdığı için tekrar edilmez. *@
+        @if (ViewData["BolumBasligiGizle"] is not true)
+        {
         <div class="section-head" data-reveal="up">
             @if (!string.IsNullOrWhiteSpace(bas.Eyebrow)) { <p class="eyebrow">@bas.Eyebrow</p> }
             <h2>@bas.Title</h2>
             @if (!string.IsNullOrWhiteSpace(bas.Description)) { <p>@bas.Description</p> }
         </div>
+        }
 
         <div class="svc-grid">
             @for (var i = 0; i < liste.Count; i++)
             {
                 var h = liste[i];
-                <article class="svc" data-reveal="@yonler[i % 3]" style="transition-delay:@((i % 3) * 110)ms">
+                <article class="svc" id="hizmet-@(i + 1)" data-reveal="@yonler[i % 3]" style="transition-delay:@((i % 3) * 110)ms">
                     @if (HizmetIkonlari.Svg(h.Icon) is { } ikon)
                     {
                         <div class="shot ikonlu" aria-hidden="true">

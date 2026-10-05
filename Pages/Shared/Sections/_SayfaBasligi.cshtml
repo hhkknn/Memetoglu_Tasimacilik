@@ -1,0 +1,12 @@
+@model SayfaBasligiVm
+
+<section class="page-hero" id="top">
+    <div class="wrap">
+        <p class="eyebrow on-deep" data-reveal="up">@Model.Ust</p>
+        <h1 data-reveal="up" style="transition-delay:80ms">@Model.Baslik</h1>
+        @if (!string.IsNullOrWhiteSpace(Model.Aciklama))
+        {
+            <p class="page-hero-sub" data-reveal="up" style="transition-delay:160ms">@Model.Aciklama</p>
+        }
+    </div>
+</section>

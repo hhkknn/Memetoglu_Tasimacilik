@@ -1,0 +1,41 @@
+@model SiteContent
+@{
+    var bas = Model.ServicesSection;
+    var liste = Model.Services;
+    if (liste.Count == 0) { return; }
+}
+
+@* Ana sayfadaki kısa hizmet vitrini; ayrıntılar /hizmetler sayfasında. *@
+<section class="section" id="hizmetler">
+    <div class="wrap">
+        <div class="section-head" data-reveal="up">
+            @if (!string.IsNullOrWhiteSpace(bas.Eyebrow)) { <p class="eyebrow">@bas.Eyebrow</p> }
+            <h2>@bas.Title</h2>
+        </div>
+
+        <ul class="svc-mini">
+            @for (var i = 0; i < liste.Count; i++)
+            {
+                var h = liste[i];
+                <li data-reveal="up" style="transition-delay:@((i % 4) * 70)ms">
+                    <a href="/hizmetler#hizmet-@(i + 1)">
+                        @if (HizmetIkonlari.Svg(h.Icon) is { } ikon)
+                        {
+                            <span class="svc-mini-ikon" aria-hidden="true">
+                                <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">@Html.Raw(ikon)</svg>
+                            </span>
+                        }
+                        else if (!string.IsNullOrWhiteSpace(h.Image))
+                        {
+                            <span class="svc-mini-ikon foto" aria-hidden="true"><img src="@Yardimci.Medya(h.Image)" alt="" loading="lazy"></span>
+                        }
+                        <span class="svc-mini-ad">@h.Title</span>
+                    </a>
+                </li>
+            }
+            <li class="svc-mini-hepsi" data-reveal="up">
+                <a href="/hizmetler"><span class="svc-mini-ad">Tüm hizmetler ve çalışma modellerimiz</span><span class="ok" aria-hidden="true">→</span></a>
+            </li>
+        </ul>
+    </div>
+</section>

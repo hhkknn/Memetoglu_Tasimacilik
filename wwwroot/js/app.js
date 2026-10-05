@@ -104,9 +104,13 @@
     });
     // Bağlantıya tıklanınca önce sayfa yerine otursun, sonra kaydırılsın;
     // aksi hâlde kaydırma, sola itilmiş sayfa üzerinde hesaplanır.
-    Array.prototype.forEach.call(menu.querySelectorAll('a[href^="#"]'), function (a) {
+    // Başka sayfaya giden bağlantılar normal açılır; yalnızca aynı sayfadaki
+    // bir bölüme giden bağlantıda menü kapanıp o bölüme kaydırılır.
+    Array.prototype.forEach.call(menu.querySelectorAll('a[href]'), function (a) {
       a.addEventListener('click', function (olay) {
-        var hedef = document.querySelector(a.getAttribute('href'));
+        var adres = new URL(a.href, location.href);
+        if (adres.pathname !== location.pathname || !adres.hash) return;
+        var hedef = document.getElementById(decodeURIComponent(adres.hash.slice(1)));
         if (!hedef) return;
         olay.preventDefault();
         menuAyarla(false, false);

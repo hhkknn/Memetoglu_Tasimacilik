@@ -1,0 +1,26 @@
+@model SiteContent
+@{
+    var ayar = Model.Settings;
+    var wa = Yardimci.WhatsAppUrl(ayar.WhatsApp);
+}
+
+@* Alt sayfaların sonunda: okuyan ziyaretçiyi forma ya da telefona yönlendirir. *@
+<section class="cta-band">
+    <div class="wrap cta-band-in" data-reveal="up">
+        <div>
+            <h2>Taşımanızı birlikte planlayalım</h2>
+            <p>Yükünüzü, güzergâhınızı ve tarihinizi paylaşın; aynı gün yazılı teklif hazırlayalım.</p>
+        </div>
+        <div class="cta-band-actions">
+            <a class="btn btn-primary" href="/iletisim">Teklif formunu doldurun</a>
+            @if (ayar.Phones.Count > 0)
+            {
+                <a class="btn btn-onDeep" href="@Yardimci.TelHref(ayar.Phones[0])">@ayar.Phones[0].Label</a>
+            }
+            @if (wa is not null)
+            {
+                <a class="btn btn-whatsapp" href="@wa" target="_blank" rel="noopener">WhatsApp</a>
+            }
+        </div>
+    </div>
+</section>

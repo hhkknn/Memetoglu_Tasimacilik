@@ -1,0 +1,14 @@
+@page "/kurumsal"
+@model KurumsalModel
+@{
+    ViewData["Baslik"] = "Kurumsal";
+    ViewData["Aciklama"] = "Sultanbeyli merkezli Memetoğlu Taşımacılık: hakkımızda, kamyonet ve panelvan filomuz, hizmet verdiğimiz bölgeler.";
+}
+
+<main id="icerik">
+    <partial name="Sections/_SayfaBasligi" model="@(new SayfaBasligiVm("Kurumsal", "Memetoğlu Taşımacılık", "Kim olduğumuz, hangi araçlarla çalıştığımız ve nerelere hizmet verdiğimiz."))" />
+    <partial name="Sections/_About" model="Model.Icerik" />
+    <partial name="Sections/_Fleet" model="Model.Icerik" />
+    <partial name="Sections/_Coverage" model="Model.Icerik" />
+    <partial name="Sections/_IletisimCta" model="Model.Icerik" />
+</main>
