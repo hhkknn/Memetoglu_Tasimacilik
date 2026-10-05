@@ -84,7 +84,11 @@
     dugme.setAttribute('aria-expanded', acik ? 'true' : 'false');
     kok.classList.toggle('menu-open', acik);
     menu.inert = !acik;
-    document.body.style.overflow = acik ? 'hidden' : '';
+    // Geniş ekranda menü sayfayı kapatmaz, sağa yerleşip içeriği daraltır;
+    // soldaki içerik menü açıkken de kaydırılabilsin. Dar ekranda menü
+    // tüm ekranı kapladığı için arkadaki sayfa kilitlenir.
+    var genis = window.matchMedia('(min-width:1101px)').matches;
+    document.body.style.overflow = acik && !genis ? 'hidden' : '';
     if (acik) {
       var ilk = menu.querySelector('.side-nav a');
       if (ilk) ilk.focus({ preventScroll: true });
