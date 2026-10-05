@@ -19,7 +19,13 @@
             {
                 var h = liste[i];
                 <article class="svc" data-reveal="@yonler[i % 3]" style="transition-delay:@((i % 3) * 110)ms">
-                    @if (!string.IsNullOrWhiteSpace(h.Image))
+                    @if (HizmetIkonlari.Svg(h.Icon) is { } ikon)
+                    {
+                        <div class="shot ikonlu" aria-hidden="true">
+                            <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">@Html.Raw(ikon)</svg>
+                        </div>
+                    }
+                    else if (!string.IsNullOrWhiteSpace(h.Image))
                     {
                         <div class="shot">
                             <img src="@Yardimci.Medya(h.Image)" alt="@(string.IsNullOrWhiteSpace(h.Alt) ? h.Title : h.Alt)" loading="lazy" decoding="async">

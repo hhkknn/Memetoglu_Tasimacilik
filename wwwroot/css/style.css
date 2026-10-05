@@ -280,6 +280,20 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .svc:hover{border-color:var(--navy);transform:translateY(-2px)}
 .svc .shot{aspect-ratio:16/9;max-width:100%;overflow:hidden;background:var(--surface-2);border-bottom:1px solid var(--line)}
 .svc .shot img{width:100%;height:100%;object-fit:cover}
+/* Fotoğraf yerine ikon: marka lacivertinde degrade, hafif ızgara ve kırmızı alt çizgi. */
+.svc .shot.ikonlu{
+  aspect-ratio:2.4/1;display:grid;place-items:center;position:relative;color:#fff;border-bottom:0;
+  background:radial-gradient(120% 120% at 100% 0%,#2f35a8 0%,#22267F 45%,#10132C 100%);
+}
+.svc .shot.ikonlu::before{
+  content:"";position:absolute;inset:0;opacity:.18;
+  background-image:linear-gradient(rgba(255,255,255,.5) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.5) 1px,transparent 1px);
+  background-size:28px 28px;
+  -webkit-mask-image:radial-gradient(circle at 70% 30%,#000,transparent 75%);mask-image:radial-gradient(circle at 70% 30%,#000,transparent 75%);
+}
+.svc .shot.ikonlu::after{content:"";position:absolute;left:0;bottom:0;width:56px;height:3px;background:var(--accent)}
+.svc .shot.ikonlu svg{width:76px;height:76px;position:relative;transition:transform .2s}
+.svc:hover .shot.ikonlu svg{transform:translateY(-3px)}
 .svc-body{padding:22px;display:flex;flex-direction:column;gap:10px;flex:1}
 .svc h3{font-size:19px;font-weight:700}
 .svc p{font-size:14.5px;color:var(--muted)}

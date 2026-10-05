@@ -111,6 +111,7 @@
     {
       "title": "Koli & parsiyel taşımacılık",
       "description": "Tek koliden palet yüküne kadar parsiyel sevkiyat. Toplama, konsolidasyon ve dağıtım tek elden yürütülür.",
+      "icon": "koli",
       "image": "img/warehouse.jpg",
       "alt": "Kapalı kasa araca paletli yük yüklenmesi",
       "tags": ["Kapıdan kapıya", "Paletli yük", "Toplu gönderi"]
@@ -118,6 +119,7 @@
     {
       "title": "Dedike araç tedariki",
       "description": "Marka projelerinize aylık, günlük ya da anlık araç tedariki. Kamyonet ve sürücü yalnızca sizin operasyonunuz için çalışır; ihtiyaç büyüdükçe araç sayısı da artar.",
+      "icon": "dedike",
       "image": "img/fleet-row.jpg",
       "alt": "Memetoğlu filosundaki kapalı kasa kamyonetler",
       "tags": ["Aylık tahsis", "Günlük tahsis", "Anlık araç", "Çoklu araç"]
@@ -125,6 +127,7 @@
     {
       "title": "Askılıklı tekstil taşımacılığı",
       "description": "Askı düzeni bozulmadan, ütüsü ve ambalajı korunarak taşınan konfeksiyon sevkiyatı. Üretimden mağazaya doğrudan.",
+      "icon": "aski",
       "image": "img/truck-2.jpg",
       "alt": "Askılıklı tekstil taşımasına uygun kapalı kasa araç",
       "tags": ["Askı ray sistemi", "Atölye–mağaza", "Sezon sevkiyatı"]
@@ -132,6 +135,7 @@
     {
       "title": "Şehir içi dağıtım",
       "description": "İstanbul'un iki yakasında aynı gün dağıtım. Sabah alınan yük, planlanan rotayla aynı gün teslim edilir.",
+      "icon": "sehir",
       "image": "img/van-blue.jpg",
       "alt": "Şehir içi dağıtım için giydirmeli panelvan",
       "tags": ["Aynı gün", "Çok duraklı rota", "Randevulu teslim"]
@@ -139,6 +143,7 @@
     {
       "title": "Şehirler arası taşımacılık",
       "description": "Türkiye genelinde düzenli hat ve tek seferlik sevkiyat. Güzergâh, araç tipi ve teslim penceresi önceden netleştirilir.",
+      "icon": "rota",
       "image": "img/roads.jpg",
       "alt": "Şehirler arası yolda seyreden kapalı kasa araç",
       "tags": ["Düzenli hat", "Tek sefer", "Güzergâh planı"]
@@ -146,6 +151,7 @@
     {
       "title": "Komple araç tedariki",
       "description": "Yükünüze özel tam araç tahsisi. Aktarma yok, bekleme yok — araç yalnızca sizin yükünüzle yola çıkar.",
+      "icon": "kamyon",
       "image": "img/cubes.jpg",
       "alt": "Lojistik hizmet çeşitlerini simgeleyen ahşap küpler",
       "tags": ["Tam araç", "Aktarmasız", "Proje bazlı"]
@@ -153,6 +159,7 @@
     {
       "title": "Kiralık kamyonet",
       "description": "Marka ve perakende operasyonlarınız için kapalı kasa kamyonet kiralama. Bayi, mağaza ve depo teslimatlarınızda filomuzu kendi operasyonunuza tahsis ediyoruz.",
+      "icon": "anahtar",
       "image": "img/truck-1.jpg",
       "alt": "Kiralık kapalı kasa kamyonet",
       "tags": ["Bayi–servis teslimat", "Mağaza–AVM teslimat", "Tersine–iade teslimat", "Depodan şubeye teslimat"]

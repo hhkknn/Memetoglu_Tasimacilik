@@ -33,6 +33,7 @@ public sealed class HizmetlerModel : PageModel
         var aciklamalar = f["aciklama"];
         var altMetinler = f["alt"];
         var etiketler = f["etiketler"];
+        var ikonlar = f["ikon"];
 
         for (var i = 0; i < basliklar.Count; i++)
         {
@@ -59,6 +60,7 @@ public sealed class HizmetlerModel : PageModel
                 Image = yeniGorsel ?? (f[$"gorsel_{i}"].FirstOrDefault() ?? mevcutGorsel),
                 Alt = (i < altMetinler.Count ? altMetinler[i] : null)?.Trim() ?? "",
                 Tags = EtiketAyir(i < etiketler.Count ? etiketler[i] : null),
+                Icon = IkonDogrula(i < ikonlar.Count ? ikonlar[i] : null),
             });
         }
 
@@ -109,6 +111,10 @@ public sealed class HizmetlerModel : PageModel
                 Description = p.Length > 2 ? p[2] : "",
             })
             .ToList();
+
+    /// <summary>Yalnızca tanımlı ikon anahtarlarını kabul eder; diğer her şey "fotoğraf" demektir.</summary>
+    private static string IkonDogrula(string? anahtar) =>
+        HizmetIkonlari.Svg(anahtar) is null ? "" : anahtar!;
 
     /// <summary>Virgülle ayrılmış etiket metnini listeye çevirir.</summary>
     private static List<string> EtiketAyir(string? ham) =>

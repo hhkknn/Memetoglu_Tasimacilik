@@ -188,6 +188,9 @@ public sealed class ServiceCard
     [JsonPropertyName("image")] public string Image { get; set; } = "";
     [JsonPropertyName("alt")] public string Alt { get; set; } = "";
     [JsonPropertyName("tags")] public List<string> Tags { get; set; } = new();
+
+    /// <summary>Doluysa kartta fotoğraf yerine bu ikon gösterilir (bkz. HizmetIkonlari).</summary>
+    [JsonPropertyName("icon")] public string Icon { get; set; } = "";
 }
 
 public sealed class FleetCard

@@ -28,6 +28,18 @@
             <small>Kartta görünen 1-2 cümlelik özet.</small>
         </div>
 
+        <div class="alan">
+            <label for="f_ikon_@i">Kart üst alanı</label>
+            <select id="f_ikon_@i" name="ikon">
+                <option value="" selected="@(string.IsNullOrEmpty(h.Icon))">Fotoğraf göster (aşağıdaki görsel)</option>
+                @foreach (var (anahtar, ad, _) in HizmetIkonlari.Liste)
+                {
+                    <option value="@anahtar" selected="@(h.Icon == anahtar)">İkon: @ad</option>
+                }
+            </select>
+            <small>İkon seçiliyse fotoğraf sitede gösterilmez ama silinmez; istediğiniz zaman geri dönebilirsiniz.</small>
+        </div>
+
         @await Html.PartialAsync("_Alan", new AlanVm { Ad = $"gorsel_{i}", Etiket = "Kart görseli", Deger = h.Image, Tur = "gorsel" })
 
         <div class="alan">
